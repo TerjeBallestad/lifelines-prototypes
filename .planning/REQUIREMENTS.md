@@ -63,8 +63,8 @@ Requirements for the first prototype. Each maps to roadmap phases.
 
 ### Prototype Infrastructure
 
-- [ ] **INFR-01**: Ability to create a character with configurable personality and capacities
-- [ ] **INFR-02**: Ability to tweak values and see behavior change
+- [x] **INFR-01**: Ability to create a character with configurable personality and capacities
+- [x] **INFR-02**: Ability to tweak values and see behavior change
 - [ ] **INFR-03**: At least 5-8 skills in a meaningful dependency tree
 - [ ] **INFR-04**: At least 5-8 activities that interact with the systems
 - [ ] **INFR-05**: At least 9-12 talents in the pool for selection

@@ -12,7 +12,7 @@ This prototype validates whether simple psychological variables (personality, ca
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - Project scaffolding and core architecture
+- [x] **Phase 1: Foundation** - Project scaffolding and core architecture
 - [ ] **Phase 2: Character Core** - Personality, capacities, and resources data model
 - [ ] **Phase 3: Skills System** - Skill DAG with dependencies, states, and XP
 - [ ] **Phase 4: Activities System** - Activities that train skills and drain resources
@@ -33,9 +33,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Project setup with Vite, React, MobX, Tailwind, DaisyUI
-- [ ] 01-02-PLAN.md — Root store pattern with React Context integration
-- [ ] 01-03-PLAN.md — Character entity class with observable properties and proof-of-concept UI
+- [x] 01-01-PLAN.md — Project setup with Vite, React, MobX, Tailwind, DaisyUI
+- [x] 01-02-PLAN.md — Root store pattern with React Context integration
+- [x] 01-03-PLAN.md — Character entity class with observable properties and proof-of-concept UI
 
 ### Phase 2: Character Core
 **Goal**: Character has personality, capacities, and resources that affect each other
@@ -134,7 +134,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/3 | Planned | - |
+| 1. Foundation | 3/3 | Complete ✓ | 2026-01-20 |
 | 2. Character Core | 0/5 | Not started | - |
 | 3. Skills System | 0/4 | Not started | - |
 | 4. Activities System | 0/5 | Not started | - |
@@ -143,4 +143,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 
 ---
 *Roadmap created: 2026-01-20*
-*Last updated: 2026-01-20*
+*Last updated: 2026-01-20 (Phase 1 complete)*
