@@ -1,10 +1,14 @@
 import { makeAutoObservable } from 'mobx';
+import { Character } from '../entities/Character';
+import {
+  defaultPersonality,
+  defaultCapacities,
+  defaultResources,
+} from '../entities/types';
 import type { RootStore } from './RootStore';
 
 export class CharacterStore {
-  // Will hold Character entity in Plan 03
-  // Placeholder property to prove MobX works
-  initialized = false;
+  character: Character | null = null;
 
   // Store root reference for cross-store communication (used in future plans)
   private readonly root: RootStore;
@@ -14,13 +18,25 @@ export class CharacterStore {
     makeAutoObservable(this);
   }
 
-  // Placeholder action - will become createCharacter in Plan 03
-  markInitialized(): void {
-    this.initialized = true;
+  // Creates a new character with default values
+  createCharacter(name: string): Character {
+    this.character = new Character({
+      id: crypto.randomUUID(),
+      name,
+      personality: defaultPersonality(),
+      capacities: defaultCapacities(),
+      resources: defaultResources(),
+    });
+    return this.character;
   }
 
-  get isReady(): boolean {
-    return this.initialized;
+  // Clears the current character
+  clearCharacter(): void {
+    this.character = null;
+  }
+
+  get hasCharacter(): boolean {
+    return this.character !== null;
   }
 
   // Expose root store for cross-store access (will be used in future plans)
