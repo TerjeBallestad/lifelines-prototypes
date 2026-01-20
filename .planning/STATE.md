@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-20)
 
 ## Current Position
 
-Phase: 1 of 6 (Foundation) - COMPLETE
-Plan: 3 of 3 in current phase
-Status: Phase complete
-Last activity: 2026-01-20 -- Completed 01-03-PLAN.md
+Phase: 2 of 6 (Character Core)
+Plan: 1 of 5 in current phase
+Status: In progress
+Last activity: 2026-01-20 -- Completed 02-01-PLAN.md
 
-Progress: [███░░░░░░░] 12% (3/25 plans)
+Progress: [████░░░░░░] 16% (4/25 plans)
 
 ## Performance Metrics
 
@@ -28,9 +28,10 @@ Progress: [███░░░░░░░] 12% (3/25 plans)
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1. Foundation | 3/3 | 15min | 5min |
+| 2. Character Core | 1/5 | 2min | 2min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (5min), 01-02 (8min), 01-03 (2min)
+- Last 5 plans: 01-01 (5min), 01-02 (8min), 01-03 (2min), 02-01 (2min)
 - Trend: Improving (faster execution with established patterns)
 
 *Updated after each plan completion*
@@ -51,6 +52,9 @@ Recent decisions affecting current work:
 - [01-02]: MobX spy debugging in development mode only
 - [01-03]: Character class mirrors Unreal Actor pattern for portability
 - [01-03]: 0-100 scale with 50 as average for personality/capacity traits
+- [02-01]: Linear personality-to-modifier scaling (0-100 -> -0.2 to +0.2)
+- [02-01]: Stress inverted: 0=good, 100=bad (unlike other resources)
+- [02-01]: Modifier stacking is additive per CONTEXT.md decision
 
 ### Pending Todos
 
@@ -63,5 +67,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-20
-Stopped at: Completed 01-03-PLAN.md (Phase 1 complete)
+Stopped at: Completed 02-01-PLAN.md
 Resume file: None
