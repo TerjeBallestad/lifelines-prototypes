@@ -30,12 +30,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. MobX root store exists with React Context integration
   3. Can create a character entity with observable properties
   4. Can modify character values and see React re-render
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: Project setup with Vite, React, MobX, Tailwind, DaisyUI
-- [ ] 01-02: Root store pattern with domain store placeholders
-- [ ] 01-03: Character entity class with basic observable properties
+- [ ] 01-01-PLAN.md — Project setup with Vite, React, MobX, Tailwind, DaisyUI
+- [ ] 01-02-PLAN.md — Root store pattern with React Context integration
+- [ ] 01-03-PLAN.md — Character entity class with observable properties and proof-of-concept UI
 
 ### Phase 2: Character Core
 **Goal**: Character has personality, capacities, and resources that affect each other
@@ -134,7 +134,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/3 | Not started | - |
+| 1. Foundation | 0/3 | Planned | - |
 | 2. Character Core | 0/5 | Not started | - |
 | 3. Skills System | 0/4 | Not started | - |
 | 4. Activities System | 0/5 | Not started | - |
