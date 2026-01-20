@@ -47,14 +47,14 @@ Plans:
   3. Character displays resources (energy, social battery, stress) visually
   4. Personality affects resource drain rates (low extraversion = faster social drain)
   5. Resources drain/recover over time based on personality
-**Plans**: TBD
+**Plans**: 5 plans
 
 Plans:
-- [ ] 02-01: Personality entity with Big Five dimensions
-- [ ] 02-02: Mental capacities entity
-- [ ] 02-03: Resources entity with drain/recovery mechanics
-- [ ] 02-04: Personality-resource interaction (drain rate modifiers)
-- [ ] 02-05: Character panel UI showing all three systems
+- [ ] 02-01-PLAN.md — Extend Resources to 9 types, create modifier utilities
+- [ ] 02-02-PLAN.md — Create SimulationStore for time-based updates
+- [ ] 02-03-PLAN.md — Add personality-to-resource modifiers and applyTickUpdate to Character
+- [ ] 02-04-PLAN.md — Create visualization components (PersonalityRadar, CapacitiesRadar, ResourceGauge)
+- [ ] 02-05-PLAN.md — CharacterPanel sidebar integration with human verification
 
 ### Phase 3: Skills System
 **Goal**: Skills exist in a dependency graph where prerequisites gate unlocking
@@ -134,8 +134,8 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 3/3 | Complete ✓ | 2026-01-20 |
-| 2. Character Core | 0/5 | Not started | - |
+| 1. Foundation | 3/3 | Complete | 2026-01-20 |
+| 2. Character Core | 0/5 | Ready | - |
 | 3. Skills System | 0/4 | Not started | - |
 | 4. Activities System | 0/5 | Not started | - |
 | 5. Talents System | 0/4 | Not started | - |
@@ -143,4 +143,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 
 ---
 *Roadmap created: 2026-01-20*
-*Last updated: 2026-01-20 (Phase 1 complete)*
+*Last updated: 2026-01-20 (Phase 2 planned)*
