@@ -11,9 +11,10 @@ export class SimulationStore {
   private intervalHandle: number | null = null;
   private readonly TICK_RATE_MS = 1000;
 
-  constructor(_root: RootStore) {
-    // Root reference preserved for future character integration (02-03)
-    void _root;
+  private root: RootStore;
+
+  constructor(root: RootStore) {
+    this.root = root;
     makeAutoObservable(this, {
       start: action,
       stop: action,
@@ -42,8 +43,8 @@ export class SimulationStore {
 
   tick(): void {
     this.tickCount += 1;
-    // Character update will be added in 02-03
-    // this.root.characterStore.character?.applyTickUpdate(this.speed);
+    // Update character resources based on personality and simulation speed
+    this.root.characterStore.character?.applyTickUpdate(this.speed);
   }
 
   setSpeed(newSpeed: number): void {

@@ -9,6 +9,7 @@ import type {
 import {
   personalityToModifier,
   applyModifiers,
+  clampResource,
   type ResourceModifier,
 } from '../utils/modifiers';
 
@@ -192,5 +193,50 @@ export class Character {
       .filter((m) => m.resourceKey === key)
       .map((m) => m.recoveryModifier);
     return applyModifiers(base, mods);
+  }
+
+  /**
+   * Action: Apply time-based resource updates for one simulation tick.
+   * Called by SimulationStore.tick() each tick.
+   *
+   * @param speedMultiplier - Simulation speed (1 = normal, higher = faster drain/recovery)
+   */
+  applyTickUpdate(speedMultiplier: number): void {
+    // Apply drain to draining resources
+    for (const key of Object.keys(BASE_DRAIN_RATES) as ResourceKey[]) {
+      const effectiveRate = this.effectiveDrainRate(key);
+      const drain = effectiveRate * speedMultiplier;
+      this.resources[key] = clampResource(this.resources[key] - drain);
+    }
+
+    // Apply recovery to recovering resources
+    for (const key of Object.keys(BASE_RECOVERY_RATES) as ResourceKey[]) {
+      const effectiveRate = this.effectiveRecoveryRate(key);
+      const recovery = effectiveRate * speedMultiplier;
+
+      // Stress is inverse: recovery means it goes DOWN (good)
+      if (key === 'stress') {
+        this.resources[key] = clampResource(this.resources[key] - recovery);
+      } else {
+        this.resources[key] = clampResource(this.resources[key] + recovery);
+      }
+    }
+  }
+
+  // Computed boundary state flags for game logic
+
+  /** True when energy is critically low (<= 10) */
+  get isExhausted(): boolean {
+    return this.resources.energy <= 10;
+  }
+
+  /** True when stress is critically high (>= 90) */
+  get isOverstressed(): boolean {
+    return this.resources.stress >= 90;
+  }
+
+  /** True when social battery is critically low (<= 10) */
+  get isSociallyDrained(): boolean {
+    return this.resources.socialBattery <= 10;
   }
 }
