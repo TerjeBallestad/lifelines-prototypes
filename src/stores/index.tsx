@@ -32,6 +32,11 @@ export function useCharacterStore() {
   return useRootStore().characterStore;
 }
 
+export function useSimulationStore() {
+  return useRootStore().simulationStore;
+}
+
 // Re-export for external use
 export { RootStore } from './RootStore';
 export { CharacterStore } from './CharacterStore';
+export { SimulationStore } from './SimulationStore';
