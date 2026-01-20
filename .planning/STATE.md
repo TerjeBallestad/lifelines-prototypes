@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-01-20)
 ## Current Position
 
 Phase: 2 of 6 (Character Core)
-Plan: 2 of 5 in current phase
+Plan: 3 of 5 in current phase
 Status: In progress
-Last activity: 2026-01-20 -- Completed 02-02-PLAN.md
+Last activity: 2026-01-20 -- Completed 02-03-PLAN.md
 
-Progress: [████░░░░░░] 20% (5/25 plans)
+Progress: [████░░░░░░] 24% (6/25 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
+- Total plans completed: 6
 - Average duration: 4min
-- Total execution time: 18min
+- Total execution time: 21min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1. Foundation | 3/3 | 15min | 5min |
-| 2. Character Core | 2/5 | 5min | 2.5min |
+| 2. Character Core | 3/5 | 8min | 2.7min |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (8min), 01-03 (2min), 02-01 (2min), 02-02 (3min)
+- Last 5 plans: 01-03 (2min), 02-01 (2min), 02-02 (3min), 02-03 (3min)
 - Trend: Improving (faster execution with established patterns)
 
 *Updated after each plan completion*
@@ -57,6 +57,9 @@ Recent decisions affecting current work:
 - [02-01]: Modifier stacking is additive per CONTEXT.md decision
 - [02-02]: Single setInterval pattern prevents timer drift
 - [02-02]: Speed clamped 0-10x for debugging flexibility
+- [02-03]: All 5 Big Five traits affect resources (E->socialBattery/mood, N->stress, C->focus/motivation, O->overskudd, A->socialBattery)
+- [02-03]: Threshold-based modifiers: traits only affect resources when above/below 50
+- [02-03]: Boundary thresholds: exhausted<=10, overstressed>=90, sociallyDrained<=10
 
 ### Pending Todos
 
@@ -69,5 +72,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-20
-Stopped at: Completed 02-02-PLAN.md
+Stopped at: Completed 02-03-PLAN.md
 Resume file: None
