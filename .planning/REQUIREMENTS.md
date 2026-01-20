@@ -1,7 +1,7 @@
 # Requirements: Lifelines Prototypes
 
 **Defined:** 2025-01-20
-**Core Value:** Simple psychological variables combine to produce emergent characters — no labels, just humanity
+**Core Value:** Simple psychological variables combine to produce emergent characters -- no labels, just humanity
 
 ## v1 Requirements
 
@@ -29,7 +29,7 @@ Requirements for the first prototype. Each maps to roadmap phases.
 - [ ] **SKIL-02**: Skills have dependencies modeled as DAG (can't "go to store" without "go outside")
 - [ ] **SKIL-03**: Skills have states: locked, unlockable, unlocked, mastered
 - [ ] **SKIL-04**: Skills accumulate XP toward next level
-- [ ] **SKIL-05**: Observable skill gaps — player can see WHY a skill is locked (missing prerequisites)
+- [ ] **SKIL-05**: Observable skill gaps -- player can see WHY a skill is locked (missing prerequisites)
 
 ### Activities
 
@@ -59,7 +59,7 @@ Requirements for the first prototype. Each maps to roadmap phases.
 - [ ] **OBSV-01**: Patient state dashboard shows personality, capacities, skills, resources at a glance
 - [ ] **OBSV-02**: Player can observe patient attempting activities and failing
 - [ ] **OBSV-03**: Different personality + capacity combinations produce visibly different behavior
-- [ ] **OBSV-04**: No diagnostic labels shown — behavior emerges from underlying systems
+- [ ] **OBSV-04**: No diagnostic labels shown -- behavior emerges from underlying systems
 
 ### Prototype Infrastructure
 
@@ -102,7 +102,7 @@ Explicitly excluded from this prototype.
 
 | Feature | Reason |
 |---------|--------|
-| Diagnostic labels | Core design philosophy — behavior emerges, no finger-wagging |
+| Diagnostic labels | Core design philosophy -- behavior emerges, no finger-wagging |
 | Full game loop | Prototype validates systems, not complete game |
 | Art/polish | Functional UI sufficient for testing feel |
 | Persistence/saving | Prototype runs in memory |
@@ -116,50 +116,50 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PERS-01 | TBD | Pending |
-| PERS-02 | TBD | Pending |
-| PERS-03 | TBD | Pending |
-| PERS-04 | TBD | Pending |
-| PERS-05 | TBD | Pending |
-| CAPS-01 | TBD | Pending |
-| CAPS-02 | TBD | Pending |
-| CAPS-03 | TBD | Pending |
-| CAPS-04 | TBD | Pending |
-| CAPS-05 | TBD | Pending |
-| SKIL-01 | TBD | Pending |
-| SKIL-02 | TBD | Pending |
-| SKIL-03 | TBD | Pending |
-| SKIL-04 | TBD | Pending |
-| SKIL-05 | TBD | Pending |
-| ACTV-01 | TBD | Pending |
-| ACTV-02 | TBD | Pending |
-| ACTV-03 | TBD | Pending |
-| ACTV-04 | TBD | Pending |
-| ACTV-05 | TBD | Pending |
-| ACTV-06 | TBD | Pending |
-| RSRC-01 | TBD | Pending |
-| RSRC-02 | TBD | Pending |
-| RSRC-03 | TBD | Pending |
-| RSRC-04 | TBD | Pending |
-| RSRC-05 | TBD | Pending |
-| TLNT-01 | TBD | Pending |
-| TLNT-02 | TBD | Pending |
-| TLNT-03 | TBD | Pending |
-| OBSV-01 | TBD | Pending |
-| OBSV-02 | TBD | Pending |
-| OBSV-03 | TBD | Pending |
-| OBSV-04 | TBD | Pending |
-| INFR-01 | TBD | Pending |
-| INFR-02 | TBD | Pending |
-| INFR-03 | TBD | Pending |
-| INFR-04 | TBD | Pending |
-| INFR-05 | TBD | Pending |
+| PERS-01 | Phase 2 | Pending |
+| PERS-02 | Phase 2 | Pending |
+| PERS-03 | Phase 2 | Pending |
+| PERS-04 | Phase 2 | Pending |
+| PERS-05 | Phase 2 | Pending |
+| CAPS-01 | Phase 2 | Pending |
+| CAPS-02 | Phase 2 | Pending |
+| CAPS-03 | Phase 2 | Pending |
+| CAPS-04 | Phase 2 | Pending |
+| CAPS-05 | Phase 2 | Pending |
+| SKIL-01 | Phase 3 | Pending |
+| SKIL-02 | Phase 3 | Pending |
+| SKIL-03 | Phase 3 | Pending |
+| SKIL-04 | Phase 3 | Pending |
+| SKIL-05 | Phase 3 | Pending |
+| ACTV-01 | Phase 4 | Pending |
+| ACTV-02 | Phase 4 | Pending |
+| ACTV-03 | Phase 4 | Pending |
+| ACTV-04 | Phase 4 | Pending |
+| ACTV-05 | Phase 4 | Pending |
+| ACTV-06 | Phase 4 | Pending |
+| RSRC-01 | Phase 2 | Pending |
+| RSRC-02 | Phase 2 | Pending |
+| RSRC-03 | Phase 2 | Pending |
+| RSRC-04 | Phase 2 | Pending |
+| RSRC-05 | Phase 2 | Pending |
+| TLNT-01 | Phase 5 | Pending |
+| TLNT-02 | Phase 5 | Pending |
+| TLNT-03 | Phase 5 | Pending |
+| OBSV-01 | Phase 6 | Pending |
+| OBSV-02 | Phase 6 | Pending |
+| OBSV-03 | Phase 6 | Pending |
+| OBSV-04 | Phase 6 | Pending |
+| INFR-01 | Phase 1 | Pending |
+| INFR-02 | Phase 1 | Pending |
+| INFR-03 | Phase 3 | Pending |
+| INFR-04 | Phase 4 | Pending |
+| INFR-05 | Phase 5 | Pending |
 
 **Coverage:**
 - v1 requirements: 34 total
-- Mapped to phases: 0
-- Unmapped: 34 ⚠️
+- Mapped to phases: 34
+- Unmapped: 0
 
 ---
 *Requirements defined: 2025-01-20*
-*Last updated: 2025-01-20 after definition*
+*Last updated: 2026-01-20 after roadmap creation*
