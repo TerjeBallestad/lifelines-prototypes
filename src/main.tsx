@@ -1,7 +1,18 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { spy } from 'mobx';
+import { StoreProvider } from './stores';
+import App from './App';
 import './index.css';
-import App from './App.tsx';
+
+// MobX debugging in development
+if (import.meta.env.DEV) {
+  spy((event) => {
+    if (event.type === 'action') {
+      console.log(`[MobX] ${event.name}`, event.arguments);
+    }
+  });
+}
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -10,6 +21,8 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <App />
+    <StoreProvider>
+      <App />
+    </StoreProvider>
   </StrictMode>
 );

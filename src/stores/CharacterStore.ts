@@ -6,7 +6,11 @@ export class CharacterStore {
   // Placeholder property to prove MobX works
   initialized = false;
 
-  constructor(private root: RootStore) {
+  // Store root reference for cross-store communication (used in future plans)
+  private readonly root: RootStore;
+
+  constructor(root: RootStore) {
+    this.root = root;
     makeAutoObservable(this);
   }
 
@@ -17,5 +21,10 @@ export class CharacterStore {
 
   get isReady(): boolean {
     return this.initialized;
+  }
+
+  // Expose root store for cross-store access (will be used in future plans)
+  get rootStore(): RootStore {
+    return this.root;
   }
 }
