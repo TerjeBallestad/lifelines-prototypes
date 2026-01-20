@@ -63,7 +63,7 @@ export const CharacterCard = observer(function CharacterCard() {
           </div>
           <div>
             <span className="text-base-content/70">Stress:</span>{' '}
-            {character.resources.stressLevel}
+            {character.resources.stress}
           </div>
         </div>
 

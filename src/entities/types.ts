@@ -17,12 +17,26 @@ export interface Capacities {
   emotionalRegulation: number;
 }
 
-// Resources that drain and recover
+// Resources that drain and recover (9 total per CONTEXT.md)
 export interface Resources {
+  // Core vitality
   energy: number;
   socialBattery: number;
-  stressLevel: number;
+  stress: number; // 0 = good (low stress), 100 = bad (high stress)
+
+  // Mental state
+  overskudd: number; // Norwegian: surplus/capacity/headroom
+  mood: number;
+  motivation: number;
+
+  // Stability & function
+  security: number;
+  focus: number; // Focus/Attention
+  nutrition: number; // Nutrition/Health
 }
+
+// Type-safe resource key access
+export type ResourceKey = keyof Resources;
 
 // Data required to construct a Character
 export interface CharacterData {
@@ -57,8 +71,19 @@ export function defaultCapacities(): Capacities {
 
 export function defaultResources(): Resources {
   return {
+    // Full = best
     energy: 100,
     socialBattery: 100,
-    stressLevel: 0,
-  };
+    focus: 100,
+    nutrition: 100,
+    overskudd: 100,
+
+    // Low = best (inverted)
+    stress: 0,
+
+    // Neutral = average starting point
+    mood: 50,
+    motivation: 50,
+    security: 50,
+  } satisfies Resources;
 }
