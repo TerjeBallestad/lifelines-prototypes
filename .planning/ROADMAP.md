@@ -66,13 +66,13 @@ Plans:
   3. Player can see WHY a skill is locked (missing prerequisites shown)
   4. Skills accumulate XP and progress toward next state
   5. Skill tree renders visually with connections showing dependencies
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 03-01: Skill entity class with states and XP
-- [ ] 03-02: SkillGraph DAG with dependency validation
-- [ ] 03-03: SkillStore with unlock logic
-- [ ] 03-04: Skill tree visualization (SVG/React)
+- [ ] 03-01-PLAN.md — Skill entity class with types and XP cost calculations
+- [ ] 03-02-PLAN.md — SkillStore with DAG logic, domain XP, and unlock actions
+- [ ] 03-03-PLAN.md — Skill data seeding and RootStore integration
+- [ ] 03-04-PLAN.md — Skill tree visualization with domain tabs and human verification
 
 ### Phase 4: Activities System
 **Goal**: Player assigns activities that generate XP and drain resources based on character fit
@@ -143,4 +143,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 
 ---
 *Roadmap created: 2026-01-20*
-*Last updated: 2026-01-21 (Phase 2 complete)*
+*Last updated: 2026-01-21 (Phase 3 planned)*
