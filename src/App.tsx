@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { Toaster } from 'sonner';
+import { ActivityPanel } from './components/ActivityPanel';
 import { CharacterPanel } from './components/CharacterPanel';
 import { SimulationControls } from './components/SimulationControls';
 import { SkillTreePanel } from './components/SkillTreePanel';
@@ -25,6 +26,9 @@ const App = observer(function App() {
         <SimulationControls />
         <div className="mt-6">
           <SkillTreePanel />
+        </div>
+        <div className="mt-6">
+          <ActivityPanel />
         </div>
       </main>
     </div>
