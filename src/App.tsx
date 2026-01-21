@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { CharacterPanel } from './components/CharacterPanel';
 import { SimulationControls } from './components/SimulationControls';
+import { SkillTreePanel } from './components/SkillTreePanel';
 import { useCharacterStore } from './stores/RootStore';
 
 const App = observer(function App() {
@@ -17,18 +18,13 @@ const App = observer(function App() {
       <CharacterPanel />
 
       {/* Main content */}
-      <div className="flex-1 p-8">
+      <main className="flex-1 p-4 overflow-y-auto">
         <h1 className="text-2xl font-bold mb-6">Lifelines Prototype</h1>
         <SimulationControls />
-
-        <div className="mt-8 prose">
-          <p>
-            Start the simulation to watch resources drain based on personality.
-            Adjust personality sliders in the sidebar to see how traits affect
-            rates.
-          </p>
+        <div className="mt-6">
+          <SkillTreePanel />
         </div>
-      </div>
+      </main>
     </div>
   );
 });
