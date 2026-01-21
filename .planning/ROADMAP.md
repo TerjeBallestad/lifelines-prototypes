@@ -84,14 +84,15 @@ Plans:
   3. Completing activity generates XP for related skills
   4. Activities can succeed or fail based on skill level + capacities
   5. Activities drain resources based on personality fit
-**Plans**: TBD
+**Plans**: 6 plans
 
 Plans:
-- [ ] 04-01: Activity entity with capacity profiles and skill mappings
-- [ ] 04-02: ActivityStore with assignment and completion logic
-- [ ] 04-03: Success/failure calculation from skills + capacities
-- [ ] 04-04: Resource drain from activity completion
-- [ ] 04-05: Activity assignment UI
+- [ ] 04-01-PLAN.md — Activity entity class and type definitions
+- [ ] 04-02-PLAN.md — ActivityStore with queue management and RootStore integration
+- [ ] 04-03-PLAN.md — Sonner toast setup and SimulationStore tick integration
+- [ ] 04-04-PLAN.md — Activity seed data (8 activities across domains)
+- [ ] 04-05-PLAN.md — ActivityCard and ActivityQueue UI components
+- [ ] 04-06-PLAN.md — ActivityPanel with domain tabs and human verification
 
 ### Phase 5: Talents System
 **Goal**: Player can select talents that modify the character's capabilities
@@ -137,10 +138,10 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | 1. Foundation | 3/3 | Complete | 2026-01-20 |
 | 2. Character Core | 5/5 | Complete | 2026-01-21 |
 | 3. Skills System | 4/4 | Complete | 2026-01-21 |
-| 4. Activities System | 0/5 | Ready | - |
+| 4. Activities System | 0/6 | Ready | - |
 | 5. Talents System | 0/4 | Not started | - |
 | 6. Integration & Observation | 0/4 | Not started | - |
 
 ---
 *Roadmap created: 2026-01-20*
-*Last updated: 2026-01-21 (Phase 3 complete)*
+*Last updated: 2026-01-21 (Phase 4 planned)*
