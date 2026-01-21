@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-20)
 ## Current Position
 
 Phase: 4 of 6 (Activities System)
-Plan: 4 of 6 in current phase
+Plan: 5 of 6 in current phase
 Status: In progress
-Last activity: 2026-01-22 -- Completed 04-03-PLAN.md
+Last activity: 2026-01-22 -- Completed 04-05-PLAN.md
 
-Progress: [███████████████░] 60% (15/25 plans)
+Progress: [████████████████░] 64% (16/25 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 15
+- Total plans completed: 16
 - Average duration: 3min
-- Total execution time: ~46min
+- Total execution time: ~47min
 
 **By Phase:**
 
@@ -30,10 +30,10 @@ Progress: [███████████████░] 60% (15/25 plans)
 | 1. Foundation | 3/3 | 15min | 5min |
 | 2. Character Core | 5/5 | 16min | 3.2min |
 | 3. Skills System | 4/4 | 11min | 2.75min |
-| 4. Activities System | 4/6 | 6min | 1.5min |
+| 4. Activities System | 5/6 | 7min | 1.4min |
 
 **Recent Trend:**
-- Last 5 plans: 03-04 (4min), 04-01 (2min), 04-02 (1min), 04-03 (2min), 04-04 (1min)
+- Last 5 plans: 04-01 (2min), 04-02 (1min), 04-03 (2min), 04-04 (1min), 04-05 (1min)
 - Trend: Consistent fast execution
 
 *Updated after each plan completion*
@@ -87,6 +87,9 @@ Recent decisions affecting current work:
 - [04-03]: Failed activities: 50% mastery XP, 5-point overskudd/mood penalty
 - [04-04]: 8 activities balance domains and showcase drain/restore mechanics
 - [04-04]: Capacity profiles use realistic 35-60 range (around average 50)
+- [04-05]: Domain color mapping matches skill domain colors for consistency
+- [04-05]: Threshold activities show 50% progress bar (indeterminate)
+- [04-05]: Mastery level only shown for queued/active variants (not preview)
 
 ### Pending Todos
 
@@ -99,7 +102,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-22
-Stopped at: Completed 04-03-PLAN.md
+Stopped at: Completed 04-05-PLAN.md
 Resume file: None
 
 ## Phase 4 Progress
@@ -109,7 +112,7 @@ Phase 4 Activities System:
 - 04-02: ActivityStore - COMPLETE
 - 04-03: Tick integration & Sonner - COMPLETE
 - 04-04: Activities seed data - COMPLETE
-- 04-05: Activity queue UI - Pending
+- 04-05: Activity queue UI - COMPLETE
 - 04-06: Toast notifications - Pending
 
-Next: 04-05 Activity queue UI
+Next: 04-06 Toast notifications
