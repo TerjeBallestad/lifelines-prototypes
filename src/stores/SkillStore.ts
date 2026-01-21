@@ -137,7 +137,8 @@ export class SkillStore {
 
     let visited = 0;
     while (queue.length > 0) {
-      const current = queue.shift()!;
+      const current = queue.shift();
+      if (current === undefined) break;
       visited++;
 
       // Find skills that depend on current (current is a prereq for them)
