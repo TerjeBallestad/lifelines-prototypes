@@ -116,3 +116,35 @@ export interface PrerequisiteStatus {
   current: number; // current level
   met: boolean;
 }
+
+// ============================================================================
+// Activity System Types
+// ============================================================================
+
+// Type-safe capacity key access
+export type CapacityKey = keyof Capacities;
+
+// Duration mode discriminated union
+export type DurationMode =
+  | { type: 'fixed'; ticks: number } // fixed duration activities (eating)
+  | { type: 'threshold'; resource: ResourceKey; target: number } // until resource reaches target (sleeping until energy >= 80)
+  | { type: 'variable'; baseTicks: number }; // affected by mastery
+
+// Activity execution state
+export type ActivityState = 'queued' | 'starting' | 'active' | 'completed' | 'failed';
+
+// Data required to construct an Activity
+export interface ActivityData {
+  id: string;
+  name: string;
+  description: string;
+  domain: SkillDomain;
+  durationMode: DurationMode;
+  resourceEffects: Partial<Record<ResourceKey, number>>; // negative = drain, positive = restore
+  capacityProfile: Partial<Record<CapacityKey, number>>; // target capacity values for success calculation
+  baseXPRate: number; // domain XP per tick
+  startRequirements?: {
+    minOverskudd?: number;
+    minEnergy?: number;
+  };
+}
