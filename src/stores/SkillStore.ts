@@ -96,4 +96,110 @@ export class SkillStore {
     const currentXP = this.domainXP.get(skill.domain) ?? 0;
     return currentXP >= skill.nextLevelCost;
   }
+
+  // Seed the store with skill data and validate the dependency graph
+  seedSkills(skillDataList: SkillData[]): void {
+    for (const data of skillDataList) {
+      const skill = new Skill(data);
+      this.skills.set(data.id, skill);
+    }
+    this.validateDAG();
+  }
+
+  // Validate that the skill dependency graph is acyclic using Kahn's algorithm
+  private validateDAG(): boolean {
+    // Build in-degree map (count incoming edges / dependencies for each skill)
+    const inDegree = new Map<string, number>();
+    const skillIds = Array.from(this.skills.keys());
+
+    // Initialize in-degree to 0 for all skills
+    for (const id of skillIds) {
+      inDegree.set(id, 0);
+    }
+
+    // Count dependencies (prerequisites are incoming edges)
+    for (const skill of this.skills.values()) {
+      for (const prereqId of skill.prerequisites) {
+        if (this.skills.has(prereqId)) {
+          // prereqId -> skill.id edge means skill has a dependency
+          inDegree.set(skill.id, (inDegree.get(skill.id) ?? 0) + 1);
+        }
+      }
+    }
+
+    // Start with skills that have no prerequisites (in-degree 0)
+    const queue: string[] = [];
+    for (const [id, degree] of inDegree) {
+      if (degree === 0) {
+        queue.push(id);
+      }
+    }
+
+    let visited = 0;
+    while (queue.length > 0) {
+      const current = queue.shift()!;
+      visited++;
+
+      // Find skills that depend on current (current is a prereq for them)
+      for (const skill of this.skills.values()) {
+        if (skill.prerequisites.includes(current)) {
+          const newDegree = (inDegree.get(skill.id) ?? 0) - 1;
+          inDegree.set(skill.id, newDegree);
+          if (newDegree === 0) {
+            queue.push(skill.id);
+          }
+        }
+      }
+    }
+
+    // If we didn't visit all skills, there's a cycle
+    if (visited < skillIds.length) {
+      console.warn(
+        `[SkillStore] Circular dependency detected in skill graph! ` +
+          `Visited ${visited}/${skillIds.length} skills.`
+      );
+      return false;
+    }
+
+    return true;
+  }
+
+  // Attempt to unlock or level up a skill
+  unlockSkillLevel(skillId: string): boolean {
+    const skill = this.skills.get(skillId);
+    if (!skill) return false;
+
+    // Check prerequisites for unlocking (level 0 -> 1)
+    if (skill.level === 0 && !this.isUnlockable(skillId)) {
+      return false;
+    }
+
+    // Check if already mastered
+    if (skill.level >= 5) {
+      return false;
+    }
+
+    // Check affordability
+    if (!this.canAffordUnlock(skillId)) {
+      return false;
+    }
+
+    // Deduct XP and level up
+    const currentXP = this.domainXP.get(skill.domain) ?? 0;
+    this.domainXP.set(skill.domain, currentXP - skill.nextLevelCost);
+    skill.levelUp();
+
+    return true;
+  }
+
+  // Add domain XP (called by activities in Phase 4)
+  addDomainXP(domain: SkillDomain, amount: number): void {
+    const current = this.domainXP.get(domain) ?? 0;
+    this.domainXP.set(domain, current + amount);
+  }
+
+  // Expose root store for cross-store access
+  get rootStore(): RootStore {
+    return this.root;
+  }
 }
