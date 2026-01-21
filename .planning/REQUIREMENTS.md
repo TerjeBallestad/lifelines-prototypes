@@ -25,11 +25,11 @@ Requirements for the first prototype. Each maps to roadmap phases.
 
 ### Skills
 
-- [ ] **SKIL-01**: Skills represent adult life abilities (answer phone, go outside, cook, etc.)
-- [ ] **SKIL-02**: Skills have dependencies modeled as DAG (can't "go to store" without "go outside")
-- [ ] **SKIL-03**: Skills have states: locked, unlockable, unlocked, mastered
-- [ ] **SKIL-04**: Skills accumulate XP toward next level
-- [ ] **SKIL-05**: Observable skill gaps -- player can see WHY a skill is locked (missing prerequisites)
+- [x] **SKIL-01**: Skills represent adult life abilities (answer phone, go outside, cook, etc.)
+- [x] **SKIL-02**: Skills have dependencies modeled as DAG (can't "go to store" without "go outside")
+- [x] **SKIL-03**: Skills have states: locked, unlockable, unlocked, mastered
+- [x] **SKIL-04**: Skills accumulate XP toward next level
+- [x] **SKIL-05**: Observable skill gaps -- player can see WHY a skill is locked (missing prerequisites)
 
 ### Activities
 
@@ -65,7 +65,7 @@ Requirements for the first prototype. Each maps to roadmap phases.
 
 - [x] **INFR-01**: Ability to create a character with configurable personality and capacities
 - [x] **INFR-02**: Ability to tweak values and see behavior change
-- [ ] **INFR-03**: At least 5-8 skills in a meaningful dependency tree
+- [x] **INFR-03**: At least 5-8 skills in a meaningful dependency tree
 - [ ] **INFR-04**: At least 5-8 activities that interact with the systems
 - [ ] **INFR-05**: At least 9-12 talents in the pool for selection
 
@@ -126,11 +126,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CAPS-03 | Phase 2 | Complete |
 | CAPS-04 | Phase 2 | Complete |
 | CAPS-05 | Phase 2 | Complete |
-| SKIL-01 | Phase 3 | Pending |
-| SKIL-02 | Phase 3 | Pending |
-| SKIL-03 | Phase 3 | Pending |
-| SKIL-04 | Phase 3 | Pending |
-| SKIL-05 | Phase 3 | Pending |
+| SKIL-01 | Phase 3 | Complete |
+| SKIL-02 | Phase 3 | Complete |
+| SKIL-03 | Phase 3 | Complete |
+| SKIL-04 | Phase 3 | Complete |
+| SKIL-05 | Phase 3 | Complete |
 | ACTV-01 | Phase 4 | Pending |
 | ACTV-02 | Phase 4 | Pending |
 | ACTV-03 | Phase 4 | Pending |
@@ -151,7 +151,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | OBSV-04 | Phase 6 | Pending |
 | INFR-01 | Phase 1 | Complete |
 | INFR-02 | Phase 1 | Complete |
-| INFR-03 | Phase 3 | Pending |
+| INFR-03 | Phase 3 | Complete |
 | INFR-04 | Phase 4 | Pending |
 | INFR-05 | Phase 5 | Pending |
 
@@ -162,4 +162,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2025-01-20*
-*Last updated: 2026-01-21 (Phase 2 complete)*
+*Last updated: 2026-01-21 (Phase 3 complete)*

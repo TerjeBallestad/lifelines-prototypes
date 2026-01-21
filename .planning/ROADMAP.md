@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - Project scaffolding and core architecture
 - [x] **Phase 2: Character Core** - Personality, capacities, and resources data model
-- [ ] **Phase 3: Skills System** - Skill DAG with dependencies, states, and XP
+- [x] **Phase 3: Skills System** - Skill DAG with dependencies, states, and XP
 - [ ] **Phase 4: Activities System** - Activities that train skills and drain resources
 - [ ] **Phase 5: Talents System** - Roguelike modifiers with pick-1-of-3 selection
 - [ ] **Phase 6: Integration & Observation** - Dashboard, emergence validation, tweaking tools
@@ -69,10 +69,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Skill entity class with types and XP cost calculations
-- [ ] 03-02-PLAN.md — SkillStore with DAG logic, domain XP, and unlock actions
-- [ ] 03-03-PLAN.md — Skill data seeding and RootStore integration
-- [ ] 03-04-PLAN.md — Skill tree visualization with domain tabs and human verification
+- [x] 03-01-PLAN.md — Skill entity class with types and XP cost calculations
+- [x] 03-02-PLAN.md — SkillStore with DAG logic, domain XP, and unlock actions
+- [x] 03-03-PLAN.md — Skill data seeding and RootStore integration
+- [x] 03-04-PLAN.md — Skill tree visualization with domain tabs and human verification
 
 ### Phase 4: Activities System
 **Goal**: Player assigns activities that generate XP and drain resources based on character fit
@@ -136,11 +136,11 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete | 2026-01-20 |
 | 2. Character Core | 5/5 | Complete | 2026-01-21 |
-| 3. Skills System | 0/4 | Ready | - |
-| 4. Activities System | 0/5 | Not started | - |
+| 3. Skills System | 4/4 | Complete | 2026-01-21 |
+| 4. Activities System | 0/5 | Ready | - |
 | 5. Talents System | 0/4 | Not started | - |
 | 6. Integration & Observation | 0/4 | Not started | - |
 
 ---
 *Roadmap created: 2026-01-20*
-*Last updated: 2026-01-21 (Phase 3 planned)*
+*Last updated: 2026-01-21 (Phase 3 complete)*
