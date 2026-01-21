@@ -6,6 +6,7 @@ import {
   SkillState,
   PrerequisiteStatus,
 } from '../entities/types';
+import { STARTER_SKILLS } from '../data/skills';
 import type { RootStore } from './RootStore';
 
 // All skill domains
@@ -31,6 +32,14 @@ export class SkillStore {
     for (const domain of DOMAINS) {
       this.domainXP.set(domain, 0);
     }
+
+    // Seed starter skills
+    this.seedSkills(STARTER_SKILLS);
+
+    // Starting XP for testing unlocks
+    this.domainXP.set('social', 100);
+    this.domainXP.set('organisational', 50);
+    this.domainXP.set('physical', 100);
   }
 
   get skillsArray(): Skill[] {
