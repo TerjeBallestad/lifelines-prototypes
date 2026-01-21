@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-20)
 ## Current Position
 
 Phase: 3 of 6 (Skills System)
-Plan: 1 of 4 in current phase
+Plan: 2 of 4 in current phase
 Status: In progress
-Last activity: 2026-01-21 -- Completed 03-01-PLAN.md
+Last activity: 2026-01-21 -- Completed 03-02-PLAN.md
 
-Progress: [█████████░] 36% (9/25 plans)
+Progress: [██████████] 40% (10/25 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
+- Total plans completed: 10
 - Average duration: 3min
-- Total execution time: ~31min
+- Total execution time: ~33min
 
 **By Phase:**
 
@@ -29,10 +29,10 @@ Progress: [█████████░] 36% (9/25 plans)
 |-------|-------|-------|----------|
 | 1. Foundation | 3/3 | 15min | 5min |
 | 2. Character Core | 5/5 | 16min | 3.2min |
-| 3. Skills System | 1/4 | ~2min | 2min |
+| 3. Skills System | 2/4 | ~4min | 2min |
 
 **Recent Trend:**
-- Last 5 plans: 02-03 (3min), 02-04 (2min), 02-05 (6min), 03-01 (2min)
+- Last 5 plans: 02-04 (2min), 02-05 (6min), 03-01 (2min), 03-02 (2min)
 - Trend: Consistent fast execution
 
 *Updated after each plan completion*
@@ -67,6 +67,8 @@ Recent decisions affecting current work:
 - [02-05]: Dev sliders in expandable details for testing emergence
 - [03-01]: Skill follows Character pattern with makeAutoObservable
 - [03-01]: Escalating XP formula: 50 + (nextLevel - 1) * 25 for levels 1-5
+- [03-02]: DAG validation on seedSkills, not constructor
+- [03-02]: Kahn's algorithm for cycle detection in skill prerequisites
 
 ### Pending Todos
 
@@ -79,13 +81,13 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-21
-Stopped at: Completed 03-01-PLAN.md
+Stopped at: Completed 03-02-PLAN.md
 Resume file: None
 
 ## Phase 3 Progress
 
 Phase 3 Skills System in progress:
 - 03-01: Skill entity & types - COMPLETE
-- 03-02: SkillStore - pending
+- 03-02: SkillStore - COMPLETE
 - 03-03: Skill tree data & prerequisites - pending
 - 03-04: Skill tree visualization - pending
