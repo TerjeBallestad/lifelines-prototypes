@@ -45,6 +45,8 @@ export class SimulationStore {
     this.tickCount += 1;
     // Update character resources based on personality and simulation speed
     this.root.characterStore.character?.applyTickUpdate(this.speed);
+    // Process activity queue (runs AFTER passive character update per RESEARCH.md)
+    this.root.activityStore.processTick(this.speed);
   }
 
   setSpeed(newSpeed: number): void {
