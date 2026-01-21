@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-20)
 
 **Core value:** Simple psychological variables combine to produce emergent characters -- no labels, just humanity
-**Current focus:** Phase 3 Skills System - COMPLETE
+**Current focus:** Phase 4 Activities System - In progress
 
 ## Current Position
 
-Phase: 3 of 6 (Skills System) - COMPLETE
-Plan: 4 of 4 in current phase
-Status: Phase complete
-Last activity: 2026-01-21 -- Completed 03-04-PLAN.md
+Phase: 4 of 6 (Activities System)
+Plan: 1 of 6 in current phase
+Status: In progress
+Last activity: 2026-01-22 -- Completed 04-01-PLAN.md
 
-Progress: [████████████] 48% (12/25 plans)
+Progress: [█████████████] 52% (13/25 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 12
+- Total plans completed: 13
 - Average duration: 3min
-- Total execution time: ~40min
+- Total execution time: ~42min
 
 **By Phase:**
 
@@ -30,9 +30,10 @@ Progress: [████████████] 48% (12/25 plans)
 | 1. Foundation | 3/3 | 15min | 5min |
 | 2. Character Core | 5/5 | 16min | 3.2min |
 | 3. Skills System | 4/4 | 11min | 2.75min |
+| 4. Activities System | 1/6 | 2min | 2min |
 
 **Recent Trend:**
-- Last 5 plans: 03-01 (2min), 03-02 (2min), 03-03 (3min), 03-04 (4min)
+- Last 5 plans: 03-02 (2min), 03-03 (3min), 03-04 (4min), 04-01 (2min)
 - Trend: Consistent fast execution
 
 *Updated after each plan completion*
@@ -74,6 +75,10 @@ Recent decisions affecting current work:
 - [03-04]: State-based CSS classes (opacity/grayscale for locked, ring for unlockable/mastered)
 - [03-04]: Emoji icons for skill states (simplicity over icon library)
 - [03-04]: Prerequisite display shows Lv.current/required format
+- [04-01]: Polynomial mastery XP curve: 100 * (level+1)^1.5
+- [04-01]: Mastery caps at level 10 for bounded progression
+- [04-01]: Diminishing domain XP returns (100% at L1, 10% at L10) encourages variety
+- [04-01]: CapacityKey type enables type-safe capacity profile access
 
 ### Pending Todos
 
@@ -85,23 +90,18 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-21
-Stopped at: Completed 03-04-PLAN.md (Phase 3 complete)
+Last session: 2026-01-22
+Stopped at: Completed 04-01-PLAN.md
 Resume file: None
 
-## Phase 3 Summary
+## Phase 4 Progress
 
-Phase 3 Skills System COMPLETE:
-- 03-01: Skill entity & types - COMPLETE
-- 03-02: SkillStore - COMPLETE
-- 03-03: Store wiring & skill data - COMPLETE
-- 03-04: Skill tree visualization - COMPLETE
+Phase 4 Activities System:
+- 04-01: Activity entity & types - COMPLETE
+- 04-02: ActivityStore - Pending
+- 04-03: Store wiring & activity data - Pending
+- 04-04: Success calculation - Pending
+- 04-05: Activity queue UI - Pending
+- 04-06: Toast notifications - Pending
 
-Phase 3 success criteria met:
-- 8 skills in meaningful dependency tree across 3 domains
-- Skill states display correctly (locked/unlockable/unlocked/mastered)
-- Player sees WHY skill is locked (prerequisite progress)
-- Skills level up via spending domain XP
-- Skill tree renders with 5 domain tabs
-
-Ready for Phase 4: Activity System
+Next: 04-02 ActivityStore with queue management
