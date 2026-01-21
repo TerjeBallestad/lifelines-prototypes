@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { useSimulationStore } from '../stores';
+import { useSimulationStore } from '../stores/RootStore';
 
 export const SimulationControls = observer(function SimulationControls() {
   const simulationStore = useSimulationStore();
@@ -10,7 +10,9 @@ export const SimulationControls = observer(function SimulationControls() {
       {/* Play/Pause */}
       <button
         className={`btn btn-circle ${isRunning ? 'btn-error' : 'btn-success'}`}
-        onClick={() => isRunning ? simulationStore.stop() : simulationStore.start()}
+        onClick={() =>
+          isRunning ? simulationStore.stop() : simulationStore.start()
+        }
         aria-label={isRunning ? 'Pause simulation' : 'Start simulation'}
       >
         {isRunning ? (
@@ -27,9 +29,7 @@ export const SimulationControls = observer(function SimulationControls() {
 
       {/* Speed slider */}
       <div className="flex flex-col gap-1">
-        <label className="text-xs text-base-content/70">
-          Speed: {speed}x
-        </label>
+        <label className="text-xs text-base-content/70">Speed: {speed}x</label>
         <input
           type="range"
           min="0"

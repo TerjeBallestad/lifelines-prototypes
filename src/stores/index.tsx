@@ -1,8 +1,6 @@
-import { createContext, useContext, useState } from 'react';
+import { useState } from 'react';
 import type { ReactNode } from 'react';
-import { RootStore } from './RootStore';
-
-const StoreContext = createContext<RootStore | null>(null);
+import { RootStore, StoreContext } from './RootStore';
 
 interface StoreProviderProps {
   children: ReactNode;
@@ -13,30 +11,6 @@ export function StoreProvider({ children }: StoreProviderProps) {
   const [store] = useState(() => new RootStore());
 
   return (
-    <StoreContext.Provider value={store}>
-      {children}
-    </StoreContext.Provider>
+    <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
   );
 }
-
-export function useRootStore(): RootStore {
-  const context = useContext(StoreContext);
-  if (!context) {
-    throw new Error('useRootStore must be used within StoreProvider');
-  }
-  return context;
-}
-
-// Convenience hooks for individual stores
-export function useCharacterStore() {
-  return useRootStore().characterStore;
-}
-
-export function useSimulationStore() {
-  return useRootStore().simulationStore;
-}
-
-// Re-export for external use
-export { RootStore } from './RootStore';
-export { CharacterStore } from './CharacterStore';
-export { SimulationStore } from './SimulationStore';

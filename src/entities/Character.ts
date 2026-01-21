@@ -94,8 +94,13 @@ export class Character {
    */
   get activeModifiers(): ResourceModifier[] {
     const modifiers: ResourceModifier[] = [];
-    const { extraversion, neuroticism, conscientiousness, openness, agreeableness } =
-      this.personality;
+    const {
+      extraversion,
+      neuroticism,
+      conscientiousness,
+      openness,
+      agreeableness,
+    } = this.personality;
 
     // Extraversion effects
     if (extraversion < 50) {

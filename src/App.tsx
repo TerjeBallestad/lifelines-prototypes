@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
-import { useCharacterStore } from './stores';
 import { CharacterPanel } from './components/CharacterPanel';
 import { SimulationControls } from './components/SimulationControls';
+import { useCharacterStore } from './stores/RootStore';
 
 const App = observer(function App() {
   const characterStore = useCharacterStore();
@@ -24,7 +24,8 @@ const App = observer(function App() {
         <div className="mt-8 prose">
           <p>
             Start the simulation to watch resources drain based on personality.
-            Adjust personality sliders in the sidebar to see how traits affect rates.
+            Adjust personality sliders in the sidebar to see how traits affect
+            rates.
           </p>
         </div>
       </div>

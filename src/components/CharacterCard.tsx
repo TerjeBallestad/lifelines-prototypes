@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { useCharacterStore } from '../stores';
+import { useCharacterStore } from '../stores/RootStore';
 
 export const CharacterCard = observer(function CharacterCard() {
   const store = useCharacterStore();

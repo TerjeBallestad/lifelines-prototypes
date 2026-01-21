@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite';
-import { useCharacterStore } from '../stores';
 import { PersonalityRadar } from './PersonalityRadar';
 import { CapacitiesRadar } from './CapacitiesRadar';
 import { ResourcePanel } from './ResourcePanel';
+import { useCharacterStore } from '../stores/RootStore';
 
 export const CharacterPanel = observer(function CharacterPanel() {
   const characterStore = useCharacterStore();
@@ -34,13 +34,17 @@ export const CharacterPanel = observer(function CharacterPanel() {
 
       {/* Resources - most prominent per CONTEXT.md */}
       <div className="p-4 border-b border-base-300">
-        <h3 className="text-sm font-semibold mb-2 text-base-content/70">Resources</h3>
+        <h3 className="text-sm font-semibold mb-2 text-base-content/70">
+          Resources
+        </h3>
         <ResourcePanel resources={character.resources} />
       </div>
 
       {/* Personality radar */}
       <div className="p-4 border-b border-base-300">
-        <h3 className="text-sm font-semibold mb-2 text-base-content/70">Personality</h3>
+        <h3 className="text-sm font-semibold mb-2 text-base-content/70">
+          Personality
+        </h3>
         <PersonalityRadar personality={character.personality} />
         {/* Dev sliders for testing emergence per CONTEXT.md */}
         <details className="mt-2">
@@ -57,7 +61,9 @@ export const CharacterPanel = observer(function CharacterPanel() {
                   max="100"
                   value={value}
                   onChange={(e) =>
-                    character.updatePersonality({ [key]: Number(e.target.value) })
+                    character.updatePersonality({
+                      [key]: Number(e.target.value),
+                    })
                   }
                   className="range range-xs w-full"
                 />
@@ -70,7 +76,9 @@ export const CharacterPanel = observer(function CharacterPanel() {
 
       {/* Capacities radar */}
       <div className="p-4">
-        <h3 className="text-sm font-semibold mb-2 text-base-content/70">Capacities</h3>
+        <h3 className="text-sm font-semibold mb-2 text-base-content/70">
+          Capacities
+        </h3>
         <CapacitiesRadar capacities={character.capacities} />
       </div>
     </div>

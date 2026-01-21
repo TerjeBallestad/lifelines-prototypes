@@ -51,7 +51,9 @@ export const ResourceGauge = observer(function ResourceGauge({
       </div>
       <span className="text-xs text-base-content/70 text-center">{label}</span>
       {modifierText && (
-        <span className="text-xs text-base-content/50 text-center">{modifierText}</span>
+        <span className="text-xs text-base-content/50 text-center">
+          {modifierText}
+        </span>
       )}
     </div>
   );
