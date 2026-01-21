@@ -1,7 +1,7 @@
 import { CharacterStore } from './CharacterStore';
 import { SimulationStore } from './SimulationStore';
-import { SkillStore } from './SkillStore';
 import { createContext, useContext } from 'react';
+import { SkillStore } from './SkillStore';
 
 export class RootStore {
   characterStore: CharacterStore;
@@ -31,4 +31,9 @@ export function useCharacterStore() {
 
 export function useSimulationStore() {
   return useRootStore().simulationStore;
+}
+
+// Convenience hook for skill store access
+export function useSkillStore() {
+  return useRootStore().skillStore;
 }

@@ -1,5 +1,5 @@
 import { makeAutoObservable, action } from 'mobx';
-import type { RootStore } from './RootStore';
+import { type RootStore } from './RootStore';
 
 export class SimulationStore {
   // Observable state

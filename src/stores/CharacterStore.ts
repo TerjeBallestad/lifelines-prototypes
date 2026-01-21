@@ -5,7 +5,7 @@ import {
   defaultCapacities,
   defaultResources,
 } from '../entities/types';
-import type { RootStore } from './RootStore';
+import { type RootStore } from './RootStore';
 
 export class CharacterStore {
   character: Character | null = null;

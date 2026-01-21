@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useSkillStore } from '../stores';
 import { SkillCard } from './SkillCard';
 import type { SkillDomain } from '../entities/types';
+import { useSkillStore } from '../stores/RootStore';
 
 // All skill domains
 const DOMAINS: SkillDomain[] = [
@@ -36,38 +36,43 @@ export const SkillTreePanel = observer(function SkillTreePanel() {
       {/* Domain tabs */}
       <div role="tablist" className="tabs tabs-box mb-4">
         {DOMAINS.map((domain) => (
-          <button
-            key={domain}
-            role="tab"
-            className={`tab ${activeDomain === domain ? 'tab-active' : ''}`}
-            onClick={() => setActiveDomain(domain)}
-          >
-            {DOMAIN_LABELS[domain]}
-            <span className="badge badge-sm ml-2">
-              {skillStore.domainXP.get(domain) ?? 0} XP
-            </span>
-          </button>
+          <>
+            <button
+              key={domain}
+              role="tab"
+              className={`tab ${activeDomain === domain ? 'tab-active' : ''}`}
+              onClick={() => setActiveDomain(domain)}
+            >
+              {DOMAIN_LABELS[domain]}
+              <span className="badge badge-sm ml-2">
+                {skillStore.domainXP.get(domain) ?? 0} XP
+              </span>
+            </button>
+            <div className="tab-content ">
+              {/* Domain XP display */}
+              <div className="mb-4 text-lg">
+                <span className="font-semibold">
+                  {DOMAIN_LABELS[domain]} XP:
+                </span>
+                <span className="ml-2 text-primary font-bold">{domainXP}</span>
+              </div>
+
+              {/* Skill grid */}
+              {skills.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {skills.map((skill) => (
+                    <SkillCard key={skill.id} skillId={skill.id} />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-base-content/50 text-center py-8">
+                  No skills in this domain yet
+                </div>
+              )}
+            </div>
+          </>
         ))}
       </div>
-
-      {/* Domain XP display */}
-      <div className="mb-4 text-lg">
-        <span className="font-semibold">{DOMAIN_LABELS[activeDomain]} XP:</span>
-        <span className="ml-2 text-primary font-bold">{domainXP}</span>
-      </div>
-
-      {/* Skill grid */}
-      {skills.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {skills.map((skill) => (
-            <SkillCard key={skill.id} skillId={skill.id} />
-          ))}
-        </div>
-      ) : (
-        <div className="text-base-content/50 text-center py-8">
-          No skills in this domain yet
-        </div>
-      )}
     </div>
   );
 });

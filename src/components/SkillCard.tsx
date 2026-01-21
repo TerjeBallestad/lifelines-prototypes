@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
-import { useSkillStore } from '../stores';
 import type { SkillState } from '../entities/types';
+import { useSkillStore } from '../stores/RootStore';
 
 interface SkillCardProps {
   skillId: string;
@@ -22,7 +22,9 @@ const stateIcons: Record<SkillState, string> = {
   mastered: '⭐',
 };
 
-export const SkillCard = observer(function SkillCard({ skillId }: SkillCardProps) {
+export const SkillCard = observer(function SkillCard({
+  skillId,
+}: SkillCardProps) {
   const skillStore = useSkillStore();
   const skill = skillStore.getSkill(skillId);
 
@@ -40,8 +42,7 @@ export const SkillCard = observer(function SkillCard({ skillId }: SkillCardProps
     (state === 'unlocked' && skill.level < 5);
 
   // Button is disabled if locked and not unlockable, or can't afford
-  const buttonDisabled =
-    !canAfford || (state === 'locked' && !isUnlockable);
+  const buttonDisabled = !canAfford || (state === 'locked' && !isUnlockable);
 
   const handleUnlock = () => {
     skillStore.unlockSkillLevel(skillId);

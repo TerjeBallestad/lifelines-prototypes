@@ -7,7 +7,7 @@ import type {
   PrerequisiteStatus,
 } from '../entities/types';
 import { STARTER_SKILLS } from '../data/skills';
-import type { RootStore } from './RootStore';
+import { type RootStore } from './RootStore';
 
 // All skill domains
 export const DOMAINS: SkillDomain[] = [
