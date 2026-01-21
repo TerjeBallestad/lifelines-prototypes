@@ -42,6 +42,7 @@ The player experiences satisfying growth by helping patients develop missing lif
 - Explores Nordic storytelling — identity over heroism
 - Inspired by Elling, Ibsen, Skam, Norwegian folk tales
 - Design pillars: Empathetic curiosity, Satisfying growth, Humorous contrast
+- Game influenses: Vampire Survivors (fun upgrades, run-based gameplay), Two Point Hospital (management), The Sims (simulation of character needs/wants), Papers Please (Investigation of characters), Stardew Valley (cozy atmosphere, fun to watch systems), Balatro (building a machine that produces high numbers),
 
 **Why prototypes in React:**
 - Faster iteration than Unreal for system design
