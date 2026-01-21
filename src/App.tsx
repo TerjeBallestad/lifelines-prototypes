@@ -1,4 +1,5 @@
 import { observer } from 'mobx-react-lite';
+import { Toaster } from 'sonner';
 import { CharacterPanel } from './components/CharacterPanel';
 import { SimulationControls } from './components/SimulationControls';
 import { SkillTreePanel } from './components/SkillTreePanel';
@@ -14,6 +15,7 @@ const App = observer(function App() {
 
   return (
     <div className="flex min-h-screen bg-base-100">
+      <Toaster position="bottom-right" richColors />
       {/* Sidebar */}
       <CharacterPanel />
 
