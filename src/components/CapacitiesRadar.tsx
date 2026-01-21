@@ -30,10 +30,10 @@ export const CapacitiesRadar = observer(function CapacitiesRadar({
     <div className="w-full h-48 text-accent">
       <ResponsiveContainer width="100%" height="100%">
         <RadarChart data={data}>
-          <PolarGrid stroke="oklch(var(--bc) / 0.2)" />
+          <PolarGrid stroke="var(--color-primary)" />
           <PolarAngleAxis
             dataKey="trait"
-            tick={{ fontSize: 10, fill: 'oklch(var(--bc) / 0.7)' }}
+            tick={{ fontSize: 10, fill: 'var(--color-base-content)' }}
           />
           <PolarRadiusAxis
             angle={90}
@@ -43,8 +43,8 @@ export const CapacitiesRadar = observer(function CapacitiesRadar({
           />
           <Radar
             dataKey="value"
-            stroke="oklch(var(--color-accent))"
-            fill="oklch(var(--color-accent))"
+            stroke="var(--color-accent)"
+            fill="var(--color-accent)"
             fillOpacity={0.4}
           />
         </RadarChart>
