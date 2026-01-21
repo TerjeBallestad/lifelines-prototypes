@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-20)
 ## Current Position
 
 Phase: 4 of 6 (Activities System)
-Plan: 1 of 6 in current phase
+Plan: 2 of 6 in current phase
 Status: In progress
-Last activity: 2026-01-22 -- Completed 04-01-PLAN.md
+Last activity: 2026-01-22 -- Completed 04-02-PLAN.md
 
-Progress: [█████████████] 52% (13/25 plans)
+Progress: [██████████████] 56% (14/25 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 13
+- Total plans completed: 14
 - Average duration: 3min
-- Total execution time: ~42min
+- Total execution time: ~43min
 
 **By Phase:**
 
@@ -30,10 +30,10 @@ Progress: [█████████████] 52% (13/25 plans)
 | 1. Foundation | 3/3 | 15min | 5min |
 | 2. Character Core | 5/5 | 16min | 3.2min |
 | 3. Skills System | 4/4 | 11min | 2.75min |
-| 4. Activities System | 1/6 | 2min | 2min |
+| 4. Activities System | 2/6 | 3min | 1.5min |
 
 **Recent Trend:**
-- Last 5 plans: 03-02 (2min), 03-03 (3min), 03-04 (4min), 04-01 (2min)
+- Last 5 plans: 03-03 (3min), 03-04 (4min), 04-01 (2min), 04-02 (1min)
 - Trend: Consistent fast execution
 
 *Updated after each plan completion*
@@ -79,6 +79,9 @@ Recent decisions affecting current work:
 - [04-01]: Mastery caps at level 10 for bounded progression
 - [04-01]: Diminishing domain XP returns (100% at L1, 10% at L10) encourages variety
 - [04-01]: CapacityKey type enables type-safe capacity profile access
+- [04-02]: MIN_OVERSKUDD_TO_START = 20 as configurable constant
+- [04-02]: canStartActivity returns { canStart, reason } for UI flexibility
+- [04-02]: Narrative error messages include character name
 
 ### Pending Todos
 
@@ -91,17 +94,17 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-22
-Stopped at: Completed 04-01-PLAN.md
+Stopped at: Completed 04-02-PLAN.md
 Resume file: None
 
 ## Phase 4 Progress
 
 Phase 4 Activities System:
 - 04-01: Activity entity & types - COMPLETE
-- 04-02: ActivityStore - Pending
+- 04-02: ActivityStore - COMPLETE
 - 04-03: Store wiring & activity data - Pending
 - 04-04: Success calculation - Pending
 - 04-05: Activity queue UI - Pending
 - 04-06: Toast notifications - Pending
 
-Next: 04-02 ActivityStore with queue management
+Next: 04-03 Store wiring & activity data
