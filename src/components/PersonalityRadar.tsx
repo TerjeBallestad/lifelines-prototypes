@@ -6,6 +6,8 @@ import {
   PolarRadiusAxis,
   Radar,
   ResponsiveContainer,
+  Tooltip,
+  type TooltipContentProps,
 } from 'recharts';
 import type { Personality } from '../entities/types';
 
@@ -24,6 +26,20 @@ export const PersonalityRadar = observer(function PersonalityRadar({
     { trait: 'Agreeableness', value: personality.agreeableness },
     { trait: 'Neuroticism', value: personality.neuroticism },
   ];
+
+  const CustomTooltip = ({ payload }: TooltipContentProps<number, string>) => {
+    if (payload && payload.length) {
+      const data = payload[0].payload;
+      return (
+        <div className="bg-base-200 p-2 rounded shadow-lg text-sm">
+          <p>
+            {data.trait}: {data.value}
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
     <div className="w-full h-48">
@@ -46,6 +62,7 @@ export const PersonalityRadar = observer(function PersonalityRadar({
             fill="var(--color-accent)"
             fillOpacity={0.4}
           />
+          <Tooltip content={CustomTooltip} />
         </RadarChart>
       </ResponsiveContainer>
     </div>
