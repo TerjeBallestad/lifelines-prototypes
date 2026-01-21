@@ -13,7 +13,7 @@ This prototype validates whether simple psychological variables (personality, ca
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - Project scaffolding and core architecture
-- [ ] **Phase 2: Character Core** - Personality, capacities, and resources data model
+- [x] **Phase 2: Character Core** - Personality, capacities, and resources data model
 - [ ] **Phase 3: Skills System** - Skill DAG with dependencies, states, and XP
 - [ ] **Phase 4: Activities System** - Activities that train skills and drain resources
 - [ ] **Phase 5: Talents System** - Roguelike modifiers with pick-1-of-3 selection
@@ -50,11 +50,11 @@ Plans:
 **Plans**: 5 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Extend Resources to 9 types, create modifier utilities
-- [ ] 02-02-PLAN.md — Create SimulationStore for time-based updates
-- [ ] 02-03-PLAN.md — Add personality-to-resource modifiers and applyTickUpdate to Character
-- [ ] 02-04-PLAN.md — Create visualization components (PersonalityRadar, CapacitiesRadar, ResourceGauge)
-- [ ] 02-05-PLAN.md — CharacterPanel sidebar integration with human verification
+- [x] 02-01-PLAN.md — Extend Resources to 9 types, create modifier utilities
+- [x] 02-02-PLAN.md — Create SimulationStore for time-based updates
+- [x] 02-03-PLAN.md — Add personality-to-resource modifiers and applyTickUpdate to Character
+- [x] 02-04-PLAN.md — Create visualization components (PersonalityRadar, CapacitiesRadar, ResourceGauge)
+- [x] 02-05-PLAN.md — CharacterPanel sidebar integration with human verification
 
 ### Phase 3: Skills System
 **Goal**: Skills exist in a dependency graph where prerequisites gate unlocking
@@ -135,12 +135,12 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete | 2026-01-20 |
-| 2. Character Core | 0/5 | Ready | - |
-| 3. Skills System | 0/4 | Not started | - |
+| 2. Character Core | 5/5 | Complete | 2026-01-21 |
+| 3. Skills System | 0/4 | Ready | - |
 | 4. Activities System | 0/5 | Not started | - |
 | 5. Talents System | 0/4 | Not started | - |
 | 6. Integration & Observation | 0/4 | Not started | - |
 
 ---
 *Roadmap created: 2026-01-20*
-*Last updated: 2026-01-20 (Phase 2 planned)*
+*Last updated: 2026-01-21 (Phase 2 complete)*

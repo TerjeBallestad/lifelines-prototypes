@@ -116,16 +116,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PERS-01 | Phase 2 | Pending |
-| PERS-02 | Phase 2 | Pending |
-| PERS-03 | Phase 2 | Pending |
-| PERS-04 | Phase 2 | Pending |
-| PERS-05 | Phase 2 | Pending |
-| CAPS-01 | Phase 2 | Pending |
-| CAPS-02 | Phase 2 | Pending |
-| CAPS-03 | Phase 2 | Pending |
-| CAPS-04 | Phase 2 | Pending |
-| CAPS-05 | Phase 2 | Pending |
+| PERS-01 | Phase 2 | Complete |
+| PERS-02 | Phase 2 | Complete |
+| PERS-03 | Phase 2 | Complete |
+| PERS-04 | Phase 2 | Complete |
+| PERS-05 | Phase 2 | Complete |
+| CAPS-01 | Phase 2 | Complete |
+| CAPS-02 | Phase 2 | Complete |
+| CAPS-03 | Phase 2 | Complete |
+| CAPS-04 | Phase 2 | Complete |
+| CAPS-05 | Phase 2 | Complete |
 | SKIL-01 | Phase 3 | Pending |
 | SKIL-02 | Phase 3 | Pending |
 | SKIL-03 | Phase 3 | Pending |
@@ -137,11 +137,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ACTV-04 | Phase 4 | Pending |
 | ACTV-05 | Phase 4 | Pending |
 | ACTV-06 | Phase 4 | Pending |
-| RSRC-01 | Phase 2 | Pending |
-| RSRC-02 | Phase 2 | Pending |
-| RSRC-03 | Phase 2 | Pending |
-| RSRC-04 | Phase 2 | Pending |
-| RSRC-05 | Phase 2 | Pending |
+| RSRC-01 | Phase 2 | Complete |
+| RSRC-02 | Phase 2 | Complete |
+| RSRC-03 | Phase 2 | Complete |
+| RSRC-04 | Phase 2 | Complete |
+| RSRC-05 | Phase 2 | Complete |
 | TLNT-01 | Phase 5 | Pending |
 | TLNT-02 | Phase 5 | Pending |
 | TLNT-03 | Phase 5 | Pending |
@@ -149,8 +149,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | OBSV-02 | Phase 6 | Pending |
 | OBSV-03 | Phase 6 | Pending |
 | OBSV-04 | Phase 6 | Pending |
-| INFR-01 | Phase 1 | Pending |
-| INFR-02 | Phase 1 | Pending |
+| INFR-01 | Phase 1 | Complete |
+| INFR-02 | Phase 1 | Complete |
 | INFR-03 | Phase 3 | Pending |
 | INFR-04 | Phase 4 | Pending |
 | INFR-05 | Phase 5 | Pending |
@@ -162,4 +162,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2025-01-20*
-*Last updated: 2026-01-20 after roadmap creation*
+*Last updated: 2026-01-21 (Phase 2 complete)*
