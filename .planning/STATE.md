@@ -12,7 +12,7 @@ See: .planning/PROJECT.md (updated 2026-01-20)
 Phase: 4 of 6 (Activities System)
 Plan: 4 of 6 in current phase
 Status: In progress
-Last activity: 2026-01-22 -- Completed 04-04-PLAN.md
+Last activity: 2026-01-22 -- Completed 04-03-PLAN.md
 
 Progress: [███████████████░] 60% (15/25 plans)
 
@@ -21,7 +21,7 @@ Progress: [███████████████░] 60% (15/25 plans)
 **Velocity:**
 - Total plans completed: 15
 - Average duration: 3min
-- Total execution time: ~44min
+- Total execution time: ~46min
 
 **By Phase:**
 
@@ -30,10 +30,10 @@ Progress: [███████████████░] 60% (15/25 plans)
 | 1. Foundation | 3/3 | 15min | 5min |
 | 2. Character Core | 5/5 | 16min | 3.2min |
 | 3. Skills System | 4/4 | 11min | 2.75min |
-| 4. Activities System | 4/6 | 4min | 1min |
+| 4. Activities System | 4/6 | 6min | 1.5min |
 
 **Recent Trend:**
-- Last 5 plans: 03-04 (4min), 04-01 (2min), 04-02 (1min), 04-03 (skipped), 04-04 (1min)
+- Last 5 plans: 03-04 (4min), 04-01 (2min), 04-02 (1min), 04-03 (2min), 04-04 (1min)
 - Trend: Consistent fast execution
 
 *Updated after each plan completion*
@@ -82,6 +82,9 @@ Recent decisions affecting current work:
 - [04-02]: MIN_OVERSKUDD_TO_START = 20 as configurable constant
 - [04-02]: canStartActivity returns { canStart, reason } for UI flexibility
 - [04-02]: Narrative error messages include character name
+- [04-03]: Activity tick runs AFTER character passive update to avoid double-dipping
+- [04-03]: Success probability from capacity ratio + mastery bonus (+5% per level)
+- [04-03]: Failed activities: 50% mastery XP, 5-point overskudd/mood penalty
 - [04-04]: 8 activities balance domains and showcase drain/restore mechanics
 - [04-04]: Capacity profiles use realistic 35-60 range (around average 50)
 
@@ -96,7 +99,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-22
-Stopped at: Completed 04-04-PLAN.md
+Stopped at: Completed 04-03-PLAN.md
 Resume file: None
 
 ## Phase 4 Progress
@@ -104,9 +107,9 @@ Resume file: None
 Phase 4 Activities System:
 - 04-01: Activity entity & types - COMPLETE
 - 04-02: ActivityStore - COMPLETE
-- 04-03: Store wiring & Sonner - COMPLETE
+- 04-03: Tick integration & Sonner - COMPLETE
 - 04-04: Activities seed data - COMPLETE
-- 04-05: Success calculation - Pending
-- 04-06: Activity queue UI - Pending
+- 04-05: Activity queue UI - Pending
+- 04-06: Toast notifications - Pending
 
-Next: 04-05 Success calculation
+Next: 04-05 Activity queue UI
