@@ -1,6 +1,6 @@
 import { makeAutoObservable, observable } from 'mobx';
 import { Skill } from '../entities/Skill';
-import {
+import type {
   SkillDomain,
   SkillData,
   SkillState,
