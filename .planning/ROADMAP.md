@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation** - Project scaffolding and core architecture
 - [x] **Phase 2: Character Core** - Personality, capacities, and resources data model
 - [x] **Phase 3: Skills System** - Skill DAG with dependencies, states, and XP
-- [ ] **Phase 4: Activities System** - Activities that train skills and drain resources
+- [x] **Phase 4: Activities System** - Activities that train skills and drain resources
 - [ ] **Phase 5: Talents System** - Roguelike modifiers with pick-1-of-3 selection
 - [ ] **Phase 6: Integration & Observation** - Dashboard, emergence validation, tweaking tools
 
@@ -87,12 +87,12 @@ Plans:
 **Plans**: 6 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Activity entity class and type definitions
-- [ ] 04-02-PLAN.md — ActivityStore with queue management and RootStore integration
-- [ ] 04-03-PLAN.md — Sonner toast setup and SimulationStore tick integration
-- [ ] 04-04-PLAN.md — Activity seed data (8 activities across domains)
-- [ ] 04-05-PLAN.md — ActivityCard and ActivityQueue UI components
-- [ ] 04-06-PLAN.md — ActivityPanel with domain tabs and human verification
+- [x] 04-01-PLAN.md — Activity entity class and type definitions
+- [x] 04-02-PLAN.md — ActivityStore with queue management and RootStore integration
+- [x] 04-03-PLAN.md — Sonner toast setup and SimulationStore tick integration
+- [x] 04-04-PLAN.md — Activity seed data (8 activities across domains)
+- [x] 04-05-PLAN.md — ActivityCard and ActivityQueue UI components
+- [x] 04-06-PLAN.md — ActivityPanel with domain tabs and human verification
 
 ### Phase 5: Talents System
 **Goal**: Player can select talents that modify the character's capabilities
@@ -138,10 +138,10 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | 1. Foundation | 3/3 | Complete | 2026-01-20 |
 | 2. Character Core | 5/5 | Complete | 2026-01-21 |
 | 3. Skills System | 4/4 | Complete | 2026-01-21 |
-| 4. Activities System | 0/6 | Ready | - |
+| 4. Activities System | 6/6 | Complete | 2026-01-22 |
 | 5. Talents System | 0/4 | Not started | - |
 | 6. Integration & Observation | 0/4 | Not started | - |
 
 ---
 *Roadmap created: 2026-01-20*
-*Last updated: 2026-01-21 (Phase 4 planned)*
+*Last updated: 2026-01-22 (Phase 4 complete)*

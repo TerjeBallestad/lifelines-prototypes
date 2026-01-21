@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-20)
 
 **Core value:** Simple psychological variables combine to produce emergent characters -- no labels, just humanity
-**Current focus:** Phase 4 Activities System - In progress
+**Current focus:** Phase 4 Activities System - COMPLETE
 
 ## Current Position
 
-Phase: 4 of 6 (Activities System)
-Plan: 5 of 6 in current phase
-Status: In progress
-Last activity: 2026-01-22 -- Completed 04-05-PLAN.md
+Phase: 4 of 6 (Activities System) - COMPLETE
+Plan: 6 of 6 in current phase
+Status: Phase complete
+Last activity: 2026-01-22 -- Completed 04-06-PLAN.md
 
-Progress: [████████████████░] 64% (16/25 plans)
+Progress: [█████████████████] 68% (17/25 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 16
+- Total plans completed: 17
 - Average duration: 3min
-- Total execution time: ~47min
+- Total execution time: ~50min
 
 **By Phase:**
 
@@ -30,10 +30,10 @@ Progress: [████████████████░] 64% (16/25 plans
 | 1. Foundation | 3/3 | 15min | 5min |
 | 2. Character Core | 5/5 | 16min | 3.2min |
 | 3. Skills System | 4/4 | 11min | 2.75min |
-| 4. Activities System | 5/6 | 7min | 1.4min |
+| 4. Activities System | 6/6 | 10min | 1.7min |
 
 **Recent Trend:**
-- Last 5 plans: 04-01 (2min), 04-02 (1min), 04-03 (2min), 04-04 (1min), 04-05 (1min)
+- Last 5 plans: 04-02 (1min), 04-03 (2min), 04-04 (1min), 04-05 (1min), 04-06 (3min)
 - Trend: Consistent fast execution
 
 *Updated after each plan completion*
@@ -90,6 +90,9 @@ Recent decisions affecting current work:
 - [04-05]: Domain color mapping matches skill domain colors for consistency
 - [04-05]: Threshold activities show 50% progress bar (indeterminate)
 - [04-05]: Mastery level only shown for queued/active variants (not preview)
+- [04-06]: Two-column layout: activity selection (left), queue display (right)
+- [04-06]: Domain tabs filter activities (Social, Organisation, Physical, Creative)
+- [04-06]: Click-to-enqueue pattern for activity selection
 
 ### Pending Todos
 
@@ -102,17 +105,24 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-22
-Stopped at: Completed 04-05-PLAN.md
+Stopped at: Completed 04-06-PLAN.md (Phase 4 complete)
 Resume file: None
 
-## Phase 4 Progress
+## Phase 4 Summary
 
-Phase 4 Activities System:
+Phase 4 Activities System COMPLETE:
 - 04-01: Activity entity & types - COMPLETE
 - 04-02: ActivityStore - COMPLETE
 - 04-03: Tick integration & Sonner - COMPLETE
 - 04-04: Activities seed data - COMPLETE
 - 04-05: Activity queue UI - COMPLETE
-- 04-06: Toast notifications - Pending
+- 04-06: ActivityPanel - COMPLETE
 
-Next: 04-06 Toast notifications
+Phase 4 success criteria met:
+- 8 activities with capacity profiles for success calculation
+- Player assigns activities via click-to-enqueue
+- Activities award domain XP with diminishing returns
+- Activities succeed/fail based on capacity matching + mastery
+- Resources drain per-tick with personality modifiers
+
+Ready for Phase 5: Talents System
