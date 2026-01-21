@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { ReactNode } from 'react';
-import { RootStore, StoreContext } from './RootStore';
+import { RootStore, StoreContext, useRootStore } from './RootStore';
 
 interface StoreProviderProps {
   children: ReactNode;
@@ -14,3 +14,11 @@ export function StoreProvider({ children }: StoreProviderProps) {
     <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
   );
 }
+
+// Convenience hook for skill store access
+export function useSkillStore() {
+  return useRootStore().skillStore;
+}
+
+// Re-exports
+export { SkillStore } from './SkillStore';

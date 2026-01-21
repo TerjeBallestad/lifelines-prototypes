@@ -1,15 +1,17 @@
 import { CharacterStore } from './CharacterStore';
 import { SimulationStore } from './SimulationStore';
+import { SkillStore } from './SkillStore';
 import { createContext, useContext } from 'react';
 
 export class RootStore {
   characterStore: CharacterStore;
   simulationStore: SimulationStore;
-  // Future: skillStore, activityStore, talentStore
+  skillStore: SkillStore;
 
   constructor() {
     this.characterStore = new CharacterStore(this);
     this.simulationStore = new SimulationStore(this);
+    this.skillStore = new SkillStore(this);
   }
 }
 export const StoreContext = createContext<RootStore | null>(null);
