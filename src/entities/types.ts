@@ -87,3 +87,32 @@ export function defaultResources(): Resources {
     security: 50,
   } satisfies Resources;
 }
+
+// Skill domain categories
+export type SkillDomain =
+  | 'social'
+  | 'organisational'
+  | 'analytical'
+  | 'physical'
+  | 'creative';
+
+// Skill state for UI display
+export type SkillState = 'locked' | 'unlockable' | 'unlocked' | 'mastered';
+
+// Data required to construct a Skill
+export interface SkillData {
+  id: string;
+  name: string;
+  description: string;
+  domain: SkillDomain;
+  prerequisites: string[]; // skill IDs that must be level >= 1
+}
+
+// Prerequisite status for "why locked" display
+export interface PrerequisiteStatus {
+  skillId: string;
+  name: string;
+  required: number; // always 1 for now
+  current: number; // current level
+  met: boolean;
+}
