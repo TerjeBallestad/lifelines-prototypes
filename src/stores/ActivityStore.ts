@@ -254,7 +254,7 @@ export class ActivityStore {
     // Calculate how well character capacities match activity requirements
     let totalRatio = 0;
     for (const [capacityKey, targetValue] of profileEntries) {
-      const characterValue = character.capacities[capacityKey];
+      const characterValue = character.effectiveCapacities[capacityKey];
       // Ratio capped at 1.5 (exceeding requirements helps, but with diminishing returns)
       const ratio = Math.min(1.5, characterValue / targetValue);
       totalRatio += ratio;

@@ -79,7 +79,7 @@ export const CharacterPanel = observer(function CharacterPanel() {
         <h3 className="text-base-content/70 mb-2 text-sm font-semibold">
           Capacities
         </h3>
-        <CapacitiesRadar capacities={character.capacities} />
+        <CapacitiesRadar capacities={character.effectiveCapacities} />
       </div>
     </div>
   );
