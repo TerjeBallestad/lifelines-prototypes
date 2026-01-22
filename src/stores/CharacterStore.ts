@@ -40,12 +40,22 @@ export class CharacterStore {
   }
 
   // Creates a new character from provided CharacterData
-  createFromData(data: CharacterData): Character {
+  // When replaceActive is true (default), clears all existing characters and sets new one as active
+  createFromData(data: CharacterData, replaceActive = true): Character {
     const char = new Character(data);
     char.setRootStore(this.root);
-    this.characters.set(char.id, char);
-    if (!this.activeCharacterId) {
+
+    if (replaceActive) {
+      // Clear all existing characters and set new one as active
+      this.characters.clear();
+      this.characters.set(char.id, char);
       this.activeCharacterId = char.id;
+    } else {
+      // Just add to map (for comparison mode)
+      this.characters.set(char.id, char);
+      if (!this.activeCharacterId) {
+        this.activeCharacterId = char.id;
+      }
     }
     return char;
   }

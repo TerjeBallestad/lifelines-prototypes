@@ -31,8 +31,9 @@ export const ComparisonView = observer(function ComparisonView({
     const data1 = createArchetypeCharacter(arch1.id);
     const data2 = createArchetypeCharacter(arch2.id);
 
-    const c1 = characterStore.createFromData(data1);
-    const c2 = characterStore.createFromData(data2);
+    // Use replaceActive=false to add characters without clearing the map
+    const c1 = characterStore.createFromData(data1, false);
+    const c2 = characterStore.createFromData(data2, false);
 
     setChar1Id(c1.id);
     setChar2Id(c2.id);
