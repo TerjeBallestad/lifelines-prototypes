@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-20)
 ## Current Position
 
 Phase: 5 of 6 (Talents System)
-Plan: 2 of 4 in current phase
+Plan: 3 of 4 in current phase
 Status: In progress
-Last activity: 2026-01-22 -- Completed 05-02-PLAN.md
+Last activity: 2026-01-22 -- Completed 05-03-PLAN.md
 
-Progress: [███████████████████] 73% (19/26 plans)
+Progress: [████████████████████] 77% (20/26 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 19
+- Total plans completed: 20
 - Average duration: 3min
-- Total execution time: ~54min
+- Total execution time: ~56min
 
 **By Phase:**
 
@@ -31,9 +31,10 @@ Progress: [███████████████████] 73% (19/26
 | 2. Character Core | 5/5 | 16min | 3.2min |
 | 3. Skills System | 4/4 | 11min | 2.75min |
 | 4. Activities System | 6/6 | 10min | 1.7min |
+| 5. Talents System | 3/4 | 6min | 2min |
 
 **Recent Trend:**
-- Last 5 plans: 04-04 (1min), 04-05 (1min), 04-06 (3min), 05-01 (2min), 05-02 (2min)
+- Last 5 plans: 04-05 (1min), 04-06 (3min), 05-01 (2min), 05-02 (2min), 05-03 (2min)
 - Trend: Consistent fast execution
 
 *Updated after each plan completion*
@@ -99,6 +100,9 @@ Recent decisions affecting current work:
 - [05-02]: 500 XP threshold per domain triggers talent pick
 - [05-02]: Max 3 pending picks queue (prevents stacking)
 - [05-02]: Cumulative weight algorithm for unbiased selection
+- [05-03]: Native dialog showModal() for accessibility and backdrop management
+- [05-03]: Vertical card stack layout per CONTEXT.md decision
+- [05-03]: onCancel preventDefault blocks ESC dismissal
 
 ### Pending Todos
 
@@ -111,7 +115,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-22
-Stopped at: Completed 05-02-PLAN.md
+Stopped at: Completed 05-03-PLAN.md
 Resume file: None
 
 ## Phase 5 Progress
@@ -119,7 +123,7 @@ Resume file: None
 Phase 5 Talents System IN PROGRESS:
 - 05-01: Talent entity & types - COMPLETE
 - 05-02: TalentStore & seed data - COMPLETE
-- 05-03: TalentSelectionModal - PENDING
+- 05-03: TalentSelectionModal - COMPLETE
 - 05-04: TalentsPanel & integration - PENDING
 
-Next: 05-03-PLAN.md (TalentSelectionModal)
+Next: 05-04-PLAN.md (TalentsPanel & integration)
