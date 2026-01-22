@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-20)
 ## Current Position
 
 Phase: 6 of 6 (Integration & Observation)
-Plan: 1 of 5 in current phase
+Plan: 2 of 5 in current phase
 Status: In progress
-Last activity: 2026-01-22 -- Completed 06-01-PLAN.md
+Last activity: 2026-01-22 -- Completed 06-02-PLAN.md
 
-Progress: [█████████████████████░] 85% (22/26 plans)
+Progress: [█████████████████████░] 88% (23/26 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 22
+- Total plans completed: 23
 - Average duration: 2.8min
-- Total execution time: ~62min
+- Total execution time: ~65min
 
 **By Phase:**
 
@@ -32,10 +32,10 @@ Progress: [█████████████████████░] 8
 | 3. Skills System | 4/4 | 11min | 2.75min |
 | 4. Activities System | 6/6 | 10min | 1.7min |
 | 5. Talents System | 4/4 | 8min | 2min |
-| 6. Integration & Observation | 1/5 | 2min | 2min |
+| 6. Integration & Observation | 2/5 | 5min | 2.5min |
 
 **Recent Trend:**
-- Last 5 plans: 05-01 (2min), 05-02 (2min), 05-03 (2min), 05-04 (4min), 06-01 (2min)
+- Last 5 plans: 05-02 (2min), 05-03 (2min), 05-04 (4min), 06-01 (2min), 06-02 (3min)
 - Trend: Consistent fast execution
 
 *Updated after each plan completion*
@@ -110,6 +110,9 @@ Recent decisions affecting current work:
 - [06-01]: Balance config centralized in BalanceConfigStore (runtime-only, not persisted)
 - [06-01]: Native <details> element for collapsible DevToolsPanel
 - [06-01]: 8 balance parameters: activities (4), talents (2), personality (1), simulation (1)
+- [06-02]: 6 archetypes use extreme trait values (10 or 90) for maximum observable contrast
+- [06-02]: Selecting archetype replaces entire character for clean emergence testing
+- [06-02]: Random character uses Math.random() * 100 for all Big Five traits
 
 ### Pending Todos
 
@@ -122,20 +125,21 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-22
-Stopped at: Completed 06-01-PLAN.md
+Stopped at: Completed 06-02-PLAN.md
 Resume file: None
 
 ## Phase 6 Progress
 
 Phase 6 Integration & Observation IN PROGRESS:
 - 06-01: Balance configuration & Dev Tools - COMPLETE
-- 06-02: [next plan]
+- 06-02: Character Archetypes - COMPLETE
 - 06-03: [next plan]
 - 06-04: [next plan]
 - 06-05: [next plan]
 
-Phase 6 plan 1 delivered:
+Phase 6 plans 1-2 delivered:
 - BalanceConfigStore with 8 tunable parameters
 - DevToolsPanel UI with simulation speed and balance controls
-- All controls reactive via MobX
-- Reset to defaults functionality
+- 6 preset archetypes with extreme Big Five traits
+- Archetype selector dropdown and randomize button
+- CharacterStore.createFromData method for full character replacement
