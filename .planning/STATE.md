@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-20)
 ## Current Position
 
 Phase: 5 of 6 (Talents System)
-Plan: 1 of 4 in current phase
+Plan: 2 of 4 in current phase
 Status: In progress
-Last activity: 2026-01-22 -- Completed 05-01-PLAN.md
+Last activity: 2026-01-22 -- Completed 05-02-PLAN.md
 
-Progress: [██████████████████] 69% (18/26 plans)
+Progress: [███████████████████] 73% (19/26 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 17
+- Total plans completed: 19
 - Average duration: 3min
-- Total execution time: ~50min
+- Total execution time: ~54min
 
 **By Phase:**
 
@@ -33,7 +33,7 @@ Progress: [██████████████████] 69% (18/26 pl
 | 4. Activities System | 6/6 | 10min | 1.7min |
 
 **Recent Trend:**
-- Last 5 plans: 04-02 (1min), 04-03 (2min), 04-04 (1min), 04-05 (1min), 04-06 (3min)
+- Last 5 plans: 04-04 (1min), 04-05 (1min), 04-06 (3min), 05-01 (2min), 05-02 (2min)
 - Trend: Consistent fast execution
 
 *Updated after each plan completion*
@@ -96,6 +96,9 @@ Recent decisions affecting current work:
 - [05-01]: Rarity weights: common=70, rare=25, epic=5 (totals 100 for probability)
 - [05-01]: Domain can be null for universal talents
 - [05-01]: CSS color classes: common=text-base-content, rare=text-info, epic=text-secondary
+- [05-02]: 500 XP threshold per domain triggers talent pick
+- [05-02]: Max 3 pending picks queue (prevents stacking)
+- [05-02]: Cumulative weight algorithm for unbiased selection
 
 ### Pending Todos
 
@@ -108,15 +111,15 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-22
-Stopped at: Completed 05-01-PLAN.md
+Stopped at: Completed 05-02-PLAN.md
 Resume file: None
 
 ## Phase 5 Progress
 
 Phase 5 Talents System IN PROGRESS:
 - 05-01: Talent entity & types - COMPLETE
-- 05-02: TalentStore & seed data - PENDING
+- 05-02: TalentStore & seed data - COMPLETE
 - 05-03: TalentSelectionModal - PENDING
 - 05-04: TalentsPanel & integration - PENDING
 
-Next: 05-02-PLAN.md (TalentStore with weighted selection)
+Next: 05-03-PLAN.md (TalentSelectionModal)
