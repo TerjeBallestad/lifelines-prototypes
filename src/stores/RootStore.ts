@@ -4,6 +4,7 @@ import { createContext, useContext } from 'react';
 import { SkillStore } from './SkillStore';
 import { ActivityStore } from './ActivityStore';
 import { TalentStore } from './TalentStore';
+import { BalanceConfigStore } from '../config/balance';
 
 export class RootStore {
   characterStore: CharacterStore;
@@ -11,6 +12,7 @@ export class RootStore {
   skillStore: SkillStore;
   activityStore: ActivityStore;
   talentStore: TalentStore;
+  balanceConfig: BalanceConfigStore;
 
   constructor() {
     this.characterStore = new CharacterStore(this);
@@ -18,6 +20,7 @@ export class RootStore {
     this.skillStore = new SkillStore(this);
     this.activityStore = new ActivityStore(this);
     this.talentStore = new TalentStore(this);
+    this.balanceConfig = new BalanceConfigStore();
   }
 }
 export const StoreContext = createContext<RootStore | null>(null);
@@ -52,4 +55,9 @@ export function useActivityStore() {
 // Convenience hook for talent store access
 export function useTalentStore() {
   return useRootStore().talentStore;
+}
+
+// Convenience hook for balance config access
+export function useBalanceConfig() {
+  return useRootStore().balanceConfig;
 }
