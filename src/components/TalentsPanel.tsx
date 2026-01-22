@@ -35,9 +35,9 @@ export const TalentsPanel = observer(function TalentsPanel() {
 
         {/* Empty state */}
         {selectedTalents.length === 0 && (
-          <div className="text-center py-8 opacity-60">
+          <div className="py-8 text-center opacity-60">
             <p>No talents selected yet.</p>
-            <p className="text-sm mt-2">
+            <p className="mt-2 text-sm">
               Earn 500 domain XP to unlock talent picks!
             </p>
           </div>
@@ -45,7 +45,7 @@ export const TalentsPanel = observer(function TalentsPanel() {
 
         {/* Selected talents list */}
         {selectedTalents.length > 0 && (
-          <div className="space-y-3 mt-2">
+          <div className="mt-2 space-y-3">
             {selectedTalents.map((talent) => (
               <TalentCard key={talent.id} talent={talent} compact />
             ))}
@@ -54,33 +54,34 @@ export const TalentsPanel = observer(function TalentsPanel() {
 
         {/* Stat Breakdown Section */}
         {hasAnyMods && (
-          <div className="mt-4 pt-4 border-t border-base-300">
-            <h3 className="text-sm font-semibold opacity-80 mb-2">
+          <div className="border-base-300 mt-4 border-t pt-4">
+            <h3 className="mb-2 text-sm font-semibold opacity-80">
               Talent Effects
             </h3>
 
             {/* Capacity modifiers */}
             {hasCapacityMods && (
               <div className="mb-3">
-                <div className="text-xs font-medium opacity-60 uppercase mb-1">
+                <div className="mb-1 text-xs font-medium uppercase opacity-60">
                   Capacities
                 </div>
                 <div className="space-y-1">
-                  {Array.from(capacityBreakdown!.entries()).map(([key, mods]) => (
-                    <div key={key} className="flex justify-between text-sm">
-                      <span className="capitalize">
-                        {key.replace(/([A-Z])/g, ' $1').trim()}
-                      </span>
-                      <span className="text-success">
-                        {mods.map((m, i) => (
-                          <span key={i} title={m.source}>
-                            {i > 0 ? ', ' : ''}
-                            +{m.value}
-                          </span>
-                        ))}
-                      </span>
-                    </div>
-                  ))}
+                  {Array.from(capacityBreakdown.entries()).map(
+                    ([key, mods]) => (
+                      <div key={key} className="flex justify-between text-sm">
+                        <span className="capitalize">
+                          {key.replace(/([A-Z])/g, ' $1').trim()}
+                        </span>
+                        <span className="text-success">
+                          {mods.map((m, i) => (
+                            <span key={i} title={m.source}>
+                              {i > 0 ? ', ' : ''}+{m.value}
+                            </span>
+                          ))}
+                        </span>
+                      </div>
+                    )
+                  )}
                 </div>
               </div>
             )}
@@ -88,29 +89,34 @@ export const TalentsPanel = observer(function TalentsPanel() {
             {/* Resource modifiers */}
             {hasResourceMods && (
               <div>
-                <div className="text-xs font-medium opacity-60 uppercase mb-1">
+                <div className="mb-1 text-xs font-medium uppercase opacity-60">
                   Resource Rates
                 </div>
                 <div className="space-y-1">
-                  {Array.from(resourceBreakdown!.entries()).map(([key, mods]) => (
-                    <div key={key} className="flex justify-between text-sm">
-                      <span className="capitalize">
-                        {key.replace(/([A-Z])/g, ' $1').trim()}
-                      </span>
-                      <span>
-                        {mods.map((m, i) => (
-                          <span
-                            key={i}
-                            title={m.source}
-                            className={m.value < 0 ? 'text-success' : 'text-error'}
-                          >
-                            {i > 0 ? ', ' : ''}
-                            {m.value > 0 ? '+' : ''}{Math.round(m.value * 100)}%
-                          </span>
-                        ))}
-                      </span>
-                    </div>
-                  ))}
+                  {Array.from(resourceBreakdown.entries()).map(
+                    ([key, mods]) => (
+                      <div key={key} className="flex justify-between text-sm">
+                        <span className="capitalize">
+                          {key.replace(/([A-Z])/g, ' $1').trim()}
+                        </span>
+                        <span>
+                          {mods.map((m, i) => (
+                            <span
+                              key={i}
+                              title={m.source}
+                              className={
+                                m.value < 0 ? 'text-success' : 'text-error'
+                              }
+                            >
+                              {i > 0 ? ', ' : ''}
+                              {m.value > 0 ? '+' : ''}
+                              {Math.round(m.value * 100)}%
+                            </span>
+                          ))}
+                        </span>
+                      </div>
+                    )
+                  )}
                 </div>
               </div>
             )}
@@ -121,7 +127,8 @@ export const TalentsPanel = observer(function TalentsPanel() {
         {talentStore.pendingPicks > 0 && (
           <div className="alert alert-warning mt-4">
             <span>
-              {talentStore.pendingPicks} talent pick{talentStore.pendingPicks > 1 ? 's' : ''} available!
+              {talentStore.pendingPicks} talent pick
+              {talentStore.pendingPicks > 1 ? 's' : ''} available!
             </span>
             <button
               className="btn btn-sm btn-primary"
@@ -133,17 +140,20 @@ export const TalentsPanel = observer(function TalentsPanel() {
         )}
 
         {/* Dev: Force offer button (for testing) */}
-        {import.meta.env.DEV && selectedTalents.length < talentStore.talentsArray.length - 2 && (
-          <details className="mt-4">
-            <summary className="cursor-pointer text-sm opacity-60">Dev Tools</summary>
-            <button
-              className="btn btn-xs btn-outline mt-2"
-              onClick={() => talentStore.forceOffer()}
-            >
-              Force Talent Offer
-            </button>
-          </details>
-        )}
+        {import.meta.env.DEV &&
+          selectedTalents.length < talentStore.talentsArray.length - 2 && (
+            <details className="mt-4">
+              <summary className="cursor-pointer text-sm opacity-60">
+                Dev Tools
+              </summary>
+              <button
+                className="btn btn-xs btn-outline mt-2"
+                onClick={() => talentStore.forceOffer()}
+              >
+                Force Talent Offer
+              </button>
+            </details>
+          )}
       </div>
     </div>
   );

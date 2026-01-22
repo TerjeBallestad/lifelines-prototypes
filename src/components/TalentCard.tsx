@@ -33,7 +33,7 @@ export const TalentCard = observer(function TalentCard({
   return (
     <div
       className={`card bg-base-200 border-2 ${rarityBorderClass[talent.rarity]} ${
-        onSelect ? 'cursor-pointer hover:bg-base-300 transition-colors' : ''
+        onSelect ? 'hover:bg-base-300 cursor-pointer transition-colors' : ''
       } ${compact ? 'card-compact' : ''}`}
       onClick={onSelect}
     >
@@ -43,7 +43,9 @@ export const TalentCard = observer(function TalentCard({
           <h3 className={`card-title text-lg ${talent.rarityColorClass}`}>
             {talent.name}
           </h3>
-          <span className={`badge ${rarityBadgeClass[talent.rarity]} capitalize`}>
+          <span
+            className={`badge ${rarityBadgeClass[talent.rarity]} capitalize`}
+          >
             {talent.rarity}
           </span>
         </div>
@@ -61,7 +63,9 @@ export const TalentCard = observer(function TalentCard({
         {/* Effects breakdown (only in non-compact mode) */}
         {!compact && talent.effects.length > 0 && (
           <div className="mt-2 space-y-1">
-            <div className="text-xs font-semibold opacity-60 uppercase">Effects</div>
+            <div className="text-xs font-semibold uppercase opacity-60">
+              Effects
+            </div>
             {talent.effects.map((effect, idx) => (
               <div
                 key={idx}
@@ -77,7 +81,7 @@ export const TalentCard = observer(function TalentCard({
 
         {/* Select button (when interactive) */}
         {onSelect && (
-          <div className="card-actions justify-end mt-2">
+          <div className="card-actions mt-2 justify-end">
             <button className="btn btn-primary btn-sm">Select</button>
           </div>
         )}

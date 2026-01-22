@@ -100,7 +100,8 @@ export const TALENTS: TalentData[] = [
   {
     id: 'hyperfocus',
     name: 'Hyperfocus',
-    description: '+15 convergent thinking, but social battery drains 20% faster',
+    description:
+      '+15 convergent thinking, but social battery drains 20% faster',
     rarity: 'rare',
     domain: 'analytical',
     effects: [
@@ -187,7 +188,8 @@ export const TALENTS: TalentData[] = [
   {
     id: 'flow_state',
     name: 'Flow State',
-    description: 'All capacities +10, overskudd drains 20% faster (chaotic power)',
+    description:
+      'All capacities +10, overskudd drains 20% faster (chaotic power)',
     rarity: 'epic',
     domain: null,
     effects: [

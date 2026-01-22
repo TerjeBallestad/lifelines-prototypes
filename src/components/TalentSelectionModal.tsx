@@ -14,7 +14,11 @@ export const TalentSelectionModal = observer(function TalentSelectionModal() {
 
   // Auto-open when offer becomes available
   useEffect(() => {
-    if (talentStore.currentOffer && dialogRef.current && !dialogRef.current.open) {
+    if (
+      talentStore.currentOffer &&
+      dialogRef.current &&
+      !dialogRef.current.open
+    ) {
       dialogRef.current.showModal();
     }
   }, [talentStore.currentOffer]);
@@ -32,16 +36,10 @@ export const TalentSelectionModal = observer(function TalentSelectionModal() {
   if (!talentStore.currentOffer) return null;
 
   return (
-    <dialog
-      ref={dialogRef}
-      className="modal"
-      onCancel={handleCancel}
-    >
+    <dialog ref={dialogRef} className="modal" onCancel={handleCancel}>
       <div className="modal-box max-w-2xl">
         {/* Header */}
-        <h3 className="font-bold text-xl mb-2">
-          Choose a Talent
-        </h3>
+        <h3 className="mb-2 text-xl font-bold">Choose a Talent</h3>
 
         {/* Pending picks indicator */}
         {talentStore.pendingPicks > 1 && (
@@ -64,7 +62,7 @@ export const TalentSelectionModal = observer(function TalentSelectionModal() {
         </div>
 
         {/* Info text */}
-        <p className="text-sm opacity-60 mt-4 text-center">
+        <p className="mt-4 text-center text-sm opacity-60">
           Talents are permanent. Choose wisely!
         </p>
       </div>
