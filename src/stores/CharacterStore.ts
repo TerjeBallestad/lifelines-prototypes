@@ -9,7 +9,9 @@ import {
 import { type RootStore } from './RootStore';
 
 export class CharacterStore {
-  character: Character | null = null;
+  // Multi-character support with map-based storage
+  characters: Map<string, Character> = new Map();
+  activeCharacterId: string | null = null;
 
   // Store root reference for cross-store communication (used in future plans)
   private readonly root: RootStore;
@@ -21,7 +23,7 @@ export class CharacterStore {
 
   // Creates a new character with default values
   createCharacter(name: string): Character {
-    this.character = new Character({
+    const char = new Character({
       id: crypto.randomUUID(),
       name,
       personality: defaultPersonality(),
@@ -29,24 +31,65 @@ export class CharacterStore {
       resources: defaultResources(),
     });
     // Set root store reference for talent modifier access
-    this.character.setRootStore(this.root);
-    return this.character;
+    char.setRootStore(this.root);
+    this.characters.set(char.id, char);
+    if (!this.activeCharacterId) {
+      this.activeCharacterId = char.id;
+    }
+    return char;
   }
 
   // Creates a new character from provided CharacterData
   createFromData(data: CharacterData): Character {
-    this.character = new Character(data);
-    this.character.setRootStore(this.root);
-    return this.character;
+    const char = new Character(data);
+    char.setRootStore(this.root);
+    this.characters.set(char.id, char);
+    if (!this.activeCharacterId) {
+      this.activeCharacterId = char.id;
+    }
+    return char;
   }
 
-  // Clears the current character
+  // Gets a character by ID
+  getCharacter(id: string): Character | undefined {
+    return this.characters.get(id);
+  }
+
+  // Removes a character from the map
+  removeCharacter(id: string): void {
+    this.characters.delete(id);
+    if (this.activeCharacterId === id) {
+      this.activeCharacterId = null;
+    }
+  }
+
+  // Clears the active character (for backward compatibility)
   clearCharacter(): void {
-    this.character = null;
+    if (this.activeCharacterId) {
+      this.removeCharacter(this.activeCharacterId);
+    }
+  }
+
+  // Sets the active character
+  setActiveCharacter(id: string): void {
+    if (this.characters.has(id)) {
+      this.activeCharacterId = id;
+    }
+  }
+
+  // Returns the currently active character
+  get character(): Character | null {
+    if (!this.activeCharacterId) return null;
+    return this.characters.get(this.activeCharacterId) ?? null;
   }
 
   get hasCharacter(): boolean {
-    return this.character !== null;
+    return this.characters.size > 0;
+  }
+
+  // Returns all characters as an array
+  get allCharacters(): Character[] {
+    return Array.from(this.characters.values());
   }
 
   // Expose root store for cross-store access (will be used in future plans)
