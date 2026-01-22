@@ -5,6 +5,7 @@ import { CharacterPanel } from './components/CharacterPanel';
 import { SimulationControls } from './components/SimulationControls';
 import { SkillTreePanel } from './components/SkillTreePanel';
 import { TalentSelectionModal } from './components/TalentSelectionModal';
+import { TalentsPanel } from './components/TalentsPanel';
 import { useCharacterStore } from './stores/RootStore';
 
 const App = observer(function App() {
@@ -31,6 +32,9 @@ const App = observer(function App() {
         </div>
         <div className="mt-6">
           <ActivityPanel />
+        </div>
+        <div className="mt-6">
+          <TalentsPanel />
         </div>
       </main>
     </div>
