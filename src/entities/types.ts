@@ -148,3 +148,36 @@ export interface ActivityData {
     minEnergy?: number;
   };
 }
+
+// ============================================================================
+// Talent System Types
+// ============================================================================
+
+// Talent rarity tiers (affects spawn weight)
+export type TalentRarity = 'common' | 'rare' | 'epic';
+
+// Modifier effect types
+export type ModifierType = 'flat' | 'percentage' | 'conditional';
+
+// Modifier effect definition
+export interface ModifierEffect {
+  type: ModifierType;
+  target: 'capacity' | 'resource' | 'skill' | 'activity';
+  targetKey: string; // capacity name, resource name, etc.
+  value: number; // +10 flat, or 0.15 for 15%
+  condition?: {
+    type: 'resource_threshold' | 'activity_type' | 'domain';
+    check: string; // e.g., "energy < 30", "domain === 'physical'"
+  };
+  description: string; // For UI display
+}
+
+// Data required to construct a Talent
+export interface TalentData {
+  id: string;
+  name: string;
+  description: string;
+  rarity: TalentRarity;
+  domain: SkillDomain | null; // null = universal talent
+  effects: ModifierEffect[];
+}
