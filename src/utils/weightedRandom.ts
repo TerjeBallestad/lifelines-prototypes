@@ -40,7 +40,10 @@ export function weightedSampleWithoutReplacement(
     const selectedIdx = cumulative.findIndex((c) => c >= rand);
 
     // Record selection and remove from pool
-    indices.push(availableIndices[selectedIdx]);
+    const selected = availableIndices[selectedIdx];
+    if (selected !== undefined) {
+      indices.push(selected);
+    }
     availableWeights.splice(selectedIdx, 1);
     availableIndices.splice(selectedIdx, 1);
   }

@@ -14,7 +14,7 @@ const MAX_PENDING_PICKS = 3;
 export class TalentStore {
   talentPool = observable.map<string, Talent>();
   selectedTalents = observable.map<string, Talent>();
-  pendingPicks: number = 0;
+  pendingPicks = 0;
   currentOffer: Talent[] | null = null;
 
   /** Track XP thresholds crossed per domain to avoid double-triggering */
@@ -75,7 +75,9 @@ export class TalentStore {
 
     const weights = available.map((t) => t.rarityWeight);
     const indices = weightedSampleWithoutReplacement(weights, 3);
-    this.currentOffer = indices.map((i) => available[i]);
+    this.currentOffer = indices
+      .map((i) => available[i])
+      .filter((t): t is Talent => t !== undefined);
   }
 
   /** Select a talent from current offer */
