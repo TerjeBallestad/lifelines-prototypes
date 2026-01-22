@@ -52,47 +52,42 @@ export const ActivityPanel = observer(function ActivityPanel() {
         {/* Domain Tabs */}
         <div role="tablist" className="tabs tabs-box">
           {availableDomains.map((domain) => (
-            <>
-              <button
-                key={domain}
-                role="tab"
-                className={clsx('tab', {
-                  'tab-active': selectedDomain === domain,
-                })}
-                onClick={() => setSelectedDomain(domain)}
-              >
-                {DOMAIN_LABELS[domain]}
-              </button>
-              <div className="tab-content">
-                {/* Activity List */}
-                <div className="space-y-2">
-                  {domainActivities.length > 0 ? (
-                    STARTER_ACTIVITIES.filter(
-                      (activity) => activity.domain === domain
-                    ).map((activity) => (
-                      <ActivityCard
-                        key={activity.id}
-                        activity={activity}
-                        variant="preview"
-                        onSelect={() => handleSelectActivity(activity)}
-                      />
-                    ))
-                  ) : (
-                    <div className="text-base-content/50 p-4 text-sm italic">
-                      No activities in this domain
-                    </div>
-                  )}
-                </div>
-
-                {/* Help text */}
-                <p className="text-base-content/50 my-3 text-xs">
-                  Click an activity to add it to the queue. Activities execute
-                  in order when the simulation runs.
-                </p>
-              </div>
-            </>
+            <button
+              key={domain}
+              role="tab"
+              className={clsx('tab', {
+                'tab-active': selectedDomain === domain,
+              })}
+              onClick={() => setSelectedDomain(domain)}
+            >
+              {DOMAIN_LABELS[domain]}
+            </button>
           ))}
         </div>
+
+        {/* Activity List */}
+        <div className="space-y-2">
+          {domainActivities.length > 0 ? (
+            domainActivities.map((activity) => (
+              <ActivityCard
+                key={activity.id}
+                activity={activity}
+                variant="preview"
+                onSelect={() => handleSelectActivity(activity)}
+              />
+            ))
+          ) : (
+            <div className="text-base-content/50 p-4 text-sm italic">
+              No activities in this domain
+            </div>
+          )}
+        </div>
+
+        {/* Help text */}
+        <p className="text-base-content/50 mt-3 text-xs">
+          Click an activity to add it to the queue. Activities execute in
+          order when the simulation runs.
+        </p>
       </div>
 
       {/* Right: Activity Queue */}

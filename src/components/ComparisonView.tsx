@@ -24,8 +24,12 @@ export const ComparisonView = observer(function ComparisonView({
       characterStore.removeCharacter(id);
     }
 
-    const data1 = createArchetypeCharacter(ARCHETYPES[arch1Index].id);
-    const data2 = createArchetypeCharacter(ARCHETYPES[arch2Index].id);
+    const arch1 = ARCHETYPES[arch1Index];
+    const arch2 = ARCHETYPES[arch2Index];
+    if (!arch1 || !arch2) return; // Safety check
+
+    const data1 = createArchetypeCharacter(arch1.id);
+    const data2 = createArchetypeCharacter(arch2.id);
 
     const c1 = characterStore.createFromData(data1);
     const c2 = characterStore.createFromData(data2);
