@@ -205,7 +205,11 @@ export class SkillStore {
   // Add domain XP (called by activities in Phase 4)
   addDomainXP(domain: SkillDomain, amount: number): void {
     const current = this.domainXP.get(domain) ?? 0;
-    this.domainXP.set(domain, current + amount);
+    const newTotal = current + amount;
+    this.domainXP.set(domain, newTotal);
+
+    // Check for talent pick threshold
+    this.root.talentStore.checkForTalentPick(domain, newTotal);
   }
 
   // Expose root store for cross-store access
