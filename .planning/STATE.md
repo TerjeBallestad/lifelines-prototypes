@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-20)
 
 **Core value:** Simple psychological variables combine to produce emergent characters -- no labels, just humanity
-**Current focus:** Phase 4 Activities System - COMPLETE
+**Current focus:** Phase 5 Talents System - In progress
 
 ## Current Position
 
-Phase: 4 of 6 (Activities System) - COMPLETE
-Plan: 6 of 6 in current phase
-Status: Phase complete
-Last activity: 2026-01-22 -- Completed 04-06-PLAN.md
+Phase: 5 of 6 (Talents System)
+Plan: 1 of 4 in current phase
+Status: In progress
+Last activity: 2026-01-22 -- Completed 05-01-PLAN.md
 
-Progress: [█████████████████] 68% (17/25 plans)
+Progress: [██████████████████] 69% (18/26 plans)
 
 ## Performance Metrics
 
@@ -93,6 +93,9 @@ Recent decisions affecting current work:
 - [04-06]: Two-column layout: activity selection (left), queue display (right)
 - [04-06]: Domain tabs filter activities (Social, Organisation, Physical, Creative)
 - [04-06]: Click-to-enqueue pattern for activity selection
+- [05-01]: Rarity weights: common=70, rare=25, epic=5 (totals 100 for probability)
+- [05-01]: Domain can be null for universal talents
+- [05-01]: CSS color classes: common=text-base-content, rare=text-info, epic=text-secondary
 
 ### Pending Todos
 
@@ -105,24 +108,15 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-22
-Stopped at: Completed 04-06-PLAN.md (Phase 4 complete)
+Stopped at: Completed 05-01-PLAN.md
 Resume file: None
 
-## Phase 4 Summary
+## Phase 5 Progress
 
-Phase 4 Activities System COMPLETE:
-- 04-01: Activity entity & types - COMPLETE
-- 04-02: ActivityStore - COMPLETE
-- 04-03: Tick integration & Sonner - COMPLETE
-- 04-04: Activities seed data - COMPLETE
-- 04-05: Activity queue UI - COMPLETE
-- 04-06: ActivityPanel - COMPLETE
+Phase 5 Talents System IN PROGRESS:
+- 05-01: Talent entity & types - COMPLETE
+- 05-02: TalentStore & seed data - PENDING
+- 05-03: TalentSelectionModal - PENDING
+- 05-04: TalentsPanel & integration - PENDING
 
-Phase 4 success criteria met:
-- 8 activities with capacity profiles for success calculation
-- Player assigns activities via click-to-enqueue
-- Activities award domain XP with diminishing returns
-- Activities succeed/fail based on capacity matching + mastery
-- Resources drain per-tick with personality modifiers
-
-Ready for Phase 5: Talents System
+Next: 05-02-PLAN.md (TalentStore with weighted selection)
