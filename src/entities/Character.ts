@@ -113,13 +113,20 @@ export class Character {
       agreeableness,
     } = this.personality;
 
+    // Get personality modifier strength from balance config (default 1.0)
+    const strength = this.root?.balanceConfig?.personalityModifierStrength ?? 1.0;
+
+    // Helper to apply strength multiplier to personality modifiers
+    const scaledModifier = (traitValue: number) =>
+      personalityToModifier(traitValue) * strength;
+
     // Extraversion effects
     if (extraversion < 50) {
       // Introverts drain socialBattery faster in social situations
       modifiers.push({
         resourceKey: 'socialBattery',
         source: 'low extraversion',
-        drainModifier: personalityToModifier(100 - extraversion), // Invert: low E = high drain
+        drainModifier: scaledModifier(100 - extraversion), // Invert: low E = high drain
         recoveryModifier: 0,
       });
     }
@@ -129,7 +136,7 @@ export class Character {
         resourceKey: 'mood',
         source: 'high extraversion',
         drainModifier: 0,
-        recoveryModifier: personalityToModifier(extraversion),
+        recoveryModifier: scaledModifier(extraversion),
       });
     }
 
@@ -139,8 +146,8 @@ export class Character {
       modifiers.push({
         resourceKey: 'stress',
         source: 'high neuroticism',
-        drainModifier: personalityToModifier(neuroticism), // For stress, "drain" means it increases
-        recoveryModifier: -personalityToModifier(neuroticism), // Negative = slower recovery
+        drainModifier: scaledModifier(neuroticism), // For stress, "drain" means it increases
+        recoveryModifier: -scaledModifier(neuroticism), // Negative = slower recovery
       });
     }
 
@@ -151,7 +158,7 @@ export class Character {
         resourceKey: 'focus',
         source: 'high conscientiousness',
         drainModifier: 0,
-        recoveryModifier: personalityToModifier(conscientiousness),
+        recoveryModifier: scaledModifier(conscientiousness),
       });
     }
     if (conscientiousness < 50) {
@@ -159,7 +166,7 @@ export class Character {
       modifiers.push({
         resourceKey: 'motivation',
         source: 'low conscientiousness',
-        drainModifier: personalityToModifier(100 - conscientiousness), // Invert: low C = high drain
+        drainModifier: scaledModifier(100 - conscientiousness), // Invert: low C = high drain
         recoveryModifier: 0,
       });
     }
@@ -171,7 +178,7 @@ export class Character {
         resourceKey: 'overskudd',
         source: 'high openness',
         drainModifier: 0,
-        recoveryModifier: personalityToModifier(openness),
+        recoveryModifier: scaledModifier(openness),
       });
     }
 
@@ -182,7 +189,7 @@ export class Character {
         resourceKey: 'socialBattery',
         source: 'high agreeableness',
         drainModifier: 0,
-        recoveryModifier: personalityToModifier(agreeableness),
+        recoveryModifier: scaledModifier(agreeableness),
       });
     }
 
