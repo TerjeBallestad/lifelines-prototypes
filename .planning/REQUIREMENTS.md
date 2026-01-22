@@ -9,19 +9,19 @@ Requirements for the first prototype. Each maps to roadmap phases.
 
 ### Personality System (OCEAN)
 
-- [ ] **PERS-01**: Character has Big Five personality dimensions (Openness, Conscientiousness, Extraversion, Agreeableness, Neuroticism)
-- [ ] **PERS-02**: Each dimension is a numeric value (e.g., 0-100 or -1 to 1)
-- [ ] **PERS-03**: Personality dimensions are displayed visually on character
-- [ ] **PERS-04**: Personality affects resource drain rates (e.g., low extraversion = social energy drains faster in groups)
-- [ ] **PERS-05**: Personality affects activity preferences (what feels easy vs hard)
+- [x] **PERS-01**: Character has Big Five personality dimensions (Openness, Conscientiousness, Extraversion, Agreeableness, Neuroticism)
+- [x] **PERS-02**: Each dimension is a numeric value (e.g., 0-100 or -1 to 1)
+- [x] **PERS-03**: Personality dimensions are displayed visually on character
+- [x] **PERS-04**: Personality affects resource drain rates (e.g., low extraversion = social energy drains faster in groups)
+- [x] **PERS-05**: Personality affects activity preferences (what feels easy vs hard)
 
 ### Mental Capacities
 
-- [ ] **CAPS-01**: Character has mental capacities: Divergent Thinking, Convergent Thinking, Working Memory, Attention Span, Processing Speed, Emotional Regulation
-- [ ] **CAPS-02**: Each capacity is a numeric value
-- [ ] **CAPS-03**: Capacities displayed visually on character
-- [ ] **CAPS-04**: Capacities affect activity success/failure likelihood
-- [ ] **CAPS-05**: Capacities affect skill learning speed (aptitude)
+- [x] **CAPS-01**: Character has mental capacities: Divergent Thinking, Convergent Thinking, Working Memory, Attention Span, Processing Speed, Emotional Regulation
+- [x] **CAPS-02**: Each capacity is a numeric value
+- [x] **CAPS-03**: Capacities displayed visually on character
+- [x] **CAPS-04**: Capacities affect activity success/failure likelihood
+- [x] **CAPS-05**: Capacities affect skill learning speed (aptitude)
 
 ### Skills
 
@@ -42,11 +42,11 @@ Requirements for the first prototype. Each maps to roadmap phases.
 
 ### Resources
 
-- [ ] **RSRC-01**: Characters have mental/emotional resources (Energy, Social Battery, Stress Level)
-- [ ] **RSRC-02**: Resources drain and recover over time
-- [ ] **RSRC-03**: Drain/recovery rates affected by personality dimensions
-- [ ] **RSRC-04**: Resources displayed visually
-- [ ] **RSRC-05**: Low resources affect activity success and willingness
+- [x] **RSRC-01**: Characters have mental/emotional resources (Energy, Social Battery, Stress Level)
+- [x] **RSRC-02**: Resources drain and recover over time
+- [x] **RSRC-03**: Drain/recovery rates affected by personality dimensions
+- [x] **RSRC-04**: Resources displayed visually
+- [x] **RSRC-05**: Low resources affect activity success and willingness
 
 ### Talents
 
@@ -56,10 +56,10 @@ Requirements for the first prototype. Each maps to roadmap phases.
 
 ### Observation & Emergence
 
-- [ ] **OBSV-01**: Patient state dashboard shows personality, capacities, skills, resources at a glance
-- [ ] **OBSV-02**: Player can observe patient attempting activities and failing
-- [ ] **OBSV-03**: Different personality + capacity combinations produce visibly different behavior
-- [ ] **OBSV-04**: No diagnostic labels shown -- behavior emerges from underlying systems
+- [x] **OBSV-01**: Patient state dashboard shows personality, capacities, skills, resources at a glance
+- [x] **OBSV-02**: Player can observe patient attempting activities and failing
+- [x] **OBSV-03**: Different personality + capacity combinations produce visibly different behavior
+- [x] **OBSV-04**: No diagnostic labels shown -- behavior emerges from underlying systems
 
 ### Prototype Infrastructure
 
@@ -145,10 +145,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TLNT-01 | Phase 5 | Complete |
 | TLNT-02 | Phase 5 | Complete |
 | TLNT-03 | Phase 5 | Complete |
-| OBSV-01 | Phase 6 | Pending |
-| OBSV-02 | Phase 6 | Pending |
-| OBSV-03 | Phase 6 | Pending |
-| OBSV-04 | Phase 6 | Pending |
+| OBSV-01 | Phase 6 | Complete |
+| OBSV-02 | Phase 6 | Complete |
+| OBSV-03 | Phase 6 | Complete |
+| OBSV-04 | Phase 6 | Complete |
 | INFR-01 | Phase 1 | Complete |
 | INFR-02 | Phase 1 | Complete |
 | INFR-03 | Phase 3 | Complete |
@@ -162,4 +162,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2025-01-20*
-*Last updated: 2026-01-22 (Phase 5 complete)*
+*Last updated: 2026-01-22 (Phase 6 complete - Milestone v1 finished)*

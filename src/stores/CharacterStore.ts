@@ -10,7 +10,7 @@ import { type RootStore } from './RootStore';
 
 export class CharacterStore {
   // Multi-character support with map-based storage
-  characters: Map<string, Character> = new Map();
+  characters = new Map<string, Character>();
   activeCharacterId: string | null = null;
 
   // Store root reference for cross-store communication (used in future plans)

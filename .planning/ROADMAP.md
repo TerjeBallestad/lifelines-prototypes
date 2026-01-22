@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: Skills System** - Skill DAG with dependencies, states, and XP
 - [x] **Phase 4: Activities System** - Activities that train skills and drain resources
 - [x] **Phase 5: Talents System** - Roguelike modifiers with pick-1-of-3 selection
-- [ ] **Phase 6: Integration & Observation** - Dashboard, emergence validation, tweaking tools
+- [x] **Phase 6: Integration & Observation** - Dashboard, emergence validation, tweaking tools
 
 ## Phase Details
 
@@ -123,10 +123,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 06-01-PLAN.md — Balance config store and centralized Dev Tools panel
-- [ ] 06-02-PLAN.md — Preset archetypes (6 Big Five extremes) and character selection
-- [ ] 06-03-PLAN.md — Side-by-side comparison mode for emergence validation
-- [ ] 06-04-PLAN.md — Clinical terminology audit and final verification
+- [x] 06-01-PLAN.md — Balance config store and centralized Dev Tools panel
+- [x] 06-02-PLAN.md — Preset archetypes (6 Big Five extremes) and character selection
+- [x] 06-03-PLAN.md — Side-by-side comparison mode for emergence validation
+- [x] 06-04-PLAN.md — Clinical terminology audit and final verification
 
 ## Progress
 
@@ -140,8 +140,8 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | 3. Skills System | 4/4 | Complete | 2026-01-21 |
 | 4. Activities System | 6/6 | Complete | 2026-01-22 |
 | 5. Talents System | 4/4 | Complete | 2026-01-22 |
-| 6. Integration & Observation | 0/4 | Planned | - |
+| 6. Integration & Observation | 4/4 | Complete | 2026-01-22 |
 
 ---
 *Roadmap created: 2026-01-20*
-*Last updated: 2026-01-22 (Phase 6 planned)*
+*Last updated: 2026-01-22 (Phase 6 complete - Milestone v1 finished)*
