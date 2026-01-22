@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-20)
 ## Current Position
 
 Phase: 6 of 6 (Integration & Observation)
-Plan: 2 of 5 in current phase
+Plan: 3 of 5 in current phase
 Status: In progress
-Last activity: 2026-01-22 -- Completed 06-02-PLAN.md
+Last activity: 2026-01-22 -- Completed 06-03-PLAN.md
 
-Progress: [█████████████████████░] 88% (23/26 plans)
+Progress: [█████████████████████░] 92% (24/26 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 23
+- Total plans completed: 24
 - Average duration: 2.8min
-- Total execution time: ~65min
+- Total execution time: ~67min
 
 **By Phase:**
 
@@ -32,10 +32,10 @@ Progress: [█████████████████████░] 8
 | 3. Skills System | 4/4 | 11min | 2.75min |
 | 4. Activities System | 6/6 | 10min | 1.7min |
 | 5. Talents System | 4/4 | 8min | 2min |
-| 6. Integration & Observation | 2/5 | 5min | 2.5min |
+| 6. Integration & Observation | 3/5 | 7min | 2.3min |
 
 **Recent Trend:**
-- Last 5 plans: 05-02 (2min), 05-03 (2min), 05-04 (4min), 06-01 (2min), 06-02 (3min)
+- Last 5 plans: 05-03 (2min), 05-04 (4min), 06-01 (2min), 06-02 (3min), 06-03 (2min)
 - Trend: Consistent fast execution
 
 *Updated after each plan completion*
@@ -113,6 +113,11 @@ Recent decisions affecting current work:
 - [06-02]: 6 archetypes use extreme trait values (10 or 90) for maximum observable contrast
 - [06-02]: Selecting archetype replaces entire character for clean emergence testing
 - [06-02]: Random character uses Math.random() * 100 for all Big Five traits
+- [06-03]: Map-based storage for multi-character support with active character pointer
+- [06-03]: Backward compatibility maintained via character getter
+- [06-03]: Comparison mode as separate full-screen view (not overlay)
+- [06-03]: Preset archetype pairs for quick emergence testing
+- [06-03]: SimulationStore ticks all characters (not just active one)
 
 ### Pending Todos
 
@@ -125,7 +130,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-22
-Stopped at: Completed 06-02-PLAN.md
+Stopped at: Completed 06-03-PLAN.md
 Resume file: None
 
 ## Phase 6 Progress
@@ -133,13 +138,16 @@ Resume file: None
 Phase 6 Integration & Observation IN PROGRESS:
 - 06-01: Balance configuration & Dev Tools - COMPLETE
 - 06-02: Character Archetypes - COMPLETE
-- 06-03: [next plan]
+- 06-03: Comparison Mode - COMPLETE
 - 06-04: [next plan]
 - 06-05: [next plan]
 
-Phase 6 plans 1-2 delivered:
+Phase 6 plans 1-3 delivered:
 - BalanceConfigStore with 8 tunable parameters
 - DevToolsPanel UI with simulation speed and balance controls
 - 6 preset archetypes with extreme Big Five traits
 - Archetype selector dropdown and randomize button
 - CharacterStore.createFromData method for full character replacement
+- Map-based multi-character storage with active character pointer
+- ComparisonView for side-by-side archetype observation
+- Comparison mode toggle in App with full-screen layout
