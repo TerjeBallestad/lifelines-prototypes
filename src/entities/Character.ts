@@ -5,6 +5,7 @@ import type {
   Capacities,
   Resources,
   ResourceKey,
+  CapacityKey,
 } from './types';
 import {
   personalityToModifier,
@@ -12,6 +13,7 @@ import {
   clampResource,
   type ResourceModifier,
 } from '../utils/modifiers';
+import { type RootStore } from '../stores/RootStore';
 
 // Base drain rates per tick (resources that naturally decrease)
 const BASE_DRAIN_RATES: Partial<Record<ResourceKey, number>> = {
@@ -41,16 +43,25 @@ export class Character {
   personality: Personality;
   capacities: Capacities;
   resources: Resources;
+  private root?: RootStore;
 
-  constructor(data: CharacterData) {
+  constructor(data: CharacterData, root?: RootStore) {
     this.id = data.id;
     this.name = data.name;
     this.personality = data.personality;
     this.capacities = data.capacities;
     this.resources = data.resources;
+    this.root = root;
 
     // Makes all properties observable and all methods actions
     makeAutoObservable(this);
+  }
+
+  /**
+   * Set root store reference (called by CharacterStore after construction)
+   */
+  setRootStore(root: RootStore): void {
+    this.root = root;
   }
 
   // Computed: display name with fallback
@@ -175,7 +186,117 @@ export class Character {
       });
     }
 
+    // Add talent modifiers for resources
+    if (this.root?.talentStore) {
+      const talents = this.root.talentStore.selectedTalentsArray;
+      for (const talent of talents) {
+        for (const effect of talent.effects) {
+          // Only apply resource modifiers here (percentage type for drain/recovery)
+          if (effect.target === 'resource' && effect.type === 'percentage') {
+            modifiers.push({
+              resourceKey: effect.targetKey as ResourceKey,
+              source: talent.name,
+              drainModifier: effect.value, // positive = faster drain, negative = slower
+              recoveryModifier: 0,
+            });
+          }
+        }
+      }
+    }
+
     return modifiers;
+  }
+
+  /**
+   * Computed: Effective capacities including talent flat bonuses.
+   * Returns a new Capacities object with talent modifiers applied.
+   */
+  get effectiveCapacities(): Capacities {
+    // Start with base capacities
+    const effective: Capacities = { ...this.capacities };
+
+    // Apply talent capacity bonuses
+    if (this.root?.talentStore) {
+      const talents = this.root.talentStore.selectedTalentsArray;
+      for (const talent of talents) {
+        for (const effect of talent.effects) {
+          if (effect.target === 'capacity' && effect.type === 'flat') {
+            const key = effect.targetKey as CapacityKey;
+            if (key in effective) {
+              effective[key] = (effective[key] ?? 0) + effect.value;
+            }
+          }
+        }
+      }
+    }
+
+    return effective;
+  }
+
+  /**
+   * Computed: Breakdown of capacity modifiers by talent.
+   * Returns map of capacityKey -> array of { source, value } for UI display.
+   */
+  get capacityModifierBreakdown(): Map<
+    CapacityKey,
+    Array<{ source: string; value: number }>
+  > {
+    const breakdown = new Map<
+      CapacityKey,
+      Array<{ source: string; value: number }>
+    >();
+
+    if (this.root?.talentStore) {
+      const talents = this.root.talentStore.selectedTalentsArray;
+      for (const talent of talents) {
+        for (const effect of talent.effects) {
+          if (effect.target === 'capacity' && effect.type === 'flat') {
+            const key = effect.targetKey as CapacityKey;
+            if (!breakdown.has(key)) {
+              breakdown.set(key, []);
+            }
+            breakdown.get(key)!.push({ source: talent.name, value: effect.value });
+          }
+        }
+      }
+    }
+
+    return breakdown;
+  }
+
+  /**
+   * Computed: Breakdown of resource modifiers by talent.
+   * Returns map of resourceKey -> array of { source, value, type } for UI display.
+   */
+  get resourceModifierBreakdown(): Map<
+    ResourceKey,
+    Array<{ source: string; value: number; type: 'drain' | 'recovery' }>
+  > {
+    const breakdown = new Map<
+      ResourceKey,
+      Array<{ source: string; value: number; type: 'drain' | 'recovery' }>
+    >();
+
+    if (this.root?.talentStore) {
+      const talents = this.root.talentStore.selectedTalentsArray;
+      for (const talent of talents) {
+        for (const effect of talent.effects) {
+          if (effect.target === 'resource' && effect.type === 'percentage') {
+            const key = effect.targetKey as ResourceKey;
+            if (!breakdown.has(key)) {
+              breakdown.set(key, []);
+            }
+            breakdown.get(key)!.push({
+              source: talent.name,
+              value: effect.value,
+              type: effect.value > 0 ? 'drain' : 'recovery',
+            });
+          }
+        }
+      }
+    }
+
+    return breakdown;
   }
 
   /**

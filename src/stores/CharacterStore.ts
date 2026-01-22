@@ -27,6 +27,8 @@ export class CharacterStore {
       capacities: defaultCapacities(),
       resources: defaultResources(),
     });
+    // Set root store reference for talent modifier access
+    this.character.setRootStore(this.root);
     return this.character;
   }
 
