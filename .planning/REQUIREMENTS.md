@@ -33,12 +33,12 @@ Requirements for the first prototype. Each maps to roadmap phases.
 
 ### Activities
 
-- [ ] **ACTV-01**: Activities are actions the patient can attempt (cook meal, make phone call, go for walk)
-- [ ] **ACTV-02**: Activities have capacity profiles (which capacities affect success)
-- [ ] **ACTV-03**: Activities have resource costs (drain energy based on personality fit)
-- [ ] **ACTV-04**: Completing activities generates XP for related skills
-- [ ] **ACTV-05**: Activities can succeed or fail based on skill level + capacities
-- [ ] **ACTV-06**: Player assigns activities to patient
+- [x] **ACTV-01**: Activities are actions the patient can attempt (cook meal, make phone call, go for walk)
+- [x] **ACTV-02**: Activities have capacity profiles (which capacities affect success)
+- [x] **ACTV-03**: Activities have resource costs (drain energy based on personality fit)
+- [x] **ACTV-04**: Completing activities generates XP for related skills
+- [x] **ACTV-05**: Activities can succeed or fail based on skill level + capacities
+- [x] **ACTV-06**: Player assigns activities to patient
 
 ### Resources
 
@@ -50,9 +50,9 @@ Requirements for the first prototype. Each maps to roadmap phases.
 
 ### Talents
 
-- [ ] **TLNT-01**: Talents are special modifiers (e.g., "Slow Metabolism", "Quick Learner")
-- [ ] **TLNT-02**: Talents modify capacities, skills, resources, or activity outcomes
-- [ ] **TLNT-03**: Player selects 1 of 3 talents when offered (roguelike style)
+- [x] **TLNT-01**: Talents are special modifiers (e.g., "Slow Metabolism", "Quick Learner")
+- [x] **TLNT-02**: Talents modify capacities, skills, resources, or activity outcomes
+- [x] **TLNT-03**: Player selects 1 of 3 talents when offered (roguelike style)
 
 ### Observation & Emergence
 
@@ -66,8 +66,8 @@ Requirements for the first prototype. Each maps to roadmap phases.
 - [x] **INFR-01**: Ability to create a character with configurable personality and capacities
 - [x] **INFR-02**: Ability to tweak values and see behavior change
 - [x] **INFR-03**: At least 5-8 skills in a meaningful dependency tree
-- [ ] **INFR-04**: At least 5-8 activities that interact with the systems
-- [ ] **INFR-05**: At least 9-12 talents in the pool for selection
+- [x] **INFR-04**: At least 5-8 activities that interact with the systems
+- [x] **INFR-05**: At least 9-12 talents in the pool for selection
 
 ## v2 Requirements
 
@@ -131,20 +131,20 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SKIL-03 | Phase 3 | Complete |
 | SKIL-04 | Phase 3 | Complete |
 | SKIL-05 | Phase 3 | Complete |
-| ACTV-01 | Phase 4 | Pending |
-| ACTV-02 | Phase 4 | Pending |
-| ACTV-03 | Phase 4 | Pending |
-| ACTV-04 | Phase 4 | Pending |
-| ACTV-05 | Phase 4 | Pending |
-| ACTV-06 | Phase 4 | Pending |
+| ACTV-01 | Phase 4 | Complete |
+| ACTV-02 | Phase 4 | Complete |
+| ACTV-03 | Phase 4 | Complete |
+| ACTV-04 | Phase 4 | Complete |
+| ACTV-05 | Phase 4 | Complete |
+| ACTV-06 | Phase 4 | Complete |
 | RSRC-01 | Phase 2 | Complete |
 | RSRC-02 | Phase 2 | Complete |
 | RSRC-03 | Phase 2 | Complete |
 | RSRC-04 | Phase 2 | Complete |
 | RSRC-05 | Phase 2 | Complete |
-| TLNT-01 | Phase 5 | Pending |
-| TLNT-02 | Phase 5 | Pending |
-| TLNT-03 | Phase 5 | Pending |
+| TLNT-01 | Phase 5 | Complete |
+| TLNT-02 | Phase 5 | Complete |
+| TLNT-03 | Phase 5 | Complete |
 | OBSV-01 | Phase 6 | Pending |
 | OBSV-02 | Phase 6 | Pending |
 | OBSV-03 | Phase 6 | Pending |
@@ -152,8 +152,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INFR-01 | Phase 1 | Complete |
 | INFR-02 | Phase 1 | Complete |
 | INFR-03 | Phase 3 | Complete |
-| INFR-04 | Phase 4 | Pending |
-| INFR-05 | Phase 5 | Pending |
+| INFR-04 | Phase 4 | Complete |
+| INFR-05 | Phase 5 | Complete |
 
 **Coverage:**
 - v1 requirements: 34 total
@@ -162,4 +162,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2025-01-20*
-*Last updated: 2026-01-21 (Phase 3 complete)*
+*Last updated: 2026-01-22 (Phase 5 complete)*

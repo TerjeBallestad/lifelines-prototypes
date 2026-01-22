@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-20)
 
 **Core value:** Simple psychological variables combine to produce emergent characters -- no labels, just humanity
-**Current focus:** Phase 5 Talents System - In progress
+**Current focus:** Phase 5 Talents System - COMPLETE
 
 ## Current Position
 
-Phase: 5 of 6 (Talents System)
-Plan: 3 of 4 in current phase
-Status: In progress
-Last activity: 2026-01-22 -- Completed 05-03-PLAN.md
+Phase: 5 of 6 (Talents System) - COMPLETE
+Plan: 4 of 4 in current phase
+Status: Phase complete
+Last activity: 2026-01-22 -- Completed 05-04-PLAN.md
 
-Progress: [████████████████████] 77% (20/26 plans)
+Progress: [█████████████████████] 81% (21/26 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 20
+- Total plans completed: 21
 - Average duration: 3min
-- Total execution time: ~56min
+- Total execution time: ~60min
 
 **By Phase:**
 
@@ -31,10 +31,10 @@ Progress: [████████████████████] 77% (20
 | 2. Character Core | 5/5 | 16min | 3.2min |
 | 3. Skills System | 4/4 | 11min | 2.75min |
 | 4. Activities System | 6/6 | 10min | 1.7min |
-| 5. Talents System | 3/4 | 6min | 2min |
+| 5. Talents System | 4/4 | 8min | 2min |
 
 **Recent Trend:**
-- Last 5 plans: 04-05 (1min), 04-06 (3min), 05-01 (2min), 05-02 (2min), 05-03 (2min)
+- Last 5 plans: 04-06 (3min), 05-01 (2min), 05-02 (2min), 05-03 (2min), 05-04 (4min)
 - Trend: Consistent fast execution
 
 *Updated after each plan completion*
@@ -103,6 +103,9 @@ Recent decisions affecting current work:
 - [05-03]: Native dialog showModal() for accessibility and backdrop management
 - [05-03]: Vertical card stack layout per CONTEXT.md decision
 - [05-03]: onCancel preventDefault blocks ESC dismissal
+- [05-04]: effectiveCapacities used for both display and gameplay calculations
+- [05-04]: Stat breakdown shows individual talent contributions with tooltips
+- [05-04]: Dev Tools section hidden in details element for clean UI
 
 ### Pending Todos
 
@@ -115,15 +118,21 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-22
-Stopped at: Completed 05-03-PLAN.md
+Stopped at: Completed 05-04-PLAN.md (Phase 5 complete)
 Resume file: None
 
-## Phase 5 Progress
+## Phase 5 Summary
 
-Phase 5 Talents System IN PROGRESS:
+Phase 5 Talents System COMPLETE:
 - 05-01: Talent entity & types - COMPLETE
 - 05-02: TalentStore & seed data - COMPLETE
 - 05-03: TalentSelectionModal - COMPLETE
-- 05-04: TalentsPanel & integration - PENDING
+- 05-04: TalentsPanel & integration - COMPLETE
 
-Next: 05-04-PLAN.md (TalentsPanel & integration)
+Phase 5 success criteria met:
+- 10 talents in pool (5 common, 3 rare, 2 epic)
+- Talents modify capacities and resource drain rates
+- Player selects 1 of 3 offered talents (roguelike modal)
+- Selected talents visibly affect radar chart and activity success
+
+Ready for Phase 6: Integration & Observation
