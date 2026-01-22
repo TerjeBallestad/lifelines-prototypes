@@ -120,13 +120,13 @@ Plans:
   2. Player can observe character attempting activities and failing
   3. Different personality + capacity combinations produce visibly different behavior
   4. No diagnostic labels shown -- behavior emerges from underlying systems
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 06-01: Patient state dashboard (unified view)
-- [ ] 06-02: Activity observation with success/failure feedback
-- [ ] 06-03: Emergence validation (create contrasting characters)
-- [ ] 06-04: Remove any accidental labels, verify pure emergence
+- [ ] 06-01-PLAN.md — Balance config store and centralized Dev Tools panel
+- [ ] 06-02-PLAN.md — Preset archetypes (6 Big Five extremes) and character selection
+- [ ] 06-03-PLAN.md — Side-by-side comparison mode for emergence validation
+- [ ] 06-04-PLAN.md — Clinical terminology audit and final verification
 
 ## Progress
 
@@ -140,8 +140,8 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | 3. Skills System | 4/4 | Complete | 2026-01-21 |
 | 4. Activities System | 6/6 | Complete | 2026-01-22 |
 | 5. Talents System | 4/4 | Complete | 2026-01-22 |
-| 6. Integration & Observation | 0/4 | Not started | - |
+| 6. Integration & Observation | 0/4 | Planned | - |
 
 ---
 *Roadmap created: 2026-01-20*
-*Last updated: 2026-01-22 (Phase 5 complete)*
+*Last updated: 2026-01-22 (Phase 6 planned)*
