@@ -239,11 +239,11 @@ export class Character {
    */
   get capacityModifierBreakdown(): Map<
     CapacityKey,
-    Array<{ source: string; value: number }>
+    { source: string; value: number }[]
   > {
     const breakdown = new Map<
       CapacityKey,
-      Array<{ source: string; value: number }>
+      { source: string; value: number }[]
     >();
 
     if (this.root?.talentStore) {
@@ -252,10 +252,12 @@ export class Character {
         for (const effect of talent.effects) {
           if (effect.target === 'capacity' && effect.type === 'flat') {
             const key = effect.targetKey as CapacityKey;
-            if (!breakdown.has(key)) {
-              breakdown.set(key, []);
+            const existing = breakdown.get(key);
+            if (existing) {
+              existing.push({ source: talent.name, value: effect.value });
+            } else {
+              breakdown.set(key, [{ source: talent.name, value: effect.value }]);
             }
-            breakdown.get(key)!.push({ source: talent.name, value: effect.value });
           }
         }
       }
@@ -270,11 +272,11 @@ export class Character {
    */
   get resourceModifierBreakdown(): Map<
     ResourceKey,
-    Array<{ source: string; value: number; type: 'drain' | 'recovery' }>
+    { source: string; value: number; type: 'drain' | 'recovery' }[]
   > {
     const breakdown = new Map<
       ResourceKey,
-      Array<{ source: string; value: number; type: 'drain' | 'recovery' }>
+      { source: string; value: number; type: 'drain' | 'recovery' }[]
     >();
 
     if (this.root?.talentStore) {
@@ -283,14 +285,17 @@ export class Character {
         for (const effect of talent.effects) {
           if (effect.target === 'resource' && effect.type === 'percentage') {
             const key = effect.targetKey as ResourceKey;
-            if (!breakdown.has(key)) {
-              breakdown.set(key, []);
-            }
-            breakdown.get(key)!.push({
+            const entry = {
               source: talent.name,
               value: effect.value,
-              type: effect.value > 0 ? 'drain' : 'recovery',
-            });
+              type: (effect.value > 0 ? 'drain' : 'recovery') as 'drain' | 'recovery',
+            };
+            const existing = breakdown.get(key);
+            if (existing) {
+              existing.push(entry);
+            } else {
+              breakdown.set(key, [entry]);
+            }
           }
         }
       }
