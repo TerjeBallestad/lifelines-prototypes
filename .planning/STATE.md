@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-20)
 
 **Core value:** Simple psychological variables combine to produce emergent characters -- no labels, just humanity
-**Current focus:** Phase 5 Talents System - COMPLETE
+**Current focus:** Phase 6 Integration & Observation - IN PROGRESS
 
 ## Current Position
 
-Phase: 5 of 6 (Talents System) - COMPLETE
-Plan: 4 of 4 in current phase
-Status: Phase complete
-Last activity: 2026-01-22 -- Completed 05-04-PLAN.md
+Phase: 6 of 6 (Integration & Observation)
+Plan: 1 of 5 in current phase
+Status: In progress
+Last activity: 2026-01-22 -- Completed 06-01-PLAN.md
 
-Progress: [█████████████████████] 81% (21/26 plans)
+Progress: [█████████████████████░] 85% (22/26 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 21
-- Average duration: 3min
-- Total execution time: ~60min
+- Total plans completed: 22
+- Average duration: 2.8min
+- Total execution time: ~62min
 
 **By Phase:**
 
@@ -32,9 +32,10 @@ Progress: [█████████████████████] 81% 
 | 3. Skills System | 4/4 | 11min | 2.75min |
 | 4. Activities System | 6/6 | 10min | 1.7min |
 | 5. Talents System | 4/4 | 8min | 2min |
+| 6. Integration & Observation | 1/5 | 2min | 2min |
 
 **Recent Trend:**
-- Last 5 plans: 04-06 (3min), 05-01 (2min), 05-02 (2min), 05-03 (2min), 05-04 (4min)
+- Last 5 plans: 05-01 (2min), 05-02 (2min), 05-03 (2min), 05-04 (4min), 06-01 (2min)
 - Trend: Consistent fast execution
 
 *Updated after each plan completion*
@@ -106,6 +107,9 @@ Recent decisions affecting current work:
 - [05-04]: effectiveCapacities used for both display and gameplay calculations
 - [05-04]: Stat breakdown shows individual talent contributions with tooltips
 - [05-04]: Dev Tools section hidden in details element for clean UI
+- [06-01]: Balance config centralized in BalanceConfigStore (runtime-only, not persisted)
+- [06-01]: Native <details> element for collapsible DevToolsPanel
+- [06-01]: 8 balance parameters: activities (4), talents (2), personality (1), simulation (1)
 
 ### Pending Todos
 
@@ -118,21 +122,20 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-22
-Stopped at: Completed 05-04-PLAN.md (Phase 5 complete)
+Stopped at: Completed 06-01-PLAN.md
 Resume file: None
 
-## Phase 5 Summary
+## Phase 6 Progress
 
-Phase 5 Talents System COMPLETE:
-- 05-01: Talent entity & types - COMPLETE
-- 05-02: TalentStore & seed data - COMPLETE
-- 05-03: TalentSelectionModal - COMPLETE
-- 05-04: TalentsPanel & integration - COMPLETE
+Phase 6 Integration & Observation IN PROGRESS:
+- 06-01: Balance configuration & Dev Tools - COMPLETE
+- 06-02: [next plan]
+- 06-03: [next plan]
+- 06-04: [next plan]
+- 06-05: [next plan]
 
-Phase 5 success criteria met:
-- 10 talents in pool (5 common, 3 rare, 2 epic)
-- Talents modify capacities and resource drain rates
-- Player selects 1 of 3 offered talents (roguelike modal)
-- Selected talents visibly affect radar chart and activity success
-
-Ready for Phase 6: Integration & Observation
+Phase 6 plan 1 delivered:
+- BalanceConfigStore with 8 tunable parameters
+- DevToolsPanel UI with simulation speed and balance controls
+- All controls reactive via MobX
+- Reset to defaults functionality
