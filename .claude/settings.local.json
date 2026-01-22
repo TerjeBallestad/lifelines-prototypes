@@ -21,7 +21,12 @@
       "Bash(git -C /Users/godstemning/projects-local/lifelines-prototypes log --oneline -5)",
       "Bash(cat:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(npm view:*)"
+      "Bash(npm view:*)",
+      "mcp__daisyui__search_daisyui_documentation",
+      "Bash(git check-ignore:*)",
+      "Bash(ls:*)",
+      "mcp__daisyui__fetch_generic_url_content",
+      "mcp__daisyui__search_daisyui_code"
     ]
   }
 }
