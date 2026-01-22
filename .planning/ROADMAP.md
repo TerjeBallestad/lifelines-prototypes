@@ -103,13 +103,13 @@ Plans:
   2. Talents modify capacities, skills, resources, or activity outcomes
   3. Player can select 1 of 3 offered talents (roguelike style)
   4. Selected talents visibly affect character behavior
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 05-01: Talent entity with modifier system
-- [ ] 05-02: TalentStore with pool and selection logic
-- [ ] 05-03: Pick-1-of-3 selection UI
-- [ ] 05-04: Talent effects integration with existing systems
+- [ ] 05-01-PLAN.md — Talent entity class and type definitions
+- [ ] 05-02-PLAN.md — TalentStore with weighted random selection and talent seed data
+- [ ] 05-03-PLAN.md — TalentSelectionModal with pick-1-of-3 UI
+- [ ] 05-04-PLAN.md — TalentsPanel and talent effect integration with human verification
 
 ### Phase 6: Integration & Observation
 **Goal**: All systems work together to produce emergent behavior visible on dashboard
@@ -139,9 +139,9 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | 2. Character Core | 5/5 | Complete | 2026-01-21 |
 | 3. Skills System | 4/4 | Complete | 2026-01-21 |
 | 4. Activities System | 6/6 | Complete | 2026-01-22 |
-| 5. Talents System | 0/4 | Not started | - |
+| 5. Talents System | 0/4 | Planned | - |
 | 6. Integration & Observation | 0/4 | Not started | - |
 
 ---
 *Roadmap created: 2026-01-20*
-*Last updated: 2026-01-22 (Phase 4 complete)*
+*Last updated: 2026-01-22 (Phase 5 planned)*
