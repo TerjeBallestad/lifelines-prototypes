@@ -4,6 +4,7 @@ import {
   defaultPersonality,
   defaultCapacities,
   defaultResources,
+  type CharacterData,
 } from '../entities/types';
 import { type RootStore } from './RootStore';
 
@@ -28,6 +29,13 @@ export class CharacterStore {
       resources: defaultResources(),
     });
     // Set root store reference for talent modifier access
+    this.character.setRootStore(this.root);
+    return this.character;
+  }
+
+  // Creates a new character from provided CharacterData
+  createFromData(data: CharacterData): Character {
+    this.character = new Character(data);
     this.character.setRootStore(this.root);
     return this.character;
   }

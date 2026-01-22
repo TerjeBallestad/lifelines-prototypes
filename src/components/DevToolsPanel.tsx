@@ -1,13 +1,18 @@
 import { observer } from 'mobx-react-lite';
 import { useRootStore } from '../stores/RootStore';
 import type { BalanceConfig } from '../config/balance';
+import {
+  ARCHETYPES,
+  createArchetypeCharacter,
+  createRandomCharacter,
+} from '../data/archetypes';
 
 /**
  * Dev Tools panel for tuning game balance and simulation parameters.
  * Uses native <details> element with DaisyUI styling for collapsible UI.
  */
 export const DevToolsPanel = observer(function DevToolsPanel() {
-  const { simulationStore, balanceConfig } = useRootStore();
+  const { simulationStore, balanceConfig, characterStore } = useRootStore();
 
   // Handler for balance config updates
   const handleBalanceChange = (field: keyof BalanceConfig, value: number) => {
@@ -182,6 +187,47 @@ export const DevToolsPanel = observer(function DevToolsPanel() {
           className="btn btn-sm btn-outline btn-warning mt-4 w-full"
         >
           Reset All to Defaults
+        </button>
+
+        {/* Character Presets section */}
+        <div className="divider text-sm">Character Presets</div>
+
+        {/* Archetype dropdown */}
+        <div className="form-control">
+          <label className="label py-1">
+            <span className="label-text text-xs">Load Archetype</span>
+          </label>
+          <select
+            className="select select-sm select-bordered"
+            defaultValue=""
+            onChange={(e) => {
+              if (e.target.value) {
+                const data = createArchetypeCharacter(e.target.value);
+                characterStore.createFromData(data);
+                e.target.value = ''; // Reset select
+              }
+            }}
+          >
+            <option value="" disabled>
+              Select archetype...
+            </option>
+            {ARCHETYPES.map((arch) => (
+              <option key={arch.id} value={arch.id}>
+                {arch.name} - {arch.description}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Randomize button */}
+        <button
+          onClick={() => {
+            const data = createRandomCharacter();
+            characterStore.createFromData(data);
+          }}
+          className="btn btn-sm btn-outline mt-2 w-full"
+        >
+          Randomize Character
         </button>
       </div>
     </details>
