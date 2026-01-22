@@ -28,8 +28,8 @@ export class Activity {
   };
 
   // Mutable mastery properties
-  masteryLevel: number = 1; // 1-10
-  masteryXP: number = 0;
+  masteryLevel = 1; // 1-10
+  masteryXP = 0;
 
   constructor(data: ActivityData) {
     this.id = data.id;
@@ -99,7 +99,10 @@ export class Activity {
     this.masteryXP += amount;
 
     // Auto-level up while XP exceeds threshold (handles multiple levels at once)
-    while (this.masteryLevel < 10 && this.masteryXP >= this.nextMasteryXPRequired) {
+    while (
+      this.masteryLevel < 10 &&
+      this.masteryXP >= this.nextMasteryXPRequired
+    ) {
       this.masteryXP -= this.nextMasteryXPRequired;
       this.masteryLevel++;
     }

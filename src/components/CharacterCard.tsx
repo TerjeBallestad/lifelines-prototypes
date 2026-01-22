@@ -7,7 +7,7 @@ export const CharacterCard = observer(function CharacterCard() {
 
   if (!character) {
     return (
-      <div className="card bg-base-200 shadow-xl max-w-md">
+      <div className="card bg-base-200 max-w-md shadow-xl">
         <div className="card-body">
           <h2 className="card-title">No Character</h2>
           <p className="text-base-content/70">
@@ -27,7 +27,7 @@ export const CharacterCard = observer(function CharacterCard() {
   }
 
   return (
-    <div className="card bg-base-200 shadow-xl max-w-md">
+    <div className="card bg-base-200 max-w-md shadow-xl">
       <div className="card-body">
         <h2 className="card-title">{character.displayName}</h2>
 
@@ -77,7 +77,7 @@ export const CharacterCard = observer(function CharacterCard() {
           <div>N: {character.personality.neuroticism}</div>
         </div>
 
-        <div className="card-actions justify-end mt-4">
+        <div className="card-actions mt-4 justify-end">
           <button
             className="btn btn-outline btn-error btn-sm"
             onClick={() => store.clearCharacter()}

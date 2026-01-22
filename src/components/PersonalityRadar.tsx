@@ -31,7 +31,7 @@ export const PersonalityRadar = observer(function PersonalityRadar({
     if (payload && payload.length) {
       const data = payload[0].payload;
       return (
-        <div className="bg-base-200 p-2 rounded shadow-lg text-sm">
+        <div className="bg-base-200 rounded p-2 text-sm shadow-lg">
           <p>
             {data.trait}: {data.value}
           </p>
@@ -42,7 +42,7 @@ export const PersonalityRadar = observer(function PersonalityRadar({
   };
 
   return (
-    <div className="w-full h-48">
+    <div className="h-48 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <RadarChart data={data}>
           <PolarGrid stroke="var(--color-primary)" />

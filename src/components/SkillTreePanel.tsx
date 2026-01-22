@@ -31,7 +31,7 @@ export const SkillTreePanel = observer(function SkillTreePanel() {
 
   return (
     <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Skill Tree</h2>
+      <h2 className="mb-4 text-xl font-bold">Skill Tree</h2>
 
       {/* Domain tabs */}
       <div role="tablist" className="tabs tabs-box mb-4">
@@ -48,24 +48,24 @@ export const SkillTreePanel = observer(function SkillTreePanel() {
                 {skillStore.domainXP.get(domain) ?? 0} XP
               </span>
             </button>
-            <div className="tab-content ">
+            <div className="tab-content">
               {/* Domain XP display */}
               <div className="mb-4 text-lg">
                 <span className="font-semibold">
                   {DOMAIN_LABELS[domain]} XP:
                 </span>
-                <span className="ml-2 text-primary font-bold">{domainXP}</span>
+                <span className="text-primary ml-2 font-bold">{domainXP}</span>
               </div>
 
               {/* Skill grid */}
               {skills.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   {skills.map((skill) => (
                     <SkillCard key={skill.id} skillId={skill.id} />
                   ))}
                 </div>
               ) : (
-                <div className="text-base-content/50 text-center py-8">
+                <div className="text-base-content/50 py-8 text-center">
                   No skills in this domain yet
                 </div>
               )}

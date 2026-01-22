@@ -6,7 +6,7 @@ export const SimulationControls = observer(function SimulationControls() {
   const { isRunning, speed, tickCount, formattedTime } = simulationStore;
 
   return (
-    <div className="flex items-center gap-4 p-4 bg-base-200 rounded-lg">
+    <div className="bg-base-200 flex items-center gap-4 rounded-lg p-4">
       {/* Play/Pause */}
       <button
         className={`btn btn-circle ${isRunning ? 'btn-error' : 'btn-success'}`}
@@ -16,12 +16,12 @@ export const SimulationControls = observer(function SimulationControls() {
         aria-label={isRunning ? 'Pause simulation' : 'Start simulation'}
       >
         {isRunning ? (
-          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+          <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
             <rect x="6" y="4" width="3" height="12" />
             <rect x="11" y="4" width="3" height="12" />
           </svg>
         ) : (
-          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+          <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
             <polygon points="5,3 19,10 5,17" />
           </svg>
         )}
@@ -29,7 +29,7 @@ export const SimulationControls = observer(function SimulationControls() {
 
       {/* Speed slider */}
       <div className="flex flex-col gap-1">
-        <label className="text-xs text-base-content/70">Speed: {speed}x</label>
+        <label className="text-base-content/70 text-xs">Speed: {speed}x</label>
         <input
           type="range"
           min="0"
@@ -42,7 +42,7 @@ export const SimulationControls = observer(function SimulationControls() {
       </div>
 
       {/* Time display */}
-      <div className="text-sm font-mono text-base-content/70">
+      <div className="text-base-content/70 font-mono text-sm">
         Tick: {tickCount} ({formattedTime})
       </div>
     </div>

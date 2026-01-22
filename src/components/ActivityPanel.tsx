@@ -5,6 +5,7 @@ import { STARTER_ACTIVITIES } from '../data/activities';
 import { ActivityCard } from './ActivityCard';
 import { ActivityQueue } from './ActivityQueue';
 import type { SkillDomain } from '../entities/types';
+import clsx from 'clsx';
 
 // Domains that have activities (filter out analytical which has no activities yet)
 const ACTIVITY_DOMAINS: SkillDomain[] = [
@@ -43,48 +44,55 @@ export const ActivityPanel = observer(function ActivityPanel() {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 gap-6 p-4 lg:grid-cols-2">
       {/* Left: Activity Selection */}
       <div className="space-y-4">
         <h2 className="text-lg font-bold">Activities</h2>
 
         {/* Domain Tabs */}
-        <div role="tablist" className="tabs tabs-bordered">
+        <div role="tablist" className="tabs tabs-box">
           {availableDomains.map((domain) => (
-            <button
-              key={domain}
-              role="tab"
-              className={`tab ${selectedDomain === domain ? 'tab-active' : ''}`}
-              onClick={() => setSelectedDomain(domain)}
-            >
-              {DOMAIN_LABELS[domain]}
-            </button>
+            <>
+              <button
+                key={domain}
+                role="tab"
+                className={clsx('tab', {
+                  'tab-active': selectedDomain === domain,
+                })}
+                onClick={() => setSelectedDomain(domain)}
+              >
+                {DOMAIN_LABELS[domain]}
+              </button>
+              <div className="tab-content">
+                {/* Activity List */}
+                <div className="space-y-2">
+                  {domainActivities.length > 0 ? (
+                    STARTER_ACTIVITIES.filter(
+                      (activity) => activity.domain === domain
+                    ).map((activity) => (
+                      <ActivityCard
+                        key={activity.id}
+                        activity={activity}
+                        variant="preview"
+                        onSelect={() => handleSelectActivity(activity)}
+                      />
+                    ))
+                  ) : (
+                    <div className="text-base-content/50 p-4 text-sm italic">
+                      No activities in this domain
+                    </div>
+                  )}
+                </div>
+
+                {/* Help text */}
+                <p className="text-base-content/50 my-3 text-xs">
+                  Click an activity to add it to the queue. Activities execute
+                  in order when the simulation runs.
+                </p>
+              </div>
+            </>
           ))}
         </div>
-
-        {/* Activity List */}
-        <div className="space-y-2">
-          {domainActivities.length > 0 ? (
-            domainActivities.map((activity) => (
-              <ActivityCard
-                key={activity.id}
-                activity={activity}
-                variant="preview"
-                onSelect={() => handleSelectActivity(activity)}
-              />
-            ))
-          ) : (
-            <div className="text-sm text-base-content/50 italic p-4">
-              No activities in this domain
-            </div>
-          )}
-        </div>
-
-        {/* Help text */}
-        <p className="text-xs text-base-content/50">
-          Click an activity to add it to the queue. Activities execute in order
-          when the simulation runs.
-        </p>
       </div>
 
       {/* Right: Activity Queue */}

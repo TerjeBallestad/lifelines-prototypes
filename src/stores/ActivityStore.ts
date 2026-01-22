@@ -22,7 +22,7 @@ export class ActivityStore {
   currentActivity: Activity | null = null;
 
   // Ticks elapsed on current activity
-  currentProgress: number = 0;
+  currentProgress = 0;
 
   // Current execution state
   currentState: CurrentState = 'idle';
@@ -116,7 +116,10 @@ export class ActivityStore {
     if (activity.startRequirements) {
       const { minOverskudd, minEnergy } = activity.startRequirements;
 
-      if (minOverskudd !== undefined && character.resources.overskudd < minOverskudd) {
+      if (
+        minOverskudd !== undefined &&
+        character.resources.overskudd < minOverskudd
+      ) {
         return {
           canStart: false,
           reason: `${character.name} doesn't have the energy to start this`,
@@ -187,10 +190,10 @@ export class ActivityStore {
     const check = this.canStartActivity(next);
 
     if (check.canStart) {
-      this.currentActivity = this.dequeue()!;
+      this.currentActivity = this.dequeue() || null;
       this.currentProgress = 0;
       this.currentState = 'active';
-      toast.success(`Started: ${this.currentActivity.name}`);
+      toast.success(`Started: ${this.currentActivity?.name}`);
     } else {
       // Skip this activity, notify, try next
       toast.error(check.reason ?? 'Cannot start activity', {
@@ -240,7 +243,10 @@ export class ActivityStore {
     if (!activity || !character) return 0;
 
     const capacityProfile = activity.capacityProfile;
-    const profileEntries = Object.entries(capacityProfile) as [CapacityKey, number][];
+    const profileEntries = Object.entries(capacityProfile) as [
+      CapacityKey,
+      number,
+    ][];
 
     // If no capacity profile defined, activity always succeeds
     if (profileEntries.length === 0) return 1;
@@ -258,7 +264,7 @@ export class ActivityStore {
     const averageRatio = totalRatio / profileEntries.length;
 
     // Base probability: 50% at ratio 0.5, 100% at ratio 1.0+
-    let baseProbability = Math.min(1, averageRatio);
+    const baseProbability = Math.min(1, averageRatio);
 
     // Mastery bonus: +5% per mastery level (up to +45% at level 10)
     // This represents learned efficiency overcoming natural capacity gaps
@@ -305,8 +311,14 @@ export class ActivityStore {
       // Apply penalty resource effects (10% additional drain on key resources)
       if (character) {
         const penaltyDrain = 5; // Flat penalty
-        character.resources.overskudd = Math.max(0, character.resources.overskudd - penaltyDrain);
-        character.resources.mood = Math.max(0, character.resources.mood - penaltyDrain);
+        character.resources.overskudd = Math.max(
+          0,
+          character.resources.overskudd - penaltyDrain
+        );
+        character.resources.mood = Math.max(
+          0,
+          character.resources.mood - penaltyDrain
+        );
       }
 
       const probabilityPercent = Math.round(probability * 100);
@@ -333,7 +345,7 @@ export class ActivityStore {
 
     for (const [key, baseEffect] of Object.entries(activity.resourceEffects)) {
       const resourceKey = key as ResourceKey;
-      let effect = baseEffect! * speedMultiplier;
+      let effect = baseEffect * speedMultiplier;
 
       // Mastery reduces drain, modestly increases restore
       if (effect < 0) {
@@ -343,7 +355,10 @@ export class ActivityStore {
       }
 
       // Apply to character resources (clamp handled in updateResources)
-      const newValue = Math.max(0, Math.min(100, character.resources[resourceKey] + effect));
+      const newValue = Math.max(
+        0,
+        Math.min(100, character.resources[resourceKey] + effect)
+      );
       character.resources[resourceKey] = newValue;
     }
   }

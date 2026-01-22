@@ -17,7 +17,8 @@ export const ActivityQueue = observer(function ActivityQueue() {
       case 'fixed':
         return Math.min(100, (currentProgress / mode.ticks) * 100);
       case 'variable': {
-        const adjusted = mode.baseTicks * (1 - currentActivity.masterySpeedBonus);
+        const adjusted =
+          mode.baseTicks * (1 - currentActivity.masterySpeedBonus);
         return Math.min(100, (currentProgress / adjusted) * 100);
       }
       case 'threshold':
@@ -30,7 +31,7 @@ export const ActivityQueue = observer(function ActivityQueue() {
     <div className="space-y-3">
       {/* Current Activity */}
       <div>
-        <h4 className="text-sm font-semibold mb-2 flex items-center gap-2">
+        <h4 className="mb-2 flex items-center gap-2 text-sm font-semibold">
           Current Activity
           {simulationStore.isRunning && currentActivity && (
             <span className="loading loading-spinner loading-xs"></span>
@@ -43,7 +44,7 @@ export const ActivityQueue = observer(function ActivityQueue() {
             progress={getProgressPercent()}
           />
         ) : (
-          <div className="text-sm text-base-content/50 italic p-3 bg-base-200 rounded-lg">
+          <div className="text-base-content/50 bg-base-200 rounded-lg p-3 text-sm italic">
             No activity in progress
           </div>
         )}
@@ -51,9 +52,7 @@ export const ActivityQueue = observer(function ActivityQueue() {
 
       {/* Queued Activities */}
       <div>
-        <h4 className="text-sm font-semibold mb-2">
-          Queue ({queue.length})
-        </h4>
+        <h4 className="mb-2 text-sm font-semibold">Queue ({queue.length})</h4>
         {queue.length > 0 ? (
           <div className="space-y-2">
             {queue.map((activity, index) => (
@@ -66,7 +65,7 @@ export const ActivityQueue = observer(function ActivityQueue() {
             ))}
           </div>
         ) : (
-          <div className="text-sm text-base-content/50 italic p-3 bg-base-200 rounded-lg">
+          <div className="text-base-content/50 bg-base-200 rounded-lg p-3 text-sm italic">
             Queue empty - add activities from the panel
           </div>
         )}

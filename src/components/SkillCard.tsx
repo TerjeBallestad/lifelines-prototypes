@@ -8,7 +8,7 @@ interface SkillCardProps {
 
 // State-based styling
 const stateStyles: Record<SkillState, string> = {
-  locked: 'opacity-50 grayscale',
+  locked: 'opacity-50 ',
   unlockable: 'ring-2 ring-primary',
   unlocked: '',
   mastered: 'ring-2 ring-accent bg-accent/10',
@@ -49,7 +49,7 @@ export const SkillCard = observer(function SkillCard({
   };
 
   return (
-    <div className={`card bg-base-200 ${stateStyles[state]}`}>
+    <div className={`card bg-base-100 ${stateStyles[state]}`}>
       <div className="card-body p-4">
         {/* Header: name + level badge + state icon */}
         <div className="flex items-center justify-between">
@@ -67,15 +67,15 @@ export const SkillCard = observer(function SkillCard({
         </div>
 
         {/* Description */}
-        <p className="text-sm text-base-content/70">{skill.description}</p>
+        <p className="text-base-content/70 text-sm">{skill.description}</p>
 
         {/* Prerequisites section for locked skills */}
         {state === 'locked' && prerequisites.length > 0 && (
           <div className="mt-2">
-            <p className="text-xs font-semibold text-base-content/80 mb-1">
+            <p className="text-base-content/80 mb-1 text-xs font-semibold">
               Prerequisites:
             </p>
-            <ul className="text-xs space-y-0.5">
+            <ul className="space-y-0.5 text-xs">
               {prerequisites.map((prereq) => (
                 <li
                   key={prereq.skillId}
@@ -97,7 +97,7 @@ export const SkillCard = observer(function SkillCard({
 
         {/* Unlock button */}
         {showUnlockButton && (
-          <div className="card-actions justify-end mt-2">
+          <div className="card-actions mt-2 justify-end">
             <button
               className="btn btn-sm btn-primary"
               disabled={buttonDisabled}

@@ -47,11 +47,11 @@ export const ResourceGauge = observer(function ResourceGauge({
         aria-valuenow={percentage}
         aria-label={label}
       >
-        <span className="text-xs font-mono">{Math.round(value)}</span>
+        <span className="font-mono text-xs">{Math.round(value)}</span>
       </div>
-      <span className="text-xs text-base-content/70 text-center">{label}</span>
+      <span className="text-base-content/70 text-center text-xs">{label}</span>
       {modifierText && (
-        <span className="text-xs text-base-content/50 text-center">
+        <span className="text-base-content/50 text-center text-xs">
           {modifierText}
         </span>
       )}
