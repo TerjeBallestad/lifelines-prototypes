@@ -122,6 +122,7 @@ Recent decisions affecting current work:
 - [06-04]: Personality modifier strength wired to BalanceConfigStore for tunable emergence
 - [06-04]: Archetype selection replaces entire character for clean emergence testing
 - [06-04]: Clinical terminology audit pattern established for future enforcement
+- [06-04]: DaisyUI tab-content requires interleaved structure (tab-active + tab-content pairs)
 
 ### Pending Todos
 
@@ -154,7 +155,7 @@ Phase 6 delivered:
 - ComparisonView for side-by-side archetype observation
 - Comparison mode toggle in App with full-screen layout
 - Clinical terminology audit (zero DSM terms found)
-- UI consistency polish (tab structure, spacing, typography)
+- UI consistency polish (proper DaisyUI tab-content pattern, spacing, typography)
 - Human-verified emergence validation (OBSV-03)
 - Personality modifier strength wired to balance config
 

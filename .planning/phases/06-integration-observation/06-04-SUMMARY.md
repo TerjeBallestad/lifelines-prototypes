@@ -27,7 +27,7 @@ tech-stack:
   added: []
   patterns:
     - Clinical terminology audit pattern (grep for DSM terms)
-    - DaisyUI tab structure (buttons outside content for proper display)
+    - DaisyUI tab-content pattern (interleaved tabs + content with tab-active class)
     - Type-safe archetype array access with safety checks
 
 key-files:
@@ -41,7 +41,7 @@ key-files:
 
 decisions:
   - No clinical/DSM terms found in audit (OBSV-04 confirmed)
-  - Tab structure corrected for proper DaisyUI behavior
+  - DaisyUI tab-content requires interleaved structure (tab + content pairs)
   - Personality modifier strength now wired to BalanceConfigStore
   - Archetype selection fixed to properly replace active character
 
@@ -81,9 +81,11 @@ grep -rn "depression\|disorder\|diagnosis\|symptom\|treatment\|clinical\|DSM\|pa
 Fixed structural issues and improved consistency:
 
 **Tab structure fixes:**
-- **ActivityPanel:** Moved tab content outside tab button container (proper DaisyUI structure)
-- **SkillTreePanel:** Same fix - tabs now properly show/hide content
-- Issue: Content was nested inside `role="tablist"` div, causing display problems
+- **ActivityPanel:** Restructured to interleave tab buttons with tab-content divs
+- **SkillTreePanel:** Same fix - each tab button immediately followed by its tab-content
+- Issue: DaisyUI's `tab-content` class uses adjacent sibling selector (`.tab-active + .tab-content`)
+- Fix: Each `<button class="tab">` must be immediately followed by its `<div class="tab-content">`
+- Pattern: `tabs-box` container with `Fragment` wrapping each tab+content pair
 
 **TypeScript fixes:**
 - **ComparisonView:** Added safety check for archetype array access (lines 27-28)
@@ -205,7 +207,14 @@ Each task committed atomically:
 - Alternative considered: Modify existing character's personality - rejected (leaves XP/skills/talents)
 - Result: Pure archetype comparison without legacy effects
 
-**3. Clinical terminology audit pattern**
+**3. DaisyUI tab-content pattern**
+- DaisyUI `tab-content` uses CSS adjacent sibling selector: `.tab-active + .tab-content { display: block }`
+- Requires interleaved structure: each tab button immediately followed by its content
+- Works with both `:checked` (radio inputs) AND `.tab-active` class (buttons)
+- Implementation: Use React `Fragment` to wrap each tab+content pair in map
+- Structure: `<button class="tab tab-active">` → `<div class="tab-content">` (repeated)
+
+**4. Clinical terminology audit pattern**
 - Pattern: `grep -rn "depression\|disorder\|diagnosis\|symptom\|treatment\|clinical\|DSM\|pathological\|mental illness" src/`
 - Applied to: All components, data files, entity classes
 - Future enforcement: Run audit before each release
