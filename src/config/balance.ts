@@ -1,5 +1,60 @@
 import { makeAutoObservable } from 'mobx';
 
+// ============================================================================
+// Primary Needs Configuration (v1.1)
+// ============================================================================
+
+/**
+ * Configuration for primary needs decay rates and thresholds.
+ * Physiological needs decay 3-4x faster than social needs to create
+ * urgency hierarchy - biological needs press harder than psychological ones.
+ */
+export interface NeedsConfig {
+  // Physiological decay rates (faster: 0.7-1.0 range)
+  hungerDecayRate: number;
+  energyDecayRate: number;
+  hygieneDecayRate: number;
+  bladderDecayRate: number;
+
+  // Social/psychological decay rates (slower: 0.15-0.3 range, ~3-4x slower)
+  socialDecayRate: number;
+  funDecayRate: number;
+  securityDecayRate: number;
+
+  // Personality modifier strength for needs (multiplier)
+  personalityModifierNeeds: number;
+
+  // Threshold for "critical" need state (triggers urgent behaviors)
+  criticalThreshold: number;
+}
+
+/**
+ * Default needs configuration.
+ * Tuned for death spiral prevention via asymptotic decay.
+ */
+export const DEFAULT_NEEDS_CONFIG: NeedsConfig = {
+  // Physiological: decay 0.7-1.0 per tick (fast)
+  hungerDecayRate: 0.8,
+  energyDecayRate: 0.7,
+  hygieneDecayRate: 0.5,
+  bladderDecayRate: 1.0,
+
+  // Social: decay 0.15-0.3 per tick (~3-4x slower)
+  socialDecayRate: 0.25,
+  funDecayRate: 0.2,
+  securityDecayRate: 0.15,
+
+  // Personality effects multiplier
+  personalityModifierNeeds: 1.0,
+
+  // Critical threshold (below this = urgent state)
+  criticalThreshold: 20,
+};
+
+// ============================================================================
+// Core Balance Configuration (v1.0)
+// ============================================================================
+
 /**
  * Balance configuration for game tuning.
  * All balance parameters centralized for experimentation via Dev Tools.
@@ -20,6 +75,9 @@ export interface BalanceConfig {
 
   // Simulation system
   simulationTickMs: number; // Milliseconds per simulation tick
+
+  // Primary Needs system (v1.1)
+  needs: NeedsConfig;
 }
 
 /**
@@ -35,6 +93,7 @@ export const DEFAULT_BALANCE: BalanceConfig = {
   maxPendingPicks: 3,
   personalityModifierStrength: 1.0,
   simulationTickMs: 1000,
+  needs: DEFAULT_NEEDS_CONFIG,
 };
 
 /**
@@ -81,6 +140,10 @@ export class BalanceConfigStore {
 
   get simulationTickMs(): number {
     return this.config.simulationTickMs;
+  }
+
+  get needsConfig(): NeedsConfig {
+    return this.config.needs;
   }
 
   /**

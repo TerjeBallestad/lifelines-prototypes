@@ -38,6 +38,52 @@ export interface Resources {
 // Type-safe resource key access
 export type ResourceKey = keyof Resources;
 
+// ============================================================================
+// Primary Needs System Types (v1.1)
+// ============================================================================
+
+/**
+ * Primary needs that drive character wellbeing.
+ * 7 needs on 0-100 scale where higher = better satisfied.
+ * Split into physiological (fast decay) and social (slow decay) categories.
+ */
+export interface Needs {
+  // Physiological needs (decay 3-4x faster)
+  hunger: number;    // Food satisfaction
+  energy: number;    // Rest/sleep satisfaction
+  hygiene: number;   // Cleanliness satisfaction
+  bladder: number;   // Bathroom need satisfaction
+
+  // Social/psychological needs (slower decay)
+  social: number;    // Connection need satisfaction
+  fun: number;       // Entertainment/pleasure satisfaction
+  security: number;  // Safety/stability satisfaction
+}
+
+// Type-safe need key access
+export type NeedKey = keyof Needs;
+
+/**
+ * Factory function for default starting needs.
+ * Values chosen to give player time to establish routines:
+ * - Physiological: start high (recently satisfied)
+ * - Social/psychological: start moderate (room to grow)
+ */
+export function defaultNeeds(): Needs {
+  return {
+    // Physiological - start well-satisfied
+    hunger: 80,
+    energy: 100,
+    hygiene: 100,
+    bladder: 100,
+
+    // Social/psychological - start moderate
+    social: 70,
+    fun: 60,
+    security: 50,
+  };
+}
+
 // Data required to construct a Character
 export interface CharacterData {
   id: string;
