@@ -6,24 +6,24 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** The player experiences satisfying growth by helping patients develop missing life skills - the victory isn't heroic, it's watching someone finally answer the phone.
 
-**Current focus:** Phase 8 complete - Ready for Phase 9: Action Resources
+**Current focus:** Phase 9 in progress - Action Resources
 
 ## Current Position
 
-Phase: 8 of 12 (Derived Wellbeing) - COMPLETE
-Plan: 4 of 4 in current phase
-Status: Phase complete
-Last activity: 2026-01-23 - Completed 08-04-PLAN.md (Visual Verification)
+Phase: 9 of 12 (Action Resources)
+Plan: 1 of 2 in current phase
+Status: In progress
+Last activity: 2026-01-23 - Completed 09-01-PLAN.md
 
-Progress: [██████░░░░] ~54% (milestone v1.1, 7/13 plans across 6 phases)
+Progress: [██████░░░░] ~62% (milestone v1.1, 8/13 plans across 7 phases)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 7 (v1.1)
-- Average duration: ~2.1 min (code plans only)
-- Total execution time: ~12 min (excluding human verification)
+- Total plans completed: 8 (v1.1)
+- Average duration: ~2.4 min (code plans only)
+- Total execution time: ~17 min (excluding human verification)
 
 **By Phase:**
 
@@ -31,6 +31,7 @@ Progress: [██████░░░░] ~54% (milestone v1.1, 7/13 plans acro
 | -------------------- | ----- | ----- | -------- |
 | 07-primary-needs     | 3     | 5 min | 1.7 min  |
 | 08-derived-wellbeing | 4     | 7 min | 2.3 min  |
+| 09-action-resources  | 1     | 5 min | 5.0 min  |
 
 **Recent Trend:**
 
@@ -41,6 +42,7 @@ Progress: [██████░░░░] ~54% (milestone v1.1, 7/13 plans acro
 - 08-02: 4 min (3 tasks, 1 file)
 - 08-03: 1 min (4 tasks, 4 files)
 - 08-04: Human verification (1 checkpoint)
+- 09-01: 5 min (2 tasks, 3 files)
 - Trend: Consistent rapid delivery
 
 **v1.0 Reference:**
@@ -110,16 +112,23 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - Purpose equilibrium responds to personality adjustments
 - Nutrition changes very slowly as designed
 
+**09-01 Action Resources Foundation:**
+
+- Overskudd recovery rate boosted by Willpower (effectiveAlpha modifier)
+- socialBattery drain/charge inverts at Extraversion 40/60 thresholds
+- Ambivert neutral target (50) in both contexts
+- zeroSocialBattery drains Willpower to force breaks
+- Fun need boosts Willpower target (not recovery rate)
+
 ### Pending Todos
 
 No pending todos.
 
+### Roadmap Evolution
+
+- Phase 9.1 inserted after Phase 9: Activity difficulty ratings and calculations (INSERTED)
+
 ### Blockers/Concerns
-
-**Phase 9 Design:**
-
-- socialBattery formula needs design work to make Introvert/Extrovert FEEL different
-- Social context taxonomy (solo/parallel/casual/active/intense) required before implementation
 
 **Phase 12 Tooling:**
 
@@ -129,7 +138,7 @@ No pending todos.
 ## Session Continuity
 
 Last session: 2026-01-23
-Stopped at: Completed 08-04-PLAN.md (Visual Verification) - Phase 8 Complete
+Stopped at: Completed 09-01-PLAN.md
 Resume file: None
 
-**Next step:** Plan Phase 9: Action Resources (Overskudd, socialBattery, Focus, Willpower)
+**Next step:** Continue Phase 9 with 09-02-PLAN.md (Activity Difficulty)
