@@ -1,7 +1,9 @@
 import { observer } from 'mobx-react-lite';
 import type { Activity } from '../entities/Activity';
 import type { ActivityData } from '../entities/types';
+import type { Character } from '../entities/Character';
 import clsx from 'clsx';
+import { DifficultyStars } from './DifficultyStars';
 
 interface ActivityCardProps {
   activity: Activity | ActivityData;
@@ -9,6 +11,7 @@ interface ActivityCardProps {
   onCancel?: () => void;
   onSelect?: () => void;
   progress?: number; // 0-100 for active variant
+  character?: Character; // Optional for difficulty calculation
 }
 
 const DOMAIN_COLORS: Record<string, string> = {
@@ -25,8 +28,25 @@ export const ActivityCard = observer(function ActivityCard({
   onCancel,
   onSelect,
   progress,
+  character,
 }: ActivityCardProps) {
   const isClickable = variant === 'preview' && onSelect;
+
+  // Calculate difficulty (if possible)
+  let difficulty: number;
+  let difficultyBreakdown = undefined;
+
+  if (activity instanceof Activity && character) {
+    // Activity instance with character: get personalized difficulty
+    difficulty = activity.getEffectiveDifficulty(character);
+    difficultyBreakdown = activity.getDifficultyBreakdown(character);
+  } else if ('baseDifficulty' in activity && activity.baseDifficulty) {
+    // ActivityData with baseDifficulty: use base difficulty
+    difficulty = activity.baseDifficulty;
+  } else {
+    // Fallback: default to 3 stars (medium)
+    difficulty = 3;
+  }
 
   // Format resource effects for preview
   const effectsPreview = Object.entries(activity.resourceEffects)
@@ -50,11 +70,19 @@ export const ActivityCard = observer(function ActivityCard({
         <div className="flex items-start justify-between">
           <div>
             <h3 className="card-title text-sm">{activity.name}</h3>
-            <span
-              className={`badge badge-xs ${DOMAIN_COLORS[activity.domain]}`}
-            >
-              {activity.domain}
-            </span>
+            <div className="flex items-center gap-2">
+              <span
+                className={`badge badge-xs ${DOMAIN_COLORS[activity.domain]}`}
+              >
+                {activity.domain}
+              </span>
+              {/* Difficulty stars */}
+              <DifficultyStars
+                difficulty={difficulty}
+                breakdown={difficultyBreakdown}
+                size="xs"
+              />
+            </div>
           </div>
           {variant === 'queued' && onCancel && (
             <button
