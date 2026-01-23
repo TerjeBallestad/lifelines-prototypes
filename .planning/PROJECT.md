@@ -24,7 +24,18 @@ The player experiences satisfying growth by helping patients develop missing lif
 
 ### Active
 
-(None - milestone complete, new requirements defined with next milestone)
+**v1.1 Game Balance - Primary Needs & Resource Simulation**
+
+- Implement primary needs system (Hunger, Energy, Hygiene, Bladder, Social, Fun, Security)
+- Make Mood derived from need satisfaction
+- Make Purpose derived from activity-personality fit
+- Implement action resources (Overskudd, socialBattery, Focus, Willpower)
+- Make Overskudd calculated from mood, energy, purpose, willpower
+- Implement extraversion-based socialBattery (introverts drain in social, extraverts regen)
+- Add Nutrition as slow-moving health stat affecting Energy regen and Mood
+- Implement skill-based activity difficulty (costs decrease as skills improve)
+- Add need-restoring activities (eating restores Hunger, socializing restores Social)
+- Implement autonomous patient activity selection based on resources + personality
 
 ### Out of Scope
 
@@ -32,7 +43,7 @@ The player experiences satisfying growth by helping patients develop missing lif
 - Polish/art - functional UI sufficient for testing
 - Multiple patients - validated with one character
 - Persistence/saving - prototype runs in memory
-- Autonomous AI decisions - player assigns activities (AI autonomy is v2)
+- Victory conditions / endgame content - balance system first, win states later
 
 ## Context
 
@@ -48,11 +59,8 @@ The player experiences satisfying growth by helping patients develop missing lif
 - No clinical labels needed - behavior emerges from underlying systems (OBSV-04)
 - Architecture mirrors Unreal Actor pattern for future port
 
-**Next milestone options:**
-- Unreal Engine port (use React prototype as reference)
-- Additional activities/skills (system proven, content needed)
-- Relationship dynamics (multi-character foundation exists)
-- Autonomous AI decisions (patient chooses activities based on personality)
+**v1.1 focus:**
+Game balance overhaul - replacing flat resource drain with interconnected needs system inspired by The Sims. Primary needs feed into derived wellbeing (Mood, Purpose), which determines action resources (Overskudd). Patients autonomously select activities based on available resources and personality fit.
 
 ## Constraints
 
@@ -74,4 +82,4 @@ The player experiences satisfying growth by helping patients develop missing lif
 | No clinical terminology | Core philosophy - behavior emerges | Good - validated OBSV-04 |
 
 ---
-*Last updated: 2026-01-23 after v1.0 milestone*
+*Last updated: 2026-01-23 after starting v1.1 milestone*

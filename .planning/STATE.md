@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** Simple psychological variables combine to produce emergent characters -- no labels, just humanity
-**Current focus:** v1.0 complete - planning next milestone
+**Current focus:** v1.1 Game Balance - Primary Needs & Resource Simulation
 
 ## Current Position
 
-Phase: None active (milestone complete)
-Plan: N/A
-Status: Ready for next milestone
-Last activity: 2026-01-23 -- v1.0 milestone archived
+Phase: Not started (researching)
+Plan: —
+Status: Researching domain ecosystem
+Last activity: 2026-01-23 — Milestone v1.1 started
 
-Progress: v1.0 SHIPPED (6 phases, 26 plans)
+Progress: Defining requirements
 
 ## Milestone History
 
@@ -31,6 +31,20 @@ Architecture decisions carry forward:
 - MobX stores with React Context for state management
 - Unreal Actor-style patterns for future port
 
+### v1.1 Design Decisions (In Progress)
+
+Resource model restructure:
+- **Primary Needs (7):** Hunger, Energy, Hygiene, Bladder, Social, Fun, Security
+- **Health Stats (1):** Nutrition (slow-moving, affects Energy regen and Mood)
+- **Derived Wellbeing (2):** Mood (from needs), Purpose (from activity-personality fit)
+- **Action Resources (4):** Overskudd, socialBattery, Focus, Willpower
+
+Key mechanics:
+- Overskudd calculated from mood, energy, purpose, willpower (not flat drain)
+- socialBattery affected by extraversion (introverts drain in social, extraverts regen)
+- Skill-based activity difficulty (costs decrease as skills improve)
+- Autonomous patient activity selection based on resources + personality
+
 ### Pending Todos
 
 None.
@@ -42,19 +56,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-23
-Stopped at: v1.0 milestone archived
-Resume file: None - start fresh with /gsd:new-milestone
-
-## Next Steps
-
-Start next milestone with `/gsd:new-milestone` to:
-1. Define v1.1/v2.0 goals through questioning
-2. Research implementation approaches
-3. Define new requirements
-4. Create new roadmap
-
-Options for next milestone:
-- Unreal Engine port
-- Additional content (activities/skills)
-- Relationship dynamics
-- Autonomous AI decisions
+Stopped at: Starting v1.1 research phase
+Resume file: None - in progress
