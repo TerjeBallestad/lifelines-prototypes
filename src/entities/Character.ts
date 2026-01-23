@@ -6,13 +6,17 @@ import type {
   Resources,
   ResourceKey,
   CapacityKey,
+  Needs,
+  NeedKey,
 } from './types';
+import { defaultNeeds } from './types';
 import {
   personalityToModifier,
   applyModifiers,
   clampResource,
   type ResourceModifier,
 } from '../utils/modifiers';
+import { applyAsymptoticDecay } from '../utils/needsDecay';
 import { type RootStore } from '../stores/RootStore';
 
 // Base drain rates per tick (resources that naturally decrease)
@@ -43,6 +47,7 @@ export class Character {
   personality: Personality;
   capacities: Capacities;
   resources: Resources;
+  needs?: Needs; // v1.1 Primary Needs (optional, initialized via initializeNeeds)
   private root?: RootStore;
 
   constructor(data: CharacterData, root?: RootStore) {
@@ -93,6 +98,130 @@ export class Character {
   updateResources(updates: Partial<Resources>): void {
     Object.assign(this.resources, updates);
   }
+
+  // ============================================================================
+  // v1.1 Primary Needs System
+  // ============================================================================
+
+  /**
+   * Action: Initialize the v1.1 primary needs system.
+   * Called when enabling v1.1 mode or creating a new character with needs.
+   */
+  initializeNeeds(): void {
+    this.needs = defaultNeeds();
+  }
+
+  /**
+   * Computed: Personality modifiers for need decay rates.
+   * Returns a Map of NeedKey -> multiplier (1.0 = no modifier).
+   *
+   * Personality effects on needs:
+   * - High Extraversion (>60): Social need decays faster (needs more social contact)
+   * - High Neuroticism (>60): Security need decays faster (needs more reassurance)
+   */
+  get needsModifiers(): Map<NeedKey, number> {
+    const modifiers = new Map<NeedKey, number>();
+    const { extraversion, neuroticism } = this.personality;
+
+    // Get personality modifier strength from balance config (default 1.0)
+    const strength =
+      this.root?.balanceConfig?.needsConfig?.personalityModifierNeeds ?? 1.0;
+
+    // Helper to scale trait to modifier (same pattern as activeModifiers)
+    // Trait 60 -> 0.1 modifier, Trait 80 -> 0.3 modifier, etc.
+    const scaleTraitToModifier = (traitValue: number, threshold: number) => {
+      if (traitValue <= threshold) return 0;
+      return ((traitValue - threshold) / 100) * strength;
+    };
+
+    // High Extraversion: Social need decays faster (extraverts crave more social contact)
+    const socialMod = 1 + scaleTraitToModifier(extraversion, 60);
+    modifiers.set('social', socialMod);
+
+    // High Neuroticism: Security need decays faster (anxious people need more reassurance)
+    const securityMod = 1 + scaleTraitToModifier(neuroticism, 60);
+    modifiers.set('security', securityMod);
+
+    // Default modifier of 1.0 for other needs
+    const needKeys: NeedKey[] = [
+      'hunger',
+      'energy',
+      'hygiene',
+      'bladder',
+      'fun',
+    ];
+    for (const key of needKeys) {
+      if (!modifiers.has(key)) {
+        modifiers.set(key, 1.0);
+      }
+    }
+
+    return modifiers;
+  }
+
+  /**
+   * Action: Apply asymptotic decay to all primary needs.
+   * Called by SimulationStore.tick() when v1.1 mode is enabled.
+   *
+   * Uses asymptotic decay formula to prevent death spirals:
+   * decay slows as needs approach the floor value (5).
+   *
+   * @param speedMultiplier - Simulation speed (1 = normal, higher = faster decay)
+   */
+  applyNeedsDecay(speedMultiplier: number): void {
+    // Guard: needs must be initialized and config must be available
+    if (!this.needs || !this.root?.balanceConfig) return;
+
+    const config = this.root.balanceConfig.needsConfig;
+    const mods = this.needsModifiers;
+
+    // Apply decay to each need using personality modifiers
+    this.needs.hunger = applyAsymptoticDecay(
+      this.needs.hunger,
+      config.hungerDecayRate * (mods.get('hunger') ?? 1),
+      speedMultiplier
+    );
+
+    this.needs.energy = applyAsymptoticDecay(
+      this.needs.energy,
+      config.energyDecayRate * (mods.get('energy') ?? 1),
+      speedMultiplier
+    );
+
+    this.needs.hygiene = applyAsymptoticDecay(
+      this.needs.hygiene,
+      config.hygieneDecayRate * (mods.get('hygiene') ?? 1),
+      speedMultiplier
+    );
+
+    this.needs.bladder = applyAsymptoticDecay(
+      this.needs.bladder,
+      config.bladderDecayRate * (mods.get('bladder') ?? 1),
+      speedMultiplier
+    );
+
+    this.needs.social = applyAsymptoticDecay(
+      this.needs.social,
+      config.socialDecayRate * (mods.get('social') ?? 1),
+      speedMultiplier
+    );
+
+    this.needs.fun = applyAsymptoticDecay(
+      this.needs.fun,
+      config.funDecayRate * (mods.get('fun') ?? 1),
+      speedMultiplier
+    );
+
+    this.needs.security = applyAsymptoticDecay(
+      this.needs.security,
+      config.securityDecayRate * (mods.get('security') ?? 1),
+      speedMultiplier
+    );
+  }
+
+  // ============================================================================
+  // v1.0 Resource Modifiers (existing system)
+  // ============================================================================
 
   /**
    * Computed: Active modifiers based on current personality traits.
