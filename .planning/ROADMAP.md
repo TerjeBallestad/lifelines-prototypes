@@ -69,10 +69,10 @@ Plans:
 **Plans:** 4 plans
 
 Plans:
-- [ ] 08-01-PLAN.md — Types, config, curve and smoothing utilities
-- [ ] 08-02-PLAN.md — Character integration (Mood, Purpose, Nutrition logic)
-- [ ] 08-03-PLAN.md — UI components (MoodIcon, DerivedStatsSection)
-- [ ] 08-04-PLAN.md — Human verification checkpoint
+- [x] 08-01-PLAN.md — Types, config, curve and smoothing utilities
+- [x] 08-02-PLAN.md — Character integration (Mood, Purpose, Nutrition logic)
+- [x] 08-03-PLAN.md — UI components (MoodIcon, DerivedStatsSection)
+- [x] 08-04-PLAN.md — Human verification checkpoint
 
 ### Phase 9: Action Resources
 **Goal:** Overskudd, socialBattery, Focus, and Willpower are computed from needs and personality, gating which activities are affordable.
@@ -162,7 +162,7 @@ Phases execute in numeric order: 7 → 8 → 9 → 10 → 11 → 12
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 7. Primary Needs Foundation | v1.1 | 3/3 | ✓ Complete | 2026-01-23 |
-| 8. Derived Wellbeing | v1.1 | 0/TBD | Not started | - |
+| 8. Derived Wellbeing | v1.1 | 4/4 | ✓ Complete | 2026-01-23 |
 | 9. Action Resources | v1.1 | 0/TBD | Not started | - |
 | 10. Activity-Need Integration | v1.1 | 0/TBD | Not started | - |
 | 11. Autonomous AI | v1.1 | 0/TBD | Not started | - |
@@ -170,4 +170,4 @@ Phases execute in numeric order: 7 → 8 → 9 → 10 → 11 → 12
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-23 (Phase 7 complete)*
+*Last updated: 2026-01-23 (Phase 8 complete)*

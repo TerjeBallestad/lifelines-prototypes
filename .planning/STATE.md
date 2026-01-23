@@ -6,21 +6,21 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** The player experiences satisfying growth by helping patients develop missing life skills - the victory isn't heroic, it's watching someone finally answer the phone.
 
-**Current focus:** Phase 8 in progress - Derived Wellbeing System
+**Current focus:** Phase 8 complete - Ready for Phase 9: Action Resources
 
 ## Current Position
 
-Phase: 8 of 12 (Derived Wellbeing)
-Plan: 3 of 4 in current phase
-Status: In progress
-Last activity: 2026-01-23 - Completed 08-03-PLAN.md (UI Display)
+Phase: 8 of 12 (Derived Wellbeing) - COMPLETE
+Plan: 4 of 4 in current phase
+Status: Phase complete
+Last activity: 2026-01-23 - Completed 08-04-PLAN.md (Visual Verification)
 
-Progress: [█████░░░░░] ~46% (milestone v1.1, 6/~13 plans across 6 phases)
+Progress: [██████░░░░] ~54% (milestone v1.1, 7/13 plans across 6 phases)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6 (v1.1)
+- Total plans completed: 7 (v1.1)
 - Average duration: ~2.1 min (code plans only)
 - Total execution time: ~12 min (excluding human verification)
 
@@ -29,7 +29,7 @@ Progress: [█████░░░░░] ~46% (milestone v1.1, 6/~13 plans acr
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 07-primary-needs | 3 | 5 min | 1.7 min |
-| 08-derived-wellbeing | 3 | 7 min | 2.3 min |
+| 08-derived-wellbeing | 4 | 7 min | 2.3 min |
 
 **Recent Trend:**
 - 07-01: 2 min (2 tasks, 4 files)
@@ -38,6 +38,7 @@ Progress: [█████░░░░░] ~46% (milestone v1.1, 6/~13 plans acr
 - 08-01: 2 min (3 tasks, 4 files)
 - 08-02: 4 min (3 tasks, 1 file)
 - 08-03: 1 min (4 tasks, 4 files)
+- 08-04: Human verification (1 checkpoint)
 - Trend: Consistent rapid delivery
 
 **v1.0 Reference:**
@@ -91,15 +92,18 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - Purpose bar shows equilibrium marker with personality baseline indicator
 - Derived Wellbeing section visually separated from Primary Needs via border-t
 
+**08-04 Verification Complete:**
+- All Phase 8 success criteria verified by human testing
+- Mood tooltip correctly shows need contributions
+- Mood floor prevents death spiral (critical hunger degrades but doesn't collapse mood)
+- Purpose equilibrium responds to personality adjustments
+- Nutrition changes very slowly as designed
+
 ### Pending Todos
 
 1 todo pending. See `.planning/todos/pending/`
 
 ### Blockers/Concerns
-
-**Phase 7-12 Risk:**
-- Death spiral prevention built into asymptotic decay formula (07-01 complete, 07-03 verified)
-- Nonlinear decay curves and mood floor critical to avoid cascading failures
 
 **Phase 9 Design:**
 - socialBattery formula needs design work to make Introvert/Extrovert FEEL different
@@ -112,7 +116,7 @@ Decisions are logged in PROJECT.md Key Decisions table.
 ## Session Continuity
 
 Last session: 2026-01-23
-Stopped at: Completed 08-03-PLAN.md (UI Display)
+Stopped at: Completed 08-04-PLAN.md (Visual Verification) - Phase 8 Complete
 Resume file: None
 
-**Next step:** Execute 08-04-PLAN.md (Visual Verification) - Verify derived wellbeing UI
+**Next step:** Plan Phase 9: Action Resources (Overskudd, socialBattery, Focus, Willpower)
