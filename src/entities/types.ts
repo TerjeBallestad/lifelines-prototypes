@@ -63,6 +63,61 @@ export interface Needs {
 // Type-safe need key access
 export type NeedKey = keyof Needs;
 
+// ============================================================================
+// Derived Wellbeing System Types (v1.1)
+// ============================================================================
+
+/**
+ * Derived stats computed from primary needs and other factors.
+ * These are second-order values that emerge from need satisfaction,
+ * activity-personality fit, and dietary habits.
+ */
+export interface DerivedStats {
+  /** Mood: 0-100, computed from weighted average of need satisfaction */
+  mood: number;
+  /** Purpose: 0-100, personality equilibrium system based on activity fit */
+  purpose: number;
+  /** Nutrition: 0-100, slow-moving stat based on food quality over time */
+  nutrition: number;
+}
+
+/**
+ * Food quality levels for nutrition tracking.
+ * Higher quality food contributes more to the nutrition stat.
+ */
+export enum FoodQuality {
+  Bad = 0,   // Junk food, fast food
+  OK = 1,    // Basic meals, convenience food
+  Good = 2,  // Balanced nutrition, home cooking
+  Great = 3, // Premium healthy food, fresh ingredients
+}
+
+/**
+ * Breakdown of a stat value for UI tooltip display.
+ * Shows the total and individual contributions from various sources.
+ */
+export interface StatBreakdown {
+  /** The final displayed value */
+  total: number;
+  /** Individual contributions that sum to (approximately) the total */
+  contributions: Array<{ source: string; value: number }>;
+}
+
+/**
+ * Factory function for default starting derived stats.
+ * Values chosen to provide neutral starting point:
+ * - Mood: 50 (neutral, will adjust based on needs)
+ * - Purpose: 50 (neutral, will adjust to personality equilibrium)
+ * - Nutrition: 70 (decent starting diet, room to improve or decline)
+ */
+export function defaultDerivedStats(): DerivedStats {
+  return {
+    mood: 50,
+    purpose: 50,
+    nutrition: 70,
+  };
+}
+
 /**
  * Factory function for default starting needs.
  * Values chosen to give player time to establish routines:
