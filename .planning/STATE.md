@@ -20,18 +20,20 @@ Progress: [██████░░░░] ~54% (milestone v1.1, 7/13 plans acro
 ## Performance Metrics
 
 **Velocity:**
+
 - Total plans completed: 7 (v1.1)
 - Average duration: ~2.1 min (code plans only)
 - Total execution time: ~12 min (excluding human verification)
 
 **By Phase:**
 
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| 07-primary-needs | 3 | 5 min | 1.7 min |
-| 08-derived-wellbeing | 4 | 7 min | 2.3 min |
+| Phase                | Plans | Total | Avg/Plan |
+| -------------------- | ----- | ----- | -------- |
+| 07-primary-needs     | 3     | 5 min | 1.7 min  |
+| 08-derived-wellbeing | 4     | 7 min | 2.3 min  |
 
 **Recent Trend:**
+
 - 07-01: 2 min (2 tasks, 4 files)
 - 07-02: 3 min (3 tasks, 6 files)
 - 07-03: Human verification (1 checkpoint)
@@ -42,11 +44,12 @@ Progress: [██████░░░░] ~54% (milestone v1.1, 7/13 plans acro
 - Trend: Consistent rapid delivery
 
 **v1.0 Reference:**
+
 - 26 plans completed in 3 days
 - 6 phases delivered
 - Validated: Big Five personality, skill dependencies, activity-XP loop, talent selection
 
-*Updated after each plan completion*
+_Updated after each plan completion_
 
 ## Accumulated Context
 
@@ -55,44 +58,52 @@ Progress: [██████░░░░] ~54% (milestone v1.1, 7/13 plans acro
 Decisions are logged in PROJECT.md Key Decisions table.
 
 **v1.1 Architecture decisions:**
+
 - MobX computed values for needs derivation (Mood from needs -> Overskudd from mood/energy/purpose)
 - Parallel v1.0/v1.1 with toggle, preserving validated mechanics
 - Bottom-up dependency chain: Primary needs -> Derived wellbeing -> Action resources -> Autonomous AI
 
 **v1.1 Resource model:**
+
 - Primary Needs (7): Hunger, Energy, Hygiene, Bladder, Social, Fun, Security
 - Derived Wellbeing (2): Mood (from needs), Purpose (from activity-personality fit)
 - Action Resources (4): Overskudd, socialBattery, Focus, Willpower
 - Health Stats (1): Nutrition (slow-moving, affects Energy regen and Mood)
 
 **07-02 Toggle Implementation:**
+
 - needsSystemEnabled toggle in RootStore controls which system runs
 - Color thresholds for urgency: green >= 70, yellow >= 40, orange >= 20, red < 20
 - Critical indicator: animate-pulse for needs below 20%
 
 **07-03 Verification Complete:**
+
 - All Phase 7 success criteria verified by human testing
 - Asymptotic decay confirmed working (needs slow near floor)
 - Differential decay visible to player (physiological faster than social)
 
 **08-01 Derived Stats Foundation:**
+
 - Sigmoid steepness=2.0 for balanced need-to-mood curve
 - Mood floor=10, ceiling=95 to prevent extreme states
 - Hunger/energy weighted 1.5x for survival importance
 - Nutrition smoothing alpha=0.01 (very slow) vs mood alpha=0.1 (moderate)
 
 **08-02 Character Integration:**
+
 - Steepness 2.5 for mood curves (slightly steeper for dramatic response)
 - Purpose equilibrium clamped to 20-80 (prevents extreme personality baselines)
 - Food quality uses 90/10 EMA for slow nutrition response
 - Tick update chains: applyNeedsDecay -> applyDerivedStatsUpdate
 
 **08-03 UI Display:**
+
 - Mood shown as emoji (happy/content/neutral/sad) for intuitive understanding
 - Purpose bar shows equilibrium marker with personality baseline indicator
 - Derived Wellbeing section visually separated from Primary Needs via border-t
 
 **08-04 Verification Complete:**
+
 - All Phase 8 success criteria verified by human testing
 - Mood tooltip correctly shows need contributions
 - Mood floor prevents death spiral (critical hunger degrades but doesn't collapse mood)
@@ -101,15 +112,17 @@ Decisions are logged in PROJECT.md Key Decisions table.
 
 ### Pending Todos
 
-1 todo pending. See `.planning/todos/pending/`
+2 todos pending. See `.planning/todos/pending/`
 
 ### Blockers/Concerns
 
 **Phase 9 Design:**
+
 - socialBattery formula needs design work to make Introvert/Extrovert FEEL different
 - Social context taxonomy (solo/parallel/casual/active/intense) required before implementation
 
 **Phase 12 Tooling:**
+
 - Calculation trace overlay and runtime balance tuning UI scope unclear
 - May require accelerated time simulation (7 days at 60x speed) for validation
 
