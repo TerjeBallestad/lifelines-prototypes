@@ -3,6 +3,7 @@ import { toast } from 'sonner';
 import { Activity } from '../entities/Activity';
 import type { RootStore } from './RootStore';
 import type { ActivityData, CapacityKey, ResourceKey, NeedKey } from '../entities/types';
+import type { Character } from '../entities/Character';
 import { calculatePersonalityAlignment } from '../utils/personalityFit';
 
 // Minimum overskudd required to start any activity
@@ -10,6 +11,13 @@ const MIN_OVERSKUDD_TO_START = 20;
 
 // Activity execution state
 type CurrentState = 'idle' | 'starting' | 'active' | 'completing';
+
+interface FloatingNumberData {
+  id: string;
+  value: number;
+  label: string;
+  timestamp: number;
+}
 
 /**
  * ActivityStore - manages the activity queue and execution state.
@@ -27,6 +35,12 @@ export class ActivityStore {
 
   // Current execution state
   currentState: CurrentState = 'idle';
+
+  // Floating numbers for UI feedback
+  floatingNumbers = observable.array<FloatingNumberData>();
+
+  // Track cumulative changes for completion summary
+  private activityEffectTotals: Map<string, number> = new Map();
 
   // Private reference to root store
   private readonly root: RootStore;
@@ -175,6 +189,52 @@ export class ActivityStore {
   }
 
   // ============================================================================
+  // Floating Number Management
+  // ============================================================================
+
+  /**
+   * Emit a floating number for UI display.
+   * Numbers auto-expire after 2 seconds.
+   */
+  private emitFloatingNumber(label: string, value: number): void {
+    // Only emit if change is significant (>= 0.5)
+    if (Math.abs(value) < 0.5) return;
+
+    this.floatingNumbers.push({
+      id: `${label}-${Date.now()}-${Math.random()}`,
+      value,
+      label,
+      timestamp: Date.now(),
+    });
+
+    // Auto-cleanup after 2 seconds
+    setTimeout(() => {
+      this.cleanupExpiredFloatingNumbers();
+    }, 2000);
+  }
+
+  /**
+   * Remove expired floating numbers.
+   */
+  cleanupExpiredFloatingNumbers(): void {
+    const now = Date.now();
+    const expired = this.floatingNumbers.filter(fn => now - fn.timestamp > 2000);
+    expired.forEach(fn => {
+      const index = this.floatingNumbers.indexOf(fn);
+      if (index >= 0) this.floatingNumbers.splice(index, 1);
+    });
+  }
+
+  /**
+   * Remove a specific floating number by id.
+   * Called by UI when animation completes.
+   */
+  removeFloatingNumber(id: string): void {
+    const index = this.floatingNumbers.findIndex(fn => fn.id === id);
+    if (index >= 0) this.floatingNumbers.splice(index, 1);
+  }
+
+  // ============================================================================
   // Tick Processing
   // ============================================================================
 
@@ -194,6 +254,7 @@ export class ActivityStore {
       this.currentActivity = this.dequeue() || null;
       this.currentProgress = 0;
       this.currentState = 'active';
+      this.activityEffectTotals.clear(); // Reset cumulative tracking
       toast.success(`Started: ${this.currentActivity?.name}`);
     } else {
       // Skip this activity, notify, try next
@@ -381,6 +442,15 @@ export class ActivityStore {
         // Update need (clamped to 0-100)
         const key = needKey as NeedKey;
         character.needs[key] = Math.max(0, Math.min(100, character.needs[key] + restore));
+
+        // Emit floating number for significant changes
+        if (Math.abs(restore) >= 0.5) {
+          this.emitFloatingNumber(needKey, restore);
+        }
+
+        // Track cumulative changes for completion summary
+        const current = this.activityEffectTotals.get(needKey) ?? 0;
+        this.activityEffectTotals.set(needKey, current + restore);
       }
     }
   }
