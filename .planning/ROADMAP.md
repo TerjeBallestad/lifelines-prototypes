@@ -132,11 +132,14 @@ Plans:
 6. Patient struggling with critical needs (below 20%) sees reduced activity costs, preventing total paralysis
 7. Player can observe clear cause-effect between activities and need changes
 
-**Plans:** TBD
+**Plans:** 5 plans
 
 Plans:
-- [ ] 10-01: TBD
-- [ ] 10-02: TBD
+- [ ] 10-01-PLAN.md — Core types (tags, needEffects) and personality alignment utility
+- [ ] 10-02-PLAN.md — Activity.getResourceCosts method and starter activities data
+- [ ] 10-03-PLAN.md — Need restoration and cost integration in ActivityStore
+- [ ] 10-04-PLAN.md — UI feedback (FloatingNumber, tooltips, completion summary)
+- [ ] 10-05-PLAN.md — Human verification checkpoint
 
 ### Phase 11: Autonomous AI
 **Goal:** Patient autonomously selects activities based on utility scoring of need urgency, personality fit, and resource availability.
@@ -189,10 +192,10 @@ Phases execute in numeric order: 7 → 8 → 9 → 9.1 → 10 → 11 → 12
 | 8. Derived Wellbeing | v1.1 | 4/4 | ✓ Complete | 2026-01-23 |
 | 9. Action Resources | v1.1 | 3/3 | ✓ Complete | 2026-01-23 |
 | 9.1 Activity Difficulty | v1.1 | 3/3 | ✓ Complete | 2026-01-23 |
-| 10. Activity-Need Integration | v1.1 | 0/TBD | Not started | - |
+| 10. Activity-Need Integration | v1.1 | 0/5 | Not started | - |
 | 11. Autonomous AI | v1.1 | 0/TBD | Not started | - |
 | 12. Tuning & Balance | v1.1 | 0/TBD | Not started | - |
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-23 (Phase 9.1 complete, scope adjusted)*
+*Last updated: 2026-01-23 (Phase 10 planned)*
