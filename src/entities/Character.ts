@@ -24,6 +24,11 @@ import {
 import { applyAsymptoticDecay } from '../utils/needsDecay';
 import { type RootStore } from '../stores/RootStore';
 
+/** Helper to capitalize first letter of a string */
+function capitalizeFirst(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 // Base drain rates per tick (resources that naturally decrease)
 const BASE_DRAIN_RATES: Partial<Record<ResourceKey, number>> = {
   energy: 0.5, // per tick
@@ -260,6 +265,171 @@ export class Character {
       config.securityDecayRate * (mods.get('security') ?? 1),
       speedMultiplier
     );
+  }
+
+  // ============================================================================
+  // v1.1 Derived Wellbeing Computed Getters
+  // ============================================================================
+
+  /**
+   * Computed: Target mood value based on need satisfaction.
+   * Uses sigmoid curves to convert each need to a mood contribution,
+   * with configurable weights for need importance.
+   *
+   * The mood is computed as:
+   * 1. For each need, compute its contribution using needToMoodCurve
+   * 2. Weight contributions by physiological importance
+   * 3. Average contributions and add to baseline 50
+   * 4. Apply nutrition modifier
+   * 5. Clamp to soft bounds (floor/ceiling)
+   *
+   * @returns Target mood value (typically 10-95 range)
+   */
+  get computedMoodTarget(): number {
+    // Guard: needs and config must be available
+    if (!this.needs || !this.root?.balanceConfig) return 50;
+
+    const config = this.root.balanceConfig.derivedStatsConfig;
+    const weights = config.needWeights;
+    const steepness = 2.5; // Slightly steeper curve than default for more dramatic response
+
+    let totalContribution = 0;
+    let totalWeight = 0;
+
+    // Calculate weighted mood contribution from each need
+    const needKeys: NeedKey[] = [
+      'hunger',
+      'energy',
+      'hygiene',
+      'bladder',
+      'social',
+      'fun',
+      'security',
+    ];
+
+    for (const key of needKeys) {
+      const needValue = this.needs[key];
+      const weight = weights[key];
+      const contribution = needToMoodCurve(needValue, weight, steepness);
+      totalContribution += contribution;
+      totalWeight += weight;
+    }
+
+    // Average contribution and add to baseline
+    const avgContribution = totalContribution / totalWeight;
+    let mood = 50 + avgContribution;
+
+    // Apply nutrition modifier (penalty for poor nutrition)
+    mood += this.getNutritionMoodModifier();
+
+    // Apply soft bounds
+    return asymptoticClamp(mood, config.moodFloor, config.moodCeiling);
+  }
+
+  /**
+   * Computed: Breakdown of mood contributions for tooltip display.
+   * Shows how each need and nutrition contributes to the current mood value.
+   *
+   * @returns StatBreakdown with total and per-source contributions
+   */
+  get moodBreakdown(): StatBreakdown {
+    // Guard: if no needs, return neutral breakdown
+    if (!this.needs || !this.root?.balanceConfig) {
+      return { total: 50, contributions: [] };
+    }
+
+    const config = this.root.balanceConfig.derivedStatsConfig;
+    const weights = config.needWeights;
+    const steepness = 2.5;
+    const contributions: Array<{ source: string; value: number }> = [];
+
+    // Calculate each need's contribution
+    const needKeys: NeedKey[] = [
+      'hunger',
+      'energy',
+      'hygiene',
+      'bladder',
+      'social',
+      'fun',
+      'security',
+    ];
+
+    for (const key of needKeys) {
+      const needValue = this.needs[key];
+      const weight = weights[key];
+      const contribution = needToMoodCurve(needValue, weight, steepness);
+
+      contributions.push({
+        source: capitalizeFirst(key),
+        value: Math.round(contribution * 10) / 10, // Round to 1 decimal
+      });
+    }
+
+    // Add nutrition modifier if significant
+    const nutritionMod = this.getNutritionMoodModifier();
+    if (Math.abs(nutritionMod) > 0.5) {
+      contributions.push({
+        source: 'Nutrition',
+        value: Math.round(nutritionMod * 10) / 10,
+      });
+    }
+
+    return {
+      total: Math.round(this.derivedStats?.mood ?? 50),
+      contributions,
+    };
+  }
+
+  /**
+   * Computed: Personality-based equilibrium for purpose stat.
+   * High Conscientiousness and Openness lead to higher baseline purpose.
+   *
+   * The equilibrium represents the "natural resting point" that purpose
+   * decays toward when not being boosted by meaningful activities.
+   *
+   * @returns Purpose equilibrium value (clamped 20-80)
+   */
+  get purposeEquilibrium(): number {
+    // Guard: config must be available
+    if (!this.root?.balanceConfig) return 50;
+
+    const config = this.root.balanceConfig.derivedStatsConfig;
+    const { conscientiousness, openness } = this.personality;
+
+    // Start at baseline 50
+    let equilibrium = 50;
+
+    // Add conscientiousness modifier: ((trait - 50) / 50) * weight
+    // At C=100: +20 (max positive), At C=0: -20 (max negative)
+    equilibrium +=
+      ((conscientiousness - 50) / 50) *
+      config.purposeEquilibriumWeights.conscientiousness;
+
+    // Add openness modifier: ((trait - 50) / 50) * weight
+    // At O=100: +10 (max positive), At O=0: -10 (max negative)
+    equilibrium +=
+      ((openness - 50) / 50) * config.purposeEquilibriumWeights.openness;
+
+    // Clamp to reasonable range (20-80)
+    return Math.max(20, Math.min(80, equilibrium));
+  }
+
+  /**
+   * Private: Calculates mood penalty from poor nutrition.
+   * At nutrition 100: returns 0 (no penalty)
+   * At nutrition 0: returns full penalty (e.g., -20)
+   *
+   * @returns Mood modifier from nutrition (typically 0 to -20)
+   */
+  private getNutritionMoodModifier(): number {
+    // Guard: derivedStats and config must be available
+    if (!this.derivedStats || !this.root?.balanceConfig) return 0;
+
+    const config = this.root.balanceConfig.derivedStatsConfig;
+    // nutritionMoodPenalty is negative (e.g., -20)
+    // At nutrition 100: penalty * 0 = 0
+    // At nutrition 0: penalty * 1 = -20
+    return config.nutritionMoodPenalty * (1 - this.derivedStats.nutrition / 100);
   }
 
   // ============================================================================
