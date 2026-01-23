@@ -6,34 +6,36 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** The player experiences satisfying growth by helping patients develop missing life skills - the victory isn't heroic, it's watching someone finally answer the phone.
 
-**Current focus:** Phase 7 complete - Ready for Phase 8
+**Current focus:** Phase 8 in progress - Derived Wellbeing System
 
 ## Current Position
 
-Phase: 7 of 12 (Primary Needs Foundation) - COMPLETE
-Plan: 3 of 3 in current phase
-Status: Phase complete
-Last activity: 2026-01-23 - Completed 07-03-PLAN.md (Human Verification)
+Phase: 8 of 12 (Derived Wellbeing)
+Plan: 1 of 3 in current phase
+Status: In progress
+Last activity: 2026-01-23 - Completed 08-01-PLAN.md (Foundation Types)
 
-Progress: [███░░░░░░░] ~25% (milestone v1.1, 3/~12 plans across 6 phases)
+Progress: [████░░░░░░] ~33% (milestone v1.1, 4/~12 plans across 6 phases)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3 (v1.1)
+- Total plans completed: 4 (v1.1)
 - Average duration: ~2 min (code plans only)
-- Total execution time: ~5 min (excluding human verification)
+- Total execution time: ~7 min (excluding human verification)
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 07-primary-needs | 3 | 5 min | 1.7 min |
+| 08-derived-wellbeing | 1 | 2 min | 2.0 min |
 
 **Recent Trend:**
 - 07-01: 2 min (2 tasks, 4 files)
 - 07-02: 3 min (3 tasks, 6 files)
 - 07-03: Human verification (1 checkpoint)
+- 08-01: 2 min (3 tasks, 4 files)
 - Trend: Consistent rapid delivery
 
 **v1.0 Reference:**
@@ -70,6 +72,12 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - Asymptotic decay confirmed working (needs slow near floor)
 - Differential decay visible to player (physiological faster than social)
 
+**08-01 Derived Stats Foundation:**
+- Sigmoid steepness=2.0 for balanced need-to-mood curve
+- Mood floor=10, ceiling=95 to prevent extreme states
+- Hunger/energy weighted 1.5x for survival importance
+- Nutrition smoothing alpha=0.01 (very slow) vs mood alpha=0.1 (moderate)
+
 ### Pending Todos
 
 1 todo pending. See `.planning/todos/pending/`
@@ -91,7 +99,7 @@ Decisions are logged in PROJECT.md Key Decisions table.
 ## Session Continuity
 
 Last session: 2026-01-23
-Stopped at: Completed 07-03-PLAN.md (Human Verification) - Phase 7 complete
+Stopped at: Completed 08-01-PLAN.md (Foundation Types)
 Resume file: None
 
-**Next step:** Plan Phase 8 (Derived Wellbeing) - Mood computed from needs average, Purpose from activity-personality fit
+**Next step:** Execute 08-02-PLAN.md (Character Integration) - Add DerivedStats to Character, compute mood from needs
