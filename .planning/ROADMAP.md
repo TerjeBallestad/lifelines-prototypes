@@ -66,11 +66,13 @@ Plans:
 4. Patient with low Purpose displays reduced Overskudd even when primary needs are satisfied
 5. Nutrition stat changes slowly based on food quality, affecting Energy regeneration and baseline Mood
 
-**Plans:** TBD
+**Plans:** 4 plans
 
 Plans:
-- [ ] 08-01: TBD
-- [ ] 08-02: TBD
+- [ ] 08-01-PLAN.md — Types, config, curve and smoothing utilities
+- [ ] 08-02-PLAN.md — Character integration (Mood, Purpose, Nutrition logic)
+- [ ] 08-03-PLAN.md — UI components (MoodIcon, DerivedStatsSection)
+- [ ] 08-04-PLAN.md — Human verification checkpoint
 
 ### Phase 9: Action Resources
 **Goal:** Overskudd, socialBattery, Focus, and Willpower are computed from needs and personality, gating which activities are affordable.
