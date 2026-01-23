@@ -6,32 +6,33 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** The player experiences satisfying growth by helping patients develop missing life skills - the victory isn't heroic, it's watching someone finally answer the phone.
 
-**Current focus:** Phase 9 in progress - Action Resources
+**Current focus:** Phase 9.1 in progress - Activity Difficulty
 
 ## Current Position
 
-Phase: 9 of 12 (Action Resources)
-Plan: 3 of 3 in current phase
-Status: ✓ Phase 9 complete
-Last activity: 2026-01-23 - Completed 09-03-PLAN.md (verification checkpoint)
+Phase: 9.1 of 12 (Activity Difficulty)
+Plan: 1 of 3 in current phase
+Status: In progress
+Last activity: 2026-01-23 - Completed 09.1-01-PLAN.md
 
-Progress: [███████░░░] ~77% (milestone v1.1, 10/13 plans across 7 phases)
+Progress: [███████░░░] ~78% (milestone v1.1, 11/14 plans across 8 phases)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 10 (v1.1)
-- Average duration: ~2.6 min (code plans only)
-- Total execution time: ~31 min (excluding human verification)
+- Total plans completed: 11 (v1.1)
+- Average duration: ~2.5 min (code plans only)
+- Total execution time: ~34 min (excluding human verification)
 
 **By Phase:**
 
-| Phase                | Plans | Total  | Avg/Plan |
-| -------------------- | ----- | ------ | -------- |
-| 07-primary-needs     | 3     | 5 min  | 1.7 min  |
-| 08-derived-wellbeing | 4     | 7 min  | 2.3 min  |
-| 09-action-resources  | 3     | 19 min | 6.3 min  |
+| Phase                  | Plans | Total  | Avg/Plan |
+| ---------------------- | ----- | ------ | -------- |
+| 07-primary-needs       | 3     | 5 min  | 1.7 min  |
+| 08-derived-wellbeing   | 4     | 7 min  | 2.3 min  |
+| 09-action-resources    | 3     | 19 min | 6.3 min  |
+| 09.1-activity-difficulty | 1   | 3 min  | 3.0 min  |
 
 **Recent Trend:**
 
@@ -45,6 +46,7 @@ Progress: [███████░░░] ~77% (milestone v1.1, 10/13 plans acr
 - 09-01: 5 min (2 tasks, 3 files)
 - 09-02: 3 min (3 tasks, 3 files)
 - 09-03: 11 min (1 checkpoint + 1 fix, 1 file)
+- 09.1-01: 3 min (2 tasks, 4 files)
 - Trend: Consistent rapid delivery, verification checkpoints ~10 min
 
 **v1.0 Reference:**
@@ -139,6 +141,13 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - Refactored tooltips from DaisyUI to native Popover API (fixes overflow/clipping)
 - Native Popover API now standard pattern (matches MoodIcon from Phase 8)
 
+**09.1-01 Difficulty Calculation Foundation:**
+
+- Square root diminishing returns for both skills and mastery (prevents min/maxing)
+- Max 1.5 stars reduction from skills, 1.0 from mastery (activities stay challenging)
+- Backward compatible: activities default to 3 stars difficulty if not specified
+- Difficulty breakdown pattern: base, effective, reductions, per-skill details for tooltips
+
 ### Pending Todos
 
 No pending todos.
@@ -157,7 +166,7 @@ No pending todos.
 ## Session Continuity
 
 Last session: 2026-01-23
-Stopped at: Completed 09-03-PLAN.md (Phase 9 verification complete)
+Stopped at: Completed 09.1-01-PLAN.md (Difficulty calculation foundation)
 Resume file: None
 
-**Next step:** Phase 9.1 - Activity Difficulty (inserted phase)
+**Next step:** Phase 9.1-02 - Difficulty UI Display
