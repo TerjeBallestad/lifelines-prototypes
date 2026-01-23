@@ -1,7 +1,8 @@
 import { observer } from 'mobx-react-lite';
 import { NeedBar } from './NeedBar';
 import { DerivedStatsSection } from './DerivedStatsSection';
-import type { Needs, NeedKey, DerivedStats, StatBreakdown } from '../entities/types';
+import { ActionResourcesSection } from './ActionResourcesSection';
+import type { Needs, NeedKey, DerivedStats, StatBreakdown, ActionResources } from '../entities/types';
 import type { NeedsConfig } from '../config/balance';
 
 interface NeedsPanelProps {
@@ -10,6 +11,12 @@ interface NeedsPanelProps {
   derivedStats?: DerivedStats;
   moodBreakdown?: StatBreakdown;
   purposeEquilibrium?: number;
+  actionResources?: ActionResources;
+  overskuddBreakdown?: StatBreakdown;
+  socialBatteryBreakdown?: StatBreakdown;
+  focusBreakdown?: StatBreakdown;
+  willpowerBreakdown?: StatBreakdown;
+  extraversion?: number;
 }
 
 // Need groupings
@@ -37,6 +44,12 @@ export const NeedsPanel = observer(function NeedsPanel({
   derivedStats,
   moodBreakdown,
   purposeEquilibrium,
+  actionResources,
+  overskuddBreakdown,
+  socialBatteryBreakdown,
+  focusBreakdown,
+  willpowerBreakdown,
+  extraversion,
 }: NeedsPanelProps) {
   const { criticalThreshold } = needsConfig;
 
@@ -84,6 +97,19 @@ export const NeedsPanel = observer(function NeedsPanel({
           derivedStats={derivedStats}
           moodBreakdown={moodBreakdown}
           purposeEquilibrium={purposeEquilibrium}
+        />
+      )}
+
+      {/* Action Resources - only show if actionResources available */}
+      {actionResources && overskuddBreakdown && socialBatteryBreakdown &&
+       focusBreakdown && willpowerBreakdown && extraversion !== undefined && (
+        <ActionResourcesSection
+          actionResources={actionResources}
+          overskuddBreakdown={overskuddBreakdown}
+          socialBatteryBreakdown={socialBatteryBreakdown}
+          focusBreakdown={focusBreakdown}
+          willpowerBreakdown={willpowerBreakdown}
+          extraversion={extraversion}
         />
       )}
     </div>
