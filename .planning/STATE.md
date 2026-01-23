@@ -11,25 +11,25 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 ## Current Position
 
 Phase: 8 of 12 (Derived Wellbeing)
-Plan: 2 of 3 in current phase
+Plan: 3 of 4 in current phase
 Status: In progress
-Last activity: 2026-01-23 - Completed 08-02-PLAN.md (Character Integration)
+Last activity: 2026-01-23 - Completed 08-03-PLAN.md (UI Display)
 
-Progress: [█████░░░░░] ~42% (milestone v1.1, 5/~12 plans across 6 phases)
+Progress: [█████░░░░░] ~46% (milestone v1.1, 6/~13 plans across 6 phases)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5 (v1.1)
-- Average duration: ~2.4 min (code plans only)
-- Total execution time: ~11 min (excluding human verification)
+- Total plans completed: 6 (v1.1)
+- Average duration: ~2.1 min (code plans only)
+- Total execution time: ~12 min (excluding human verification)
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 07-primary-needs | 3 | 5 min | 1.7 min |
-| 08-derived-wellbeing | 2 | 6 min | 3.0 min |
+| 08-derived-wellbeing | 3 | 7 min | 2.3 min |
 
 **Recent Trend:**
 - 07-01: 2 min (2 tasks, 4 files)
@@ -37,6 +37,7 @@ Progress: [█████░░░░░] ~42% (milestone v1.1, 5/~12 plans acr
 - 07-03: Human verification (1 checkpoint)
 - 08-01: 2 min (3 tasks, 4 files)
 - 08-02: 4 min (3 tasks, 1 file)
+- 08-03: 1 min (4 tasks, 4 files)
 - Trend: Consistent rapid delivery
 
 **v1.0 Reference:**
@@ -85,6 +86,11 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - Food quality uses 90/10 EMA for slow nutrition response
 - Tick update chains: applyNeedsDecay -> applyDerivedStatsUpdate
 
+**08-03 UI Display:**
+- Mood shown as emoji (happy/content/neutral/sad) for intuitive understanding
+- Purpose bar shows equilibrium marker with personality baseline indicator
+- Derived Wellbeing section visually separated from Primary Needs via border-t
+
 ### Pending Todos
 
 1 todo pending. See `.planning/todos/pending/`
@@ -106,7 +112,7 @@ Decisions are logged in PROJECT.md Key Decisions table.
 ## Session Continuity
 
 Last session: 2026-01-23
-Stopped at: Completed 08-02-PLAN.md (Character Integration)
+Stopped at: Completed 08-03-PLAN.md (UI Display)
 Resume file: None
 
-**Next step:** Execute 08-03-PLAN.md (UI Display) - Add derived stats to panel UI
+**Next step:** Execute 08-04-PLAN.md (Visual Verification) - Verify derived wellbeing UI
