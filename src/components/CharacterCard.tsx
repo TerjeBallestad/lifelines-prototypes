@@ -31,18 +31,15 @@ export const CharacterCard = observer(function CharacterCard() {
       <div className="card-body">
         <h2 className="card-title">{character.displayName}</h2>
 
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text">Name</span>
-          </label>
+        <label className="input input-bordered">
+          <span className="label">Name</span>
           <input
             type="text"
             value={character.name}
             onChange={(e) => character.setName(e.target.value)}
             placeholder="Enter character name"
-            className="input input-bordered"
           />
-        </div>
+        </label>
 
         <div className="divider">Status</div>
 

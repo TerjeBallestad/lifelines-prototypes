@@ -25,34 +25,28 @@ export const DevToolsPanel = observer(function DevToolsPanel() {
         {/* Simulation section */}
         <div>
           <h3 className="mb-2 text-sm font-semibold">Simulation</h3>
-          <div className="form-control">
-            <label className="input">
-              <span className="label">
-                Speed: {simulationStore.speed.toFixed(1)}x
-              </span>
-              <input
-                type="range"
-                min="0"
-                max="10"
-                step="0.5"
-                value={simulationStore.speed}
-                onChange={(e) =>
-                  simulationStore.setSpeed(parseFloat(e.target.value))
-                }
-                className="range range-sm"
-              />
-            </label>
-          </div>
+          <label className="input">
+            <span className="label">Speed: {simulationStore.speed.toFixed(1)}x</span>
+            <input
+              type="range"
+              min="0"
+              max="10"
+              step="0.5"
+              value={simulationStore.speed}
+              onChange={(e) =>
+                simulationStore.setSpeed(parseFloat(e.target.value))
+              }
+              className="range range-sm"
+            />
+          </label>
         </div>
 
         {/* Balance parameters section */}
         <div className="divider text-sm">Balance</div>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           {/* Activity system */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text text-xs">Min Overskudd to Start</span>
-            </label>
+          <label className="input input-sm input-bordered">
+            <span className="label text-xs">Min Overskudd to Start</span>
             <input
               type="number"
               min="0"
@@ -63,16 +57,11 @@ export const DevToolsPanel = observer(function DevToolsPanel() {
                   parseFloat(e.target.value)
                 )
               }
-              className="input input-sm input-bordered"
             />
-          </div>
+          </label>
 
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text text-xs">
-                Mastery Bonus Per Level
-              </span>
-            </label>
+          <label className="input input-sm input-bordered">
+            <span className="label text-xs">Mastery Bonus Per Level</span>
             <input
               type="number"
               min="0"
@@ -84,14 +73,11 @@ export const DevToolsPanel = observer(function DevToolsPanel() {
                   parseFloat(e.target.value)
                 )
               }
-              className="input input-sm input-bordered"
             />
-          </div>
+          </label>
 
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text text-xs">Mastery XP on Success</span>
-            </label>
+          <label className="input input-sm input-bordered">
+            <span className="label text-xs">Mastery XP on Success</span>
             <input
               type="number"
               min="0"
@@ -102,14 +88,11 @@ export const DevToolsPanel = observer(function DevToolsPanel() {
                   parseFloat(e.target.value)
                 )
               }
-              className="input input-sm input-bordered"
             />
-          </div>
+          </label>
 
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text text-xs">Mastery XP on Failure</span>
-            </label>
+          <label className="input input-sm input-bordered">
+            <span className="label text-xs">Mastery XP on Failure</span>
             <input
               type="number"
               min="0"
@@ -120,15 +103,12 @@ export const DevToolsPanel = observer(function DevToolsPanel() {
                   parseFloat(e.target.value)
                 )
               }
-              className="input input-sm input-bordered"
             />
-          </div>
+          </label>
 
           {/* Talent system */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text text-xs">Talent Pick Threshold</span>
-            </label>
+          <label className="input input-sm input-bordered">
+            <span className="label text-xs">Talent Pick Threshold</span>
             <input
               type="number"
               min="0"
@@ -139,14 +119,11 @@ export const DevToolsPanel = observer(function DevToolsPanel() {
                   parseFloat(e.target.value)
                 )
               }
-              className="input input-sm input-bordered"
             />
-          </div>
+          </label>
 
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text text-xs">Max Pending Picks</span>
-            </label>
+          <label className="input input-sm input-bordered">
+            <span className="label text-xs">Max Pending Picks</span>
             <input
               type="number"
               min="0"
@@ -157,17 +134,12 @@ export const DevToolsPanel = observer(function DevToolsPanel() {
                   parseFloat(e.target.value)
                 )
               }
-              className="input input-sm input-bordered"
             />
-          </div>
+          </label>
 
           {/* Personality system */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text text-xs">
-                Personality Modifier Strength
-              </span>
-            </label>
+          <label className="input input-sm input-bordered">
+            <span className="label text-xs">Personality Modifier Strength</span>
             <input
               type="number"
               min="0"
@@ -179,15 +151,12 @@ export const DevToolsPanel = observer(function DevToolsPanel() {
                   parseFloat(e.target.value)
                 )
               }
-              className="input input-sm input-bordered"
             />
-          </div>
+          </label>
 
           {/* Simulation system */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text text-xs">Simulation Tick (ms)</span>
-            </label>
+          <label className="input input-sm input-bordered">
+            <span className="label text-xs">Simulation Tick (ms)</span>
             <input
               type="number"
               min="0"
@@ -199,9 +168,8 @@ export const DevToolsPanel = observer(function DevToolsPanel() {
                   parseFloat(e.target.value)
                 )
               }
-              className="input input-sm input-bordered"
             />
-          </div>
+          </label>
         </div>
 
         {/* Reset button */}

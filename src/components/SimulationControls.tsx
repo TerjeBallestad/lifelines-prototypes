@@ -29,8 +29,8 @@ export const SimulationControls = observer(function SimulationControls() {
       </button>
 
       {/* Speed slider */}
-      <div className="flex flex-col gap-1">
-        <label className="text-base-content/70 text-xs">Speed: {speed}x</label>
+      <label className="input w-auto gap-2">
+        <span className="label text-xs">Speed: {speed}x</span>
         <input
           type="range"
           min="0"
@@ -40,7 +40,7 @@ export const SimulationControls = observer(function SimulationControls() {
           onChange={(e) => simulationStore.setSpeed(Number(e.target.value))}
           className="range range-xs range-primary w-32"
         />
-      </div>
+      </label>
 
       {/* Time display */}
       <div className="text-base-content/70 font-mono text-sm">
@@ -48,17 +48,15 @@ export const SimulationControls = observer(function SimulationControls() {
       </div>
 
       {/* v1.1 Needs System Toggle */}
-      <div className="form-control">
-        <label className="label cursor-pointer gap-2">
-          <span className="label-text">v1.1 Needs</span>
-          <input
-            type="checkbox"
-            className="toggle toggle-primary"
-            checked={root.needsSystemEnabled}
-            onChange={() => root.toggleNeedsSystem()}
-          />
-        </label>
-      </div>
+      <label className="input cursor-pointer gap-2">
+        <span className="label">v1.1 Needs</span>
+        <input
+          type="checkbox"
+          className="toggle toggle-primary"
+          checked={root.needsSystemEnabled}
+          onChange={() => root.toggleNeedsSystem()}
+        />
+      </label>
     </div>
   );
 });
