@@ -96,11 +96,11 @@ Plans:
 - [x] 09-03-PLAN.md — Human verification checkpoint
 
 ### Phase 9.1: Activity Difficulty (INSERTED)
-**Goal:** Activities have difficulty ratings that determine resource costs, with calculations based on skill level and personality alignment.
+**Goal:** Activities have difficulty ratings that determine resource costs, with calculations based on skill level and mastery.
 
 **Depends on:** Phase 9
 
-**Requirements:** TBD
+**Requirements:** ACTV-02 (partial)
 
 **Success Criteria** (what must be TRUE):
 1. Each activity has a difficulty rating that affects Overskudd/Willpower/Focus costs
@@ -109,11 +109,12 @@ Plans:
 4. Player can see difficulty rating and cost breakdown before selecting activity
 5. Difficulty calculations integrate with action resource gating from Phase 9
 
-**Plans:** TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 09.1-01: TBD
-- [ ] 09.1-02: TBD
+- [ ] 09.1-01-PLAN.md — Difficulty types, config, and Activity calculation methods
+- [ ] 09.1-02-PLAN.md — Activity data and DifficultyStars UI component
+- [ ] 09.1-03-PLAN.md — Human verification checkpoint
 
 ### Phase 10: Activity-Need Integration
 **Goal:** Activities restore specific needs, consume resources, and adjust costs based on skill level, creating the gameplay loop.
@@ -185,11 +186,11 @@ Phases execute in numeric order: 7 → 8 → 9 → 9.1 → 10 → 11 → 12
 | 7. Primary Needs Foundation | v1.1 | 3/3 | ✓ Complete | 2026-01-23 |
 | 8. Derived Wellbeing | v1.1 | 4/4 | ✓ Complete | 2026-01-23 |
 | 9. Action Resources | v1.1 | 3/3 | ✓ Complete | 2026-01-23 |
-| 9.1 Activity Difficulty | v1.1 | 0/TBD | Not started | - |
+| 9.1 Activity Difficulty | v1.1 | 0/3 | Not started | - |
 | 10. Activity-Need Integration | v1.1 | 0/TBD | Not started | - |
 | 11. Autonomous AI | v1.1 | 0/TBD | Not started | - |
 | 12. Tuning & Balance | v1.1 | 0/TBD | Not started | - |
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-23 (Phase 9 planned)*
+*Last updated: 2026-01-23 (Phase 9.1 planned)*
