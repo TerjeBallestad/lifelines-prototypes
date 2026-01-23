@@ -300,6 +300,14 @@ export interface ActivityData {
   // Difficulty system (Phase 9.1) - optional for backward compatibility
   baseDifficulty?: number; // 1-5 stars (default 3)
   skillRequirements?: SkillRequirement[]; // Skills that reduce difficulty
+  // Personality alignment system (Phase 10) - optional
+  tags?: string[]; // Personality alignment tags: 'social', 'solo', 'routine', 'creative', 'cooperative', 'stressful', 'concentration'
+  /**
+   * Need restoration effects applied gradually during activity execution (not on completion).
+   * Positive values restore needs (e.g., hunger: 5 restores 5 hunger per tick).
+   * Can affect multiple needs simultaneously.
+   */
+  needEffects?: Partial<Record<NeedKey, number>>;
 }
 
 // ============================================================================
