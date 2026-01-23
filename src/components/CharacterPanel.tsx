@@ -46,6 +46,12 @@ export const CharacterPanel = observer(function CharacterPanel() {
             derivedStats={character.derivedStats}
             moodBreakdown={character.moodBreakdown}
             purposeEquilibrium={character.purposeEquilibrium}
+            actionResources={character.actionResources}
+            overskuddBreakdown={character.overskuddBreakdown}
+            socialBatteryBreakdown={character.socialBatteryBreakdown}
+            focusBreakdown={character.focusBreakdown}
+            willpowerBreakdown={character.willpowerBreakdown}
+            extraversion={character.personality.extraversion}
           />
         ) : (
           <ResourcePanel resources={character.resources} />
