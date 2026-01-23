@@ -8,8 +8,13 @@ import type {
   CapacityKey,
   Needs,
   NeedKey,
+  DerivedStats,
+  FoodQuality,
+  StatBreakdown,
 } from './types';
-import { defaultNeeds } from './types';
+import { defaultNeeds, defaultDerivedStats } from './types';
+import { needToMoodCurve, asymptoticClamp } from '../utils/curves';
+import { SmoothedValue } from '../utils/smoothing';
 import {
   personalityToModifier,
   applyModifiers,
@@ -48,6 +53,16 @@ export class Character {
   capacities: Capacities;
   resources: Resources;
   needs?: Needs; // v1.1 Primary Needs (optional, initialized via initializeNeeds)
+  derivedStats?: DerivedStats; // v1.1 Derived Wellbeing (optional, initialized via initializeDerivedStats)
+
+  // Transient smoothers (not serialized, recreated on initialization)
+  private moodSmoother?: SmoothedValue;
+  private purposeSmoother?: SmoothedValue;
+  private nutritionSmoother?: SmoothedValue;
+
+  /** Running average of food quality (0-3 scale), affects nutrition target */
+  private recentFoodQuality: number = 1.0;
+
   private root?: RootStore;
 
   constructor(data: CharacterData, root?: RootStore) {
@@ -109,6 +124,34 @@ export class Character {
    */
   initializeNeeds(): void {
     this.needs = defaultNeeds();
+    this.initializeDerivedStats();
+  }
+
+  /**
+   * Action: Initialize the v1.1 derived wellbeing stats system.
+   * Sets up derived stats and smoothers for mood, purpose, and nutrition.
+   * Called automatically at the end of initializeNeeds().
+   */
+  initializeDerivedStats(): void {
+    // Guard: only if balance config is available
+    if (!this.root?.balanceConfig) return;
+
+    this.derivedStats = defaultDerivedStats();
+    const config = this.root.balanceConfig.derivedStatsConfig;
+
+    // Initialize smoothers with starting values and config alphas
+    this.moodSmoother = new SmoothedValue(
+      this.derivedStats.mood,
+      config.moodSmoothingAlpha
+    );
+    this.purposeSmoother = new SmoothedValue(
+      this.derivedStats.purpose,
+      config.purposeSmoothingAlpha
+    );
+    this.nutritionSmoother = new SmoothedValue(
+      this.derivedStats.nutrition,
+      config.nutritionSmoothingAlpha
+    );
   }
 
   /**
