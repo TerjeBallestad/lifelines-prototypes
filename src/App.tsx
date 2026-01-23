@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Toaster } from 'sonner';
 import { ActivityPanel } from './components/ActivityPanel';
 import { CharacterPanel } from './components/CharacterPanel';
+import { CharacterSelector } from './components/CharacterSelector';
 import { SimulationControls } from './components/SimulationControls';
 import { SkillTreePanel } from './components/SkillTreePanel';
 import { TalentSelectionModal } from './components/TalentSelectionModal';
@@ -36,6 +37,7 @@ const App = observer(function App() {
           <main className="flex-1 p-4 overflow-y-auto">
             <div className="flex items-center gap-4 mb-6">
               <h1 className="text-2xl font-bold">Lifelines Prototype</h1>
+              <CharacterSelector />
               <button
                 onClick={() => setComparisonMode(true)}
                 className="btn btn-sm btn-outline"
