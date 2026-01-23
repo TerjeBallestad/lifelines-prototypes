@@ -85,12 +85,14 @@ export interface DerivedStats {
  * Food quality levels for nutrition tracking.
  * Higher quality food contributes more to the nutrition stat.
  */
-export enum FoodQuality {
-  Bad = 0,   // Junk food, fast food
-  OK = 1,    // Basic meals, convenience food
-  Good = 2,  // Balanced nutrition, home cooking
-  Great = 3, // Premium healthy food, fresh ingredients
-}
+export const FoodQuality = {
+  Bad: 0,   // Junk food, fast food
+  OK: 1,    // Basic meals, convenience food
+  Good: 2,  // Balanced nutrition, home cooking
+  Great: 3, // Premium healthy food, fresh ingredients
+} as const;
+
+export type FoodQuality = (typeof FoodQuality)[keyof typeof FoodQuality];
 
 /**
  * Breakdown of a stat value for UI tooltip display.
@@ -115,6 +117,50 @@ export function defaultDerivedStats(): DerivedStats {
     mood: 50,
     purpose: 50,
     nutrition: 70,
+  };
+}
+
+// ============================================================================
+// Action Resources System Types (v1.1)
+// ============================================================================
+
+/**
+ * Action resources that gate activities and autonomous decisions.
+ * 4 resources on 0-100 scale computed from needs, personality, and wellbeing.
+ */
+export interface ActionResources {
+  /** Overskudd: Surplus capacity computed from Mood + Energy + Purpose */
+  overskudd: number;
+  /** socialBattery: Charge/drain inverted by Extraversion personality */
+  socialBattery: number;
+  /** Focus: Depleted by concentration activities */
+  focus: number;
+  /** Willpower: Depleted by difficult tasks, boosted by Fun */
+  willpower: number;
+}
+
+/**
+ * Social context levels for socialBattery drain/charge calculation.
+ * 0 = Solo (alone, no social interaction)
+ * 1 = Social (casual social contact)
+ * 2 = Intense (active/demanding social interaction)
+ */
+export type SocialContext = 0 | 1 | 2;
+
+/**
+ * Factory function for default starting action resources.
+ * Values chosen to start moderate, allowing adjustment to computed targets:
+ * - Overskudd: 70 (moderate, will adjust to Mood+Energy+Purpose)
+ * - socialBattery: 70 (moderate start)
+ * - Focus: 100 (start full)
+ * - Willpower: 80 (start high)
+ */
+export function defaultActionResources(): ActionResources {
+  return {
+    overskudd: 70,
+    socialBattery: 70,
+    focus: 100,
+    willpower: 80,
   };
 }
 

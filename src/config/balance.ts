@@ -124,6 +124,92 @@ export const DEFAULT_DERIVED_STATS_CONFIG: DerivedStatsConfig = {
 };
 
 // ============================================================================
+// Action Resources Configuration (v1.1)
+// ============================================================================
+
+/**
+ * Configuration for action resources (Overskudd, socialBattery, Focus, Willpower).
+ * Controls smoothing, target computation, and drain/charge rates.
+ */
+export interface ActionResourcesConfig {
+  // Overskudd configuration
+  /** Smoothing alpha for Overskudd changes (0.1 = moderate) */
+  overskuddAlpha: number;
+  /** Weight of Mood in Overskudd computation (should sum to 1.0 with energy+purpose) */
+  overskuddMoodWeight: number;
+  /** Weight of Energy in Overskudd computation */
+  overskuddEnergyWeight: number;
+  /** Weight of Purpose in Overskudd computation */
+  overskuddPurposeWeight: number;
+
+  // socialBattery configuration
+  /** Smoothing alpha for socialBattery changes (0.08 = slower than Overskudd) */
+  socialBatteryAlpha: number;
+  /** Drain rate for introverts in social context (per tick) */
+  introvertDrainRate: number;
+  /** Charge rate for introverts in solo context (per tick) */
+  introvertChargeRate: number;
+  /** Drain rate for extroverts in solo context (per tick) */
+  extrovertDrainRate: number;
+  /** Charge rate for extroverts in social context (per tick) */
+  extrovertChargeRate: number;
+  /** Neutral drain rate for ambiverts (per tick) */
+  ambivertDrainRate: number;
+  /** Willpower cost per tick when socialBattery is at 0 */
+  zeroSocialBatteryWillpowerCost: number;
+
+  // Focus configuration
+  /** Smoothing alpha for Focus changes (0.1 = moderate) */
+  focusAlpha: number;
+  /** Passive regen rate when no concentration activity (per tick) */
+  focusRegenRate: number;
+  /** Cost per tick for concentration activities */
+  focusCostPerTick: number;
+
+  // Willpower configuration
+  /** Smoothing alpha for Willpower changes (0.08 = slower than Focus) */
+  willpowerAlpha: number;
+  /** Passive regen rate when no difficult activity (per tick) */
+  willpowerRegenRate: number;
+  /** Boost to willpower target from Fun need satisfaction */
+  willpowerFunBoost: number;
+  /** Willpower cost for decision-making (per decision) */
+  willpowerDecisionCost: number;
+}
+
+/**
+ * Default action resources configuration.
+ * Tuned for personality differentiation and meaningful resource pressure.
+ */
+export const DEFAULT_ACTION_RESOURCES_CONFIG: ActionResourcesConfig = {
+  // Overskudd: weighted from Mood + Energy + Purpose
+  overskuddAlpha: 0.1,
+  overskuddMoodWeight: 0.4,
+  overskuddEnergyWeight: 0.35,
+  overskuddPurposeWeight: 0.25,
+
+  // socialBattery: personality-inverted drain/charge
+  socialBatteryAlpha: 0.08,
+  introvertDrainRate: 0.5, // Introverts drain faster in social
+  introvertChargeRate: 0.3, // Introverts charge slower when solo
+  extrovertDrainRate: 0.4, // Extroverts drain moderately when solo
+  extrovertChargeRate: 0.4, // Extroverts charge moderately when social
+  ambivertDrainRate: 0.1, // Ambiverts drain slowly in both contexts
+  zeroSocialBatteryWillpowerCost: 20, // High cost to force breaks
+
+  // Focus: depleted by concentration activities
+  focusAlpha: 0.1,
+  focusRegenRate: 0.2, // Regen when resting
+  focusCostPerTick: 0.5, // Cost for concentration activities
+
+  // Willpower: depleted by difficult tasks, boosted by Fun
+  willpowerAlpha: 0.08,
+  willpowerRegenRate: 0.15, // Regen when resting
+  willpowerFunBoost: 0.3, // Boost from Fun need satisfaction
+  willpowerDecisionCost: 5, // Cost per autonomous decision
+};
+
+// ============================================================================
 // Core Balance Configuration (v1.0)
 // ============================================================================
 
@@ -153,6 +239,9 @@ export interface BalanceConfig {
 
   // Derived Stats system (v1.1)
   derivedStats: DerivedStatsConfig;
+
+  // Action Resources system (v1.1)
+  actionResources: ActionResourcesConfig;
 }
 
 /**
@@ -170,6 +259,7 @@ export const DEFAULT_BALANCE: BalanceConfig = {
   simulationTickMs: 1000,
   needs: DEFAULT_NEEDS_CONFIG,
   derivedStats: DEFAULT_DERIVED_STATS_CONFIG,
+  actionResources: DEFAULT_ACTION_RESOURCES_CONFIG,
 };
 
 /**
@@ -224,6 +314,10 @@ export class BalanceConfigStore {
 
   get derivedStatsConfig(): DerivedStatsConfig {
     return this.config.derivedStats;
+  }
+
+  get actionResourcesConfig(): ActionResourcesConfig {
+    return this.config.actionResources;
   }
 
   /**
