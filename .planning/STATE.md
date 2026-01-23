@@ -11,19 +11,19 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 ## Current Position
 
 Phase: 9.1 of 12 (Activity Difficulty)
-Plan: 1 of 3 in current phase
+Plan: 2 of 3 in current phase
 Status: In progress
-Last activity: 2026-01-23 - Completed 09.1-01-PLAN.md
+Last activity: 2026-01-23 - Completed 09.1-02-PLAN.md
 
-Progress: [███████░░░] ~78% (milestone v1.1, 11/14 plans across 8 phases)
+Progress: [████████░░] ~86% (milestone v1.1, 12/14 plans across 8 phases)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 11 (v1.1)
+- Total plans completed: 12 (v1.1)
 - Average duration: ~2.5 min (code plans only)
-- Total execution time: ~34 min (excluding human verification)
+- Total execution time: ~37 min (excluding human verification)
 
 **By Phase:**
 
@@ -32,7 +32,7 @@ Progress: [███████░░░] ~78% (milestone v1.1, 11/14 plans acr
 | 07-primary-needs       | 3     | 5 min  | 1.7 min  |
 | 08-derived-wellbeing   | 4     | 7 min  | 2.3 min  |
 | 09-action-resources    | 3     | 19 min | 6.3 min  |
-| 09.1-activity-difficulty | 1   | 3 min  | 3.0 min  |
+| 09.1-activity-difficulty | 2   | 6 min  | 3.0 min  |
 
 **Recent Trend:**
 
@@ -47,6 +47,7 @@ Progress: [███████░░░] ~78% (milestone v1.1, 11/14 plans acr
 - 09-02: 3 min (3 tasks, 3 files)
 - 09-03: 11 min (1 checkpoint + 1 fix, 1 file)
 - 09.1-01: 3 min (2 tasks, 4 files)
+- 09.1-02: 3 min (3 tasks, 3 files)
 - Trend: Consistent rapid delivery, verification checkpoints ~10 min
 
 **v1.0 Reference:**
@@ -148,6 +149,14 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - Backward compatible: activities default to 3 stars difficulty if not specified
 - Difficulty breakdown pattern: base, effective, reductions, per-skill details for tooltips
 
+**09.1-02 Difficulty UI Display:**
+
+- DaisyUI rating component with mask-star-2 for star shapes (read-only divs, not inputs)
+- Semantic color coding: bg-success (1-2 easy), bg-warning (2.5-3.5 medium), bg-error (4-5 hard)
+- Native Popover API tooltips matching ActionResourcesSection pattern
+- ActivityCard character prop enables personalized difficulty display
+- All 8 starter activities have baseDifficulty and skillRequirements specified
+
 ### Pending Todos
 
 No pending todos.
@@ -166,7 +175,7 @@ No pending todos.
 ## Session Continuity
 
 Last session: 2026-01-23
-Stopped at: Completed 09.1-01-PLAN.md (Difficulty calculation foundation)
+Stopped at: Completed 09.1-02-PLAN.md (Difficulty UI display)
 Resume file: None
 
-**Next step:** Phase 9.1-02 - Difficulty UI Display
+**Next step:** Phase 9.1-03 - Difficulty verification checkpoint
