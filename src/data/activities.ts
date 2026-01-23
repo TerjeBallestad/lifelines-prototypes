@@ -1,4 +1,5 @@
 import type { ActivityData } from '../entities/types';
+import type { SkillRequirement } from '../types/difficulty';
 
 /**
  * Starter activities representing daily life tasks across domains.
@@ -26,6 +27,11 @@ export const STARTER_ACTIVITIES: ActivityData[] = [
     },
     baseXPRate: 1.5,
     startRequirements: { minOverskudd: 15 },
+    baseDifficulty: 2,
+    skillRequirements: [
+      { skillId: 'small-talk', weight: 1.0, maxReduction: 0.8 },
+      { skillId: 'eye-contact', weight: 0.5, maxReduction: 0.4 },
+    ],
   },
   {
     id: 'phone-call-practice',
@@ -45,6 +51,11 @@ export const STARTER_ACTIVITIES: ActivityData[] = [
     },
     baseXPRate: 2.0,
     startRequirements: { minOverskudd: 25 },
+    baseDifficulty: 4,
+    skillRequirements: [
+      { skillId: 'phone-call', weight: 1.0, maxReduction: 1.0 },
+      { skillId: 'small-talk', weight: 0.5, maxReduction: 0.5 },
+    ],
   },
 
   // === ORGANISATIONAL DOMAIN ===
@@ -65,6 +76,11 @@ export const STARTER_ACTIVITIES: ActivityData[] = [
     },
     baseXPRate: 1.0,
     startRequirements: { minOverskudd: 10 },
+    baseDifficulty: 2,
+    skillRequirements: [
+      { skillId: 'make-list', weight: 1.0, maxReduction: 0.8 },
+      { skillId: 'follow-routine', weight: 0.3, maxReduction: 0.3 },
+    ],
   },
   {
     id: 'tidy-room',
@@ -85,6 +101,11 @@ export const STARTER_ACTIVITIES: ActivityData[] = [
     },
     baseXPRate: 1.5,
     startRequirements: { minOverskudd: 20, minEnergy: 30 },
+    baseDifficulty: 3,
+    skillRequirements: [
+      { skillId: 'follow-routine', weight: 1.0, maxReduction: 0.8 },
+      { skillId: 'make-list', weight: 0.4, maxReduction: 0.4 },
+    ],
   },
 
   // === PHYSICAL DOMAIN ===
@@ -105,6 +126,11 @@ export const STARTER_ACTIVITIES: ActivityData[] = [
     },
     baseXPRate: 1.5,
     startRequirements: { minOverskudd: 15 },
+    baseDifficulty: 2,
+    skillRequirements: [
+      { skillId: 'go-outside', weight: 1.0, maxReduction: 0.8 },
+      { skillId: 'walk-neighborhood', weight: 0.5, maxReduction: 0.5 },
+    ],
   },
   {
     id: 'visit-store',
@@ -126,6 +152,12 @@ export const STARTER_ACTIVITIES: ActivityData[] = [
     },
     baseXPRate: 2.5,
     startRequirements: { minOverskudd: 25, minEnergy: 40 },
+    baseDifficulty: 4,
+    skillRequirements: [
+      { skillId: 'go-to-store', weight: 1.0, maxReduction: 1.0 },
+      { skillId: 'go-outside', weight: 0.3, maxReduction: 0.3 },
+      { skillId: 'make-list', weight: 0.3, maxReduction: 0.3 },
+    ],
   },
 
   // === RESTORATIVE ACTIVITIES ===
@@ -143,6 +175,8 @@ export const STARTER_ACTIVITIES: ActivityData[] = [
     capacityProfile: {}, // No capacity requirements - anyone can rest
     baseXPRate: 0.5, // Low XP for resting
     startRequirements: {}, // Can always rest
+    baseDifficulty: 1,
+    skillRequirements: [], // Anyone can rest
   },
   {
     id: 'solo-hobby',
@@ -162,5 +196,7 @@ export const STARTER_ACTIVITIES: ActivityData[] = [
     },
     baseXPRate: 1.0,
     startRequirements: { minOverskudd: 10 },
+    baseDifficulty: 2,
+    skillRequirements: [], // No skill requirements for hobbies
   },
 ];
