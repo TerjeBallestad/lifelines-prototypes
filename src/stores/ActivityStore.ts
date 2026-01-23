@@ -2,7 +2,8 @@ import { makeAutoObservable, observable } from 'mobx';
 import { toast } from 'sonner';
 import { Activity } from '../entities/Activity';
 import type { RootStore } from './RootStore';
-import type { ActivityData, CapacityKey, ResourceKey } from '../entities/types';
+import type { ActivityData, CapacityKey, ResourceKey, NeedKey } from '../entities/types';
+import { calculatePersonalityAlignment } from '../utils/personalityFit';
 
 // Minimum overskudd required to start any activity
 const MIN_OVERSKUDD_TO_START = 20;
@@ -337,6 +338,7 @@ export class ActivityStore {
 
   /**
    * Apply per-tick resource effects from the current activity.
+   * v1.1: Also handles need restoration with personality alignment.
    */
   private applyResourceEffects(speedMultiplier: number): void {
     const activity = this.currentActivity;
@@ -360,6 +362,26 @@ export class ActivityStore {
         Math.min(100, character.resources[resourceKey] + effect)
       );
       character.resources[resourceKey] = newValue;
+    }
+
+    // v1.1 Need restoration (if needs system enabled)
+    if (character.needs && activity.needEffects) {
+      const alignment = calculatePersonalityAlignment(
+        activity.tags,
+        character.personality
+      );
+
+      for (const [needKey, baseRestore] of Object.entries(activity.needEffects)) {
+        // Apply personality gain multiplier
+        let restore = baseRestore * alignment.gainMultiplier * speedMultiplier;
+
+        // Apply mastery bonus (same pattern as resource restore)
+        restore *= 1 + activity.masteryBonus * 0.5;
+
+        // Update need (clamped to 0-100)
+        const key = needKey as NeedKey;
+        character.needs[key] = Math.max(0, Math.min(100, character.needs[key] + restore));
+      }
     }
   }
 
