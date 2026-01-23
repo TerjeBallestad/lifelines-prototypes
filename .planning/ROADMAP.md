@@ -91,9 +91,9 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 09-01-PLAN.md — Types, config, and Character action resources logic
-- [ ] 09-02-PLAN.md — ActionResourcesSection UI and NeedsPanel integration
-- [ ] 09-03-PLAN.md — Human verification checkpoint
+- [x] 09-01-PLAN.md — Types, config, and Character action resources logic
+- [x] 09-02-PLAN.md — ActionResourcesSection UI and NeedsPanel integration
+- [x] 09-03-PLAN.md — Human verification checkpoint
 
 ### Phase 9.1: Activity Difficulty (INSERTED)
 **Goal:** Activities have difficulty ratings that determine resource costs, with calculations based on skill level and personality alignment.
@@ -184,7 +184,7 @@ Phases execute in numeric order: 7 → 8 → 9 → 9.1 → 10 → 11 → 12
 |-------|-----------|----------------|--------|-----------|
 | 7. Primary Needs Foundation | v1.1 | 3/3 | ✓ Complete | 2026-01-23 |
 | 8. Derived Wellbeing | v1.1 | 4/4 | ✓ Complete | 2026-01-23 |
-| 9. Action Resources | v1.1 | 0/3 | Planned | - |
+| 9. Action Resources | v1.1 | 3/3 | ✓ Complete | 2026-01-23 |
 | 9.1 Activity Difficulty | v1.1 | 0/TBD | Not started | - |
 | 10. Activity-Need Integration | v1.1 | 0/TBD | Not started | - |
 | 11. Autonomous AI | v1.1 | 0/TBD | Not started | - |
