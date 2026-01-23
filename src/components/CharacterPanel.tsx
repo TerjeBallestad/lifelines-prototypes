@@ -65,8 +65,8 @@ export const CharacterPanel = observer(function CharacterPanel() {
           </summary>
           <div className="mt-2 flex flex-col gap-2">
             {Object.entries(character.personality).map(([key, value]) => (
-              <div key={key} className="flex items-center gap-2">
-                <label className="w-24 text-xs capitalize">{key}</label>
+              <label key={key} className="input input-xs flex items-center gap-2">
+                <span className="label w-24 capitalize">{key}</span>
                 <input
                   type="range"
                   min="0"
@@ -80,7 +80,7 @@ export const CharacterPanel = observer(function CharacterPanel() {
                   className="range range-xs w-full"
                 />
                 <span className="w-8 text-right text-xs">{value}</span>
-              </div>
+              </label>
             ))}
           </div>
         </details>

@@ -48,8 +48,8 @@ export const SimulationControls = observer(function SimulationControls() {
       </div>
 
       {/* v1.1 Needs System Toggle */}
-      <label className="input cursor-pointer gap-2">
-        <span className="label">v1.1 Needs</span>
+      <label className="flex cursor-pointer items-center gap-2">
+        <span className="text-sm">v1.1 Needs</span>
         <input
           type="checkbox"
           className="toggle toggle-primary"
