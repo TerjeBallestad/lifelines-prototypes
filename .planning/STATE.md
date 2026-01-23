@@ -6,33 +6,33 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** The player experiences satisfying growth by helping patients develop missing life skills - the victory isn't heroic, it's watching someone finally answer the phone.
 
-**Current focus:** Phase 9.1 in progress - Activity Difficulty
+**Current focus:** Phase 9.1 complete - Activity Difficulty
 
 ## Current Position
 
 Phase: 9.1 of 12 (Activity Difficulty)
-Plan: 2 of 3 in current phase
-Status: In progress
-Last activity: 2026-01-23 - Completed 09.1-02-PLAN.md
+Plan: 3 of 3 in current phase
+Status: ✓ Phase 9.1 complete
+Last activity: 2026-01-23 - Completed 09.1-03-PLAN.md (verification checkpoint)
 
-Progress: [████████░░] ~86% (milestone v1.1, 12/14 plans across 8 phases)
+Progress: [████████░░] ~87% (milestone v1.1, 13/15 plans across 8 phases)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 12 (v1.1)
+- Total plans completed: 13 (v1.1)
 - Average duration: ~2.5 min (code plans only)
-- Total execution time: ~37 min (excluding human verification)
+- Total execution time: ~40 min (excluding human verification)
 
 **By Phase:**
 
-| Phase                  | Plans | Total  | Avg/Plan |
-| ---------------------- | ----- | ------ | -------- |
-| 07-primary-needs       | 3     | 5 min  | 1.7 min  |
-| 08-derived-wellbeing   | 4     | 7 min  | 2.3 min  |
-| 09-action-resources    | 3     | 19 min | 6.3 min  |
-| 09.1-activity-difficulty | 2   | 6 min  | 3.0 min  |
+| Phase                    | Plans | Total   | Avg/Plan |
+| ------------------------ | ----- | ------- | -------- |
+| 07-primary-needs         | 3     | 5 min   | 1.7 min  |
+| 08-derived-wellbeing     | 4     | 7 min   | 2.3 min  |
+| 09-action-resources      | 3     | 19 min  | 6.3 min  |
+| 09.1-activity-difficulty | 3     | 21 min  | 7.0 min  |
 
 **Recent Trend:**
 
@@ -48,7 +48,8 @@ Progress: [████████░░] ~86% (milestone v1.1, 12/14 plans acr
 - 09-03: 11 min (1 checkpoint + 1 fix, 1 file)
 - 09.1-01: 3 min (2 tasks, 4 files)
 - 09.1-02: 3 min (3 tasks, 3 files)
-- Trend: Consistent rapid delivery, verification checkpoints ~10 min
+- 09.1-03: 15 min (1 checkpoint + 6 bug fixes)
+- Trend: Consistent rapid delivery, verification checkpoints ~10-15 min
 
 **v1.0 Reference:**
 
@@ -157,6 +158,14 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - ActivityCard character prop enables personalized difficulty display
 - All 8 starter activities have baseDifficulty and skillRequirements specified
 
+**09.1-03 Verification Complete:**
+
+- Difficulty stars visible and color-coded correctly
+- Tooltip breakdown shows skill/mastery contributions when skills are leveled
+- Skill requirements displayed on activity cards (green if learned, ghost if not)
+- Bug fixes: star sizing, popover positioning, Character.getSkill() method for skill access
+- Scope adjusted: cost integration moved to Phase 10 (calculation-only in Phase 9.1)
+
 ### Pending Todos
 
 No pending todos.
@@ -164,6 +173,7 @@ No pending todos.
 ### Roadmap Evolution
 
 - Phase 9.1 inserted after Phase 9: Activity difficulty ratings and calculations (INSERTED)
+- Phase 9.1 scope adjusted: calculation and display only, cost integration moved to Phase 10
 
 ### Blockers/Concerns
 
@@ -172,10 +182,16 @@ No pending todos.
 - Calculation trace overlay and runtime balance tuning UI scope unclear
 - May require accelerated time simulation (7 days at 60x speed) for validation
 
+**Skills per-character:**
+
+- Skills are currently global (stored in SkillStore), not per-character
+- Pre-existing architecture issue, not Phase 9.1 scope
+- Consider addressing in future phase if needed
+
 ## Session Continuity
 
 Last session: 2026-01-23
-Stopped at: Completed 09.1-02-PLAN.md (Difficulty UI display)
+Stopped at: Completed Phase 9.1 (Activity Difficulty)
 Resume file: None
 
-**Next step:** Phase 9.1-03 - Difficulty verification checkpoint
+**Next step:** Phase 10 - Activity-Need Integration
