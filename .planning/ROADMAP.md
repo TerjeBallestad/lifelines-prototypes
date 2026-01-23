@@ -48,9 +48,9 @@ Phases 1-6 delivered: Big Five personality traits, mental capacities, roguelike 
 **Plans:** 3 plans
 
 Plans:
-- [ ] 07-01-PLAN.md — Types, config, and Character needs decay logic
-- [ ] 07-02-PLAN.md — Toggle wiring, NeedsPanel UI components
-- [ ] 07-03-PLAN.md — Human verification checkpoint
+- [x] 07-01-PLAN.md — Types, config, and Character needs decay logic
+- [x] 07-02-PLAN.md — Toggle wiring, NeedsPanel UI components
+- [x] 07-03-PLAN.md — Human verification checkpoint
 
 ### Phase 8: Derived Wellbeing
 **Goal:** Mood and Purpose emerge as computed stats from primary needs and activity-personality alignment, affecting patient capability.
@@ -159,7 +159,7 @@ Phases execute in numeric order: 7 → 8 → 9 → 10 → 11 → 12
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
-| 7. Primary Needs Foundation | v1.1 | 0/3 | Planned | - |
+| 7. Primary Needs Foundation | v1.1 | 3/3 | ✓ Complete | 2026-01-23 |
 | 8. Derived Wellbeing | v1.1 | 0/TBD | Not started | - |
 | 9. Action Resources | v1.1 | 0/TBD | Not started | - |
 | 10. Activity-Need Integration | v1.1 | 0/TBD | Not started | - |
@@ -168,4 +168,4 @@ Phases execute in numeric order: 7 → 8 → 9 → 10 → 11 → 12
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-23*
+*Last updated: 2026-01-23 (Phase 7 complete)*

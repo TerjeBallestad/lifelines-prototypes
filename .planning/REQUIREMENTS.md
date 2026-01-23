@@ -9,11 +9,11 @@ Requirements for Game Balance milestone. Each maps to roadmap phases.
 
 ### Primary Needs
 
-- [ ] **NEED-01**: 7 primary needs exist (Hunger, Energy, Hygiene, Bladder, Social, Fun, Security)
-- [ ] **NEED-02**: Each need has a differential decay rate (physiological faster than social)
-- [ ] **NEED-03**: Needs use Maslow-style curves (Hunger/Bladder/Energy spike urgently, Social/Fun are gentler)
-- [ ] **NEED-04**: Critical threshold at 20% triggers urgent behavior indicators
-- [ ] **NEED-05**: Visual feedback with color-coded bars (green/yellow/orange/red)
+- [x] **NEED-01**: 7 primary needs exist (Hunger, Energy, Hygiene, Bladder, Social, Fun, Security)
+- [x] **NEED-02**: Each need has a differential decay rate (physiological faster than social)
+- [x] **NEED-03**: Needs use Maslow-style curves (Hunger/Bladder/Energy spike urgently, Social/Fun are gentler)
+- [x] **NEED-04**: Critical threshold at 20% triggers urgent behavior indicators
+- [x] **NEED-05**: Visual feedback with color-coded bars (green/yellow/orange/red)
 - [ ] **NEED-06**: Nutrition exists as slow-moving health stat affecting Energy regen and Mood
 
 ### Derived Wellbeing
@@ -47,7 +47,7 @@ Requirements for Game Balance milestone. Each maps to roadmap phases.
 
 ### Migration & Balance
 
-- [ ] **MIGR-01**: Existing v1.0 resources migrated to new structure
+- [x] **MIGR-01**: Existing v1.0 resources migrated to new structure
 - [ ] **MIGR-02**: Calculation trace tooling shows why derived values are what they are
 - [ ] **MIGR-03**: Balance config allows runtime tuning of decay rates and formulas
 
@@ -90,11 +90,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| NEED-01 | Phase 7 | Pending |
-| NEED-02 | Phase 7 | Pending |
-| NEED-03 | Phase 7 | Pending |
-| NEED-04 | Phase 7 | Pending |
-| NEED-05 | Phase 7 | Pending |
+| NEED-01 | Phase 7 | Complete |
+| NEED-02 | Phase 7 | Complete |
+| NEED-03 | Phase 7 | Complete |
+| NEED-04 | Phase 7 | Complete |
+| NEED-05 | Phase 7 | Complete |
 | NEED-06 | Phase 8 | Pending |
 | WELL-01 | Phase 8 | Pending |
 | WELL-02 | Phase 8 | Pending |
@@ -113,7 +113,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUTO-02 | Phase 11 | Pending |
 | AUTO-03 | Phase 11 | Pending |
 | AUTO-04 | Phase 11 | Pending |
-| MIGR-01 | Phase 7 | Pending |
+| MIGR-01 | Phase 7 | Complete |
 | MIGR-02 | Phase 12 | Pending |
 | MIGR-03 | Phase 12 | Pending |
 
@@ -132,4 +132,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-23*
-*Last updated: 2026-01-23 after roadmap creation*
+*Last updated: 2026-01-23 (Phase 7 complete)*
