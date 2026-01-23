@@ -90,38 +90,46 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| NEED-01 | TBD | Pending |
-| NEED-02 | TBD | Pending |
-| NEED-03 | TBD | Pending |
-| NEED-04 | TBD | Pending |
-| NEED-05 | TBD | Pending |
-| NEED-06 | TBD | Pending |
-| WELL-01 | TBD | Pending |
-| WELL-02 | TBD | Pending |
-| WELL-03 | TBD | Pending |
-| WELL-04 | TBD | Pending |
-| RSRC-01 | TBD | Pending |
-| RSRC-02 | TBD | Pending |
-| RSRC-03 | TBD | Pending |
-| RSRC-04 | TBD | Pending |
-| RSRC-05 | TBD | Pending |
-| ACTV-01 | TBD | Pending |
-| ACTV-02 | TBD | Pending |
-| ACTV-03 | TBD | Pending |
-| ACTV-04 | TBD | Pending |
-| AUTO-01 | TBD | Pending |
-| AUTO-02 | TBD | Pending |
-| AUTO-03 | TBD | Pending |
-| AUTO-04 | TBD | Pending |
-| MIGR-01 | TBD | Pending |
-| MIGR-02 | TBD | Pending |
-| MIGR-03 | TBD | Pending |
+| NEED-01 | Phase 7 | Pending |
+| NEED-02 | Phase 7 | Pending |
+| NEED-03 | Phase 7 | Pending |
+| NEED-04 | Phase 7 | Pending |
+| NEED-05 | Phase 7 | Pending |
+| NEED-06 | Phase 8 | Pending |
+| WELL-01 | Phase 8 | Pending |
+| WELL-02 | Phase 8 | Pending |
+| WELL-03 | Phase 8 | Pending |
+| WELL-04 | Phase 8 | Pending |
+| RSRC-01 | Phase 9 | Pending |
+| RSRC-02 | Phase 9 | Pending |
+| RSRC-03 | Phase 9 | Pending |
+| RSRC-04 | Phase 9 | Pending |
+| RSRC-05 | Phase 9 | Pending |
+| ACTV-01 | Phase 10 | Pending |
+| ACTV-02 | Phase 10 | Pending |
+| ACTV-03 | Phase 10 | Pending |
+| ACTV-04 | Phase 10 | Pending |
+| AUTO-01 | Phase 11 | Pending |
+| AUTO-02 | Phase 11 | Pending |
+| AUTO-03 | Phase 11 | Pending |
+| AUTO-04 | Phase 11 | Pending |
+| MIGR-01 | Phase 7 | Pending |
+| MIGR-02 | Phase 12 | Pending |
+| MIGR-03 | Phase 12 | Pending |
 
 **Coverage:**
 - v1.1 requirements: 26 total
-- Mapped to phases: 0
-- Unmapped: 26
+- Mapped to phases: 26
+- Unmapped: 0
+
+**Phase Distribution:**
+- Phase 7 (Primary Needs Foundation): 6 requirements
+- Phase 8 (Derived Wellbeing): 5 requirements
+- Phase 9 (Action Resources): 5 requirements
+- Phase 10 (Activity-Need Integration): 4 requirements
+- Phase 11 (Autonomous AI): 4 requirements
+- Phase 12 (Tuning & Balance): 2 requirements
 
 ---
 *Requirements defined: 2026-01-23*
-*Last updated: 2026-01-23 after initial definition*
+*Last updated: 2026-01-23 after roadmap creation*
