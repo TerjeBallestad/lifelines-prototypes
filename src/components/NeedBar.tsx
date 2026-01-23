@@ -17,7 +17,7 @@ interface NeedBarProps {
 function getColorClass(value: number): string {
   if (value >= 70) return 'progress-success';
   if (value >= 40) return 'progress-warning';
-  if (value >= 20) return 'bg-orange-500';
+  if (value >= 20) return 'text-orange-500';
   return 'progress-error';
 }
 
@@ -42,10 +42,14 @@ export const NeedBar = observer(function NeedBar({
       title={`Decay: ${decayRate.toFixed(2)}/tick`}
     >
       <div className="flex justify-between text-xs">
-        <span className={isCritical ? 'font-bold text-error' : ''}>
+        <span className={isCritical ? 'text-error font-bold' : ''}>
           {label}
         </span>
-        <span className={isCritical ? 'font-bold text-error' : 'text-base-content/70'}>
+        <span
+          className={
+            isCritical ? 'text-error font-bold' : 'text-base-content/70'
+          }
+        >
           {roundedValue}%
         </span>
       </div>
