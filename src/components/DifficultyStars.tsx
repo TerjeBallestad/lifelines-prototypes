@@ -12,6 +12,21 @@ interface DifficultyStarsProps {
 }
 
 /**
+ * Get explicit size classes for star divs.
+ * DaisyUI rating-xs/sm/md only work on inputs, so we need explicit sizing for divs.
+ */
+function getStarSizeClass(size: 'xs' | 'sm' | 'md'): string {
+  switch (size) {
+    case 'xs':
+      return 'w-3 h-3';
+    case 'sm':
+      return 'w-4 h-4';
+    case 'md':
+      return 'w-5 h-5';
+  }
+}
+
+/**
  * Get color class for filled stars based on difficulty level.
  * Uses DaisyUI semantic colors:
  * - Easy (1-2): green (bg-success)
@@ -40,6 +55,7 @@ export const DifficultyStars = observer(function DifficultyStars({
 
   const filledStars = Math.round(difficulty);
   const colorClass = getDifficultyColor(difficulty);
+  const sizeClass = getStarSizeClass(size);
 
   const showPopover = () => {
     if (!breakdown) return; // No tooltip if no breakdown
@@ -64,14 +80,14 @@ export const DifficultyStars = observer(function DifficultyStars({
     <>
       <div
         ref={triggerRef}
-        className={`rating rating-${size}`}
+        className="flex gap-0.5 cursor-help"
         onMouseEnter={showPopover}
         onMouseLeave={hidePopover}
       >
         {[1, 2, 3, 4, 5].map((star) => (
           <div
             key={star}
-            className={`mask mask-star-2 ${
+            className={`mask mask-star-2 ${sizeClass} ${
               star <= filledStars ? colorClass : 'bg-base-300'
             }`}
             aria-label={`${star} star`}
@@ -84,7 +100,7 @@ export const DifficultyStars = observer(function DifficultyStars({
           ref={popoverRef}
           id={popoverId}
           popover="manual"
-          className="m-0 rounded bg-neutral px-3 py-2 text-sm text-neutral-content shadow-lg"
+          className="fixed m-0 rounded bg-neutral px-3 py-2 text-sm text-neutral-content shadow-lg"
         >
           <div className="font-semibold">
             Difficulty: {breakdown.effective.toFixed(1)}★
@@ -99,19 +115,21 @@ export const DifficultyStars = observer(function DifficultyStars({
             )}
           </div>
 
-          {/* Per-skill details */}
-          {breakdown.skillDetails.length > 0 && (
+          {/* Per-skill details - only show skills with actual reduction */}
+          {breakdown.skillDetails.filter((s) => s.reduction > 0).length > 0 && (
             <div className="mt-2 border-t border-neutral-content/20 pt-2">
               <div className="text-xs font-semibold opacity-90">
                 Skill Contributions:
               </div>
               <div className="mt-1 space-y-0.5 text-xs opacity-80">
-                {breakdown.skillDetails.map((skill) => (
-                  <div key={skill.skillId}>
-                    {skill.skillName} Lv.{skill.level}: -
-                    {skill.reduction.toFixed(1)}★
-                  </div>
-                ))}
+                {breakdown.skillDetails
+                  .filter((skill) => skill.reduction > 0)
+                  .map((skill) => (
+                    <div key={skill.skillId}>
+                      {skill.skillName} Lv.{skill.level}: -
+                      {skill.reduction.toFixed(1)}★
+                    </div>
+                  ))}
               </div>
             </div>
           )}

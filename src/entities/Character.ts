@@ -99,6 +99,14 @@ export class Character {
     this.root = root;
   }
 
+  /**
+   * Get a skill by ID from the skill store.
+   * Returns undefined if skill not found or root store not set.
+   */
+  getSkill(skillId: string) {
+    return this.root?.skillStore?.getSkill(skillId);
+  }
+
   // Computed: display name with fallback
   get displayName(): string {
     return this.name.trim() || 'Unnamed Character';

@@ -1,7 +1,8 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useActivityStore } from '../stores/RootStore';
+import { useActivityStore, useCharacterStore } from '../stores/RootStore';
 import { STARTER_ACTIVITIES } from '../data/activities';
+import { Activity } from '../entities/Activity';
 import { ActivityCard } from './ActivityCard';
 import { ActivityQueue } from './ActivityQueue';
 import type { SkillDomain } from '../entities/types';
@@ -25,16 +26,26 @@ const DOMAIN_LABELS: Record<SkillDomain, string> = {
 export const ActivityPanel = observer(function ActivityPanel() {
   const [selectedDomain, setSelectedDomain] = useState<SkillDomain>('physical');
   const activityStore = useActivityStore();
+  const characterStore = useCharacterStore();
+  const character = characterStore.character;
+
+  // Create Activity instances from ActivityData for personalized difficulty display
+  const activities = useMemo(
+    () => STARTER_ACTIVITIES.map((data) => new Activity(data)),
+    []
+  );
 
   // Get domains that have at least one activity
   const availableDomains = ACTIVITY_DOMAINS.filter((domain) =>
-    STARTER_ACTIVITIES.some((a) => a.domain === domain)
+    activities.some((a) => a.domain === domain)
   );
 
-  const handleSelectActivity = (
-    activityData: (typeof STARTER_ACTIVITIES)[0]
-  ) => {
-    activityStore.enqueue(activityData);
+  const handleSelectActivity = (activity: Activity) => {
+    // Find the original ActivityData by id for enqueueing
+    const activityData = STARTER_ACTIVITIES.find((a) => a.id === activity.id);
+    if (activityData) {
+      activityStore.enqueue(activityData);
+    }
   };
 
   return (
@@ -47,7 +58,7 @@ export const ActivityPanel = observer(function ActivityPanel() {
         <div role="tablist" className="tabs tabs-box">
           {availableDomains.map((domain) => {
             const isActive = selectedDomain === domain;
-            const domainActivities = STARTER_ACTIVITIES.filter(
+            const domainActivities = activities.filter(
               (a) => a.domain === domain
             );
 
@@ -69,6 +80,7 @@ export const ActivityPanel = observer(function ActivityPanel() {
                           key={activity.id}
                           activity={activity}
                           variant="preview"
+                          character={character ?? undefined}
                           onSelect={() => handleSelectActivity(activity)}
                         />
                       ))

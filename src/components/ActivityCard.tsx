@@ -1,9 +1,11 @@
 import { observer } from 'mobx-react-lite';
-import type { Activity } from '../entities/Activity';
+import { Activity } from '../entities/Activity';
 import type { ActivityData } from '../entities/types';
 import type { Character } from '../entities/Character';
 import clsx from 'clsx';
 import { DifficultyStars } from './DifficultyStars';
+import { STARTER_SKILLS } from '../data/skills';
+import { useSkillStore } from '../stores/RootStore';
 
 interface ActivityCardProps {
   activity: Activity | ActivityData;
@@ -30,6 +32,7 @@ export const ActivityCard = observer(function ActivityCard({
   progress,
   character,
 }: ActivityCardProps) {
+  const skillStore = useSkillStore();
   const isClickable = variant === 'preview' && onSelect;
 
   // Calculate difficulty (if possible)
@@ -100,6 +103,35 @@ export const ActivityCard = observer(function ActivityCard({
 
         {/* Description */}
         <p className="text-base-content/70 text-xs">{activity.description}</p>
+
+        {/* Skill requirements */}
+        {variant === 'preview' &&
+          'skillRequirements' in activity &&
+          activity.skillRequirements &&
+          activity.skillRequirements.length > 0 && (
+            <div className="mt-1 flex flex-wrap gap-1">
+              {activity.skillRequirements.map((req) => {
+                const skill = skillStore.getSkill(req.skillId);
+                const skillData = STARTER_SKILLS.find((s) => s.id === req.skillId);
+                const skillName = skill?.name ?? skillData?.name ?? req.skillId;
+                const charLevel = skill?.level ?? 0;
+                const hasSkill = charLevel > 0;
+
+                return (
+                  <span
+                    key={req.skillId}
+                    className={clsx('badge badge-xs', {
+                      'badge-success badge-outline': hasSkill,
+                      'badge-ghost': !hasSkill,
+                    })}
+                    title={hasSkill ? `You have ${skillName} at level ${charLevel}` : `${skillName} helps with this activity`}
+                  >
+                    {skillName} {hasSkill ? `Lv.${charLevel}` : ''}
+                  </span>
+                );
+              })}
+            </div>
+          )}
 
         {/* Resource effects preview */}
         {variant === 'preview' && effectsPreview.length > 0 && (

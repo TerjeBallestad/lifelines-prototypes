@@ -8,6 +8,7 @@ import type {
 } from './types';
 import type { SkillRequirement, DifficultyBreakdown } from '../types/difficulty';
 import type { Character } from './Character';
+import { STARTER_SKILLS } from '../data/skills';
 
 /**
  * Activity entity - represents an activity that a character can perform.
@@ -139,7 +140,7 @@ export class Activity {
 
     for (const req of this.skillRequirements) {
       // Get skill level from character (default 0 if skill not found)
-      const skill = character.skills?.get(req.skillId);
+      const skill = character.getSkill(req.skillId);
       const skillLevel = skill?.level ?? 0;
 
       // Apply square root diminishing returns
@@ -214,9 +215,13 @@ export class Activity {
 
     // Build per-skill details
     const skillDetails = this.skillRequirements.map((req) => {
-      const skill = character.skills?.get(req.skillId);
-      const skillLevel = skill?.level ?? 0;
-      const skillName = skill?.name ?? 'Unknown Skill';
+      // Get skill level from character (if they have it)
+      const characterSkill = character.getSkill(req.skillId);
+      const skillLevel = characterSkill?.level ?? 0;
+
+      // Look up skill name from global data (always available)
+      const skillData = STARTER_SKILLS.find((s) => s.id === req.skillId);
+      const skillName = skillData?.name ?? req.skillId;
 
       // Calculate this skill's contribution
       const normalizedLevel = skillLevel / 5;
