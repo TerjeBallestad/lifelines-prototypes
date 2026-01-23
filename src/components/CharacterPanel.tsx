@@ -2,9 +2,11 @@ import { observer } from 'mobx-react-lite';
 import { PersonalityRadar } from './PersonalityRadar';
 import { CapacitiesRadar } from './CapacitiesRadar';
 import { ResourcePanel } from './ResourcePanel';
-import { useCharacterStore } from '../stores/RootStore';
+import { NeedsPanel } from './NeedsPanel';
+import { useCharacterStore, useRootStore } from '../stores/RootStore';
 
 export const CharacterPanel = observer(function CharacterPanel() {
+  const root = useRootStore();
   const characterStore = useCharacterStore();
   const character = characterStore.character;
 
@@ -32,12 +34,19 @@ export const CharacterPanel = observer(function CharacterPanel() {
         )}
       </div>
 
-      {/* Resources - most prominent per CONTEXT.md */}
+      {/* Resources / Needs - most prominent per CONTEXT.md */}
       <div className="border-base-300 border-b p-4">
         <h3 className="text-base-content/70 mb-2 text-sm font-semibold">
-          Resources
+          {root.needsSystemEnabled ? 'Needs (v1.1)' : 'Resources'}
         </h3>
-        <ResourcePanel resources={character.resources} />
+        {root.needsSystemEnabled && character.needs ? (
+          <NeedsPanel
+            needs={character.needs}
+            needsConfig={root.balanceConfig.needsConfig}
+          />
+        ) : (
+          <ResourcePanel resources={character.resources} />
+        )}
       </div>
 
       {/* Personality radar */}

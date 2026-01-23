@@ -1,7 +1,8 @@
 import { observer } from 'mobx-react-lite';
-import { useSimulationStore } from '../stores/RootStore';
+import { useSimulationStore, useRootStore } from '../stores/RootStore';
 
 export const SimulationControls = observer(function SimulationControls() {
+  const root = useRootStore();
   const simulationStore = useSimulationStore();
   const { isRunning, speed, tickCount, formattedTime } = simulationStore;
 
@@ -44,6 +45,19 @@ export const SimulationControls = observer(function SimulationControls() {
       {/* Time display */}
       <div className="text-base-content/70 font-mono text-sm">
         Tick: {tickCount} ({formattedTime})
+      </div>
+
+      {/* v1.1 Needs System Toggle */}
+      <div className="form-control">
+        <label className="label cursor-pointer gap-2">
+          <span className="label-text">v1.1 Needs</span>
+          <input
+            type="checkbox"
+            className="toggle toggle-primary"
+            checked={root.needsSystemEnabled}
+            onChange={() => root.toggleNeedsSystem()}
+          />
+        </label>
       </div>
     </div>
   );
