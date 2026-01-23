@@ -11,31 +11,32 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 ## Current Position
 
 Phase: 8 of 12 (Derived Wellbeing)
-Plan: 1 of 3 in current phase
+Plan: 2 of 3 in current phase
 Status: In progress
-Last activity: 2026-01-23 - Completed 08-01-PLAN.md (Foundation Types)
+Last activity: 2026-01-23 - Completed 08-02-PLAN.md (Character Integration)
 
-Progress: [████░░░░░░] ~33% (milestone v1.1, 4/~12 plans across 6 phases)
+Progress: [█████░░░░░] ~42% (milestone v1.1, 5/~12 plans across 6 phases)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4 (v1.1)
-- Average duration: ~2 min (code plans only)
-- Total execution time: ~7 min (excluding human verification)
+- Total plans completed: 5 (v1.1)
+- Average duration: ~2.4 min (code plans only)
+- Total execution time: ~11 min (excluding human verification)
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 07-primary-needs | 3 | 5 min | 1.7 min |
-| 08-derived-wellbeing | 1 | 2 min | 2.0 min |
+| 08-derived-wellbeing | 2 | 6 min | 3.0 min |
 
 **Recent Trend:**
 - 07-01: 2 min (2 tasks, 4 files)
 - 07-02: 3 min (3 tasks, 6 files)
 - 07-03: Human verification (1 checkpoint)
 - 08-01: 2 min (3 tasks, 4 files)
+- 08-02: 4 min (3 tasks, 1 file)
 - Trend: Consistent rapid delivery
 
 **v1.0 Reference:**
@@ -78,6 +79,12 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - Hunger/energy weighted 1.5x for survival importance
 - Nutrition smoothing alpha=0.01 (very slow) vs mood alpha=0.1 (moderate)
 
+**08-02 Character Integration:**
+- Steepness 2.5 for mood curves (slightly steeper for dramatic response)
+- Purpose equilibrium clamped to 20-80 (prevents extreme personality baselines)
+- Food quality uses 90/10 EMA for slow nutrition response
+- Tick update chains: applyNeedsDecay -> applyDerivedStatsUpdate
+
 ### Pending Todos
 
 1 todo pending. See `.planning/todos/pending/`
@@ -99,7 +106,7 @@ Decisions are logged in PROJECT.md Key Decisions table.
 ## Session Continuity
 
 Last session: 2026-01-23
-Stopped at: Completed 08-01-PLAN.md (Foundation Types)
+Stopped at: Completed 08-02-PLAN.md (Character Integration)
 Resume file: None
 
-**Next step:** Execute 08-02-PLAN.md (Character Integration) - Add DerivedStats to Character, compute mood from needs
+**Next step:** Execute 08-03-PLAN.md (UI Display) - Add derived stats to panel UI
