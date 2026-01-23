@@ -432,6 +432,105 @@ export class Character {
     return config.nutritionMoodPenalty * (1 - this.derivedStats.nutrition / 100);
   }
 
+  /**
+   * Public: Calculates energy regeneration modifier from nutrition.
+   * Used by Phase 9 activity system for energy recovery calculations.
+   *
+   * At nutrition 100: returns 1.0 (100% energy regen)
+   * At nutrition 0: returns 0.5 (50% energy regen)
+   *
+   * @returns Energy modifier (0.5 to 1.0)
+   */
+  getNutritionEnergyModifier(): number {
+    // Guard: derivedStats and config must be available
+    if (!this.derivedStats || !this.root?.balanceConfig) return 1.0;
+
+    const config = this.root.balanceConfig.derivedStatsConfig;
+    // Linear interpolation from min to max based on nutrition
+    // At nutrition 0: returns nutritionEnergyModMin (0.5)
+    // At nutrition 100: returns nutritionEnergyModMax (1.0)
+    return (
+      config.nutritionEnergyModMin +
+      (config.nutritionEnergyModMax - config.nutritionEnergyModMin) *
+        (this.derivedStats.nutrition / 100)
+    );
+  }
+
+  /**
+   * Action: Update running food quality average when character eats.
+   * Called by eating activities to track nutrition quality over time.
+   *
+   * Uses exponential moving average (0.9 old + 0.1 new) so nutrition
+   * responds slowly to diet changes.
+   *
+   * @param quality - Quality of food eaten (FoodQuality enum: 0-3)
+   */
+  eatFood(quality: FoodQuality): void {
+    // Exponential moving average: 90% old + 10% new
+    this.recentFoodQuality = this.recentFoodQuality * 0.9 + quality * 0.1;
+  }
+
+  /**
+   * Action: Boost purpose stat from meaningful activities.
+   * Called by Phase 10 activities that provide meaning (creative work,
+   * helping others, achieving goals, etc.).
+   *
+   * Purpose is capped at 95 to leave room for the soft ceiling effect.
+   *
+   * @param amount - Amount to boost purpose by (typically 5-20)
+   */
+  boostPurpose(amount: number): void {
+    // Guard: derivedStats must be initialized
+    if (!this.derivedStats) return;
+
+    // Compute new target, capped at 95
+    const newTarget = Math.min(95, this.derivedStats.purpose + amount);
+
+    // Update smoother target for gradual approach
+    this.purposeSmoother?.setValue(newTarget);
+  }
+
+  /**
+   * Action: Apply derived stats update for one simulation tick.
+   * Updates mood toward target, decays purpose toward equilibrium,
+   * and updates nutrition from food quality.
+   *
+   * Called by applyTickUpdate() when v1.1 needs system is enabled.
+   *
+   * @param speedMultiplier - Simulation speed (1 = normal, higher = faster changes)
+   */
+  applyDerivedStatsUpdate(speedMultiplier: number): void {
+    // Guard: derivedStats and config must be available
+    if (!this.derivedStats || !this.root?.balanceConfig) return;
+
+    const config = this.root.balanceConfig.derivedStatsConfig;
+
+    // Update Mood: smooth toward computed target
+    if (this.moodSmoother) {
+      this.derivedStats.mood = this.moodSmoother.update(this.computedMoodTarget);
+    }
+
+    // Update Purpose: decay toward personality-based equilibrium
+    if (this.purposeSmoother) {
+      const target = this.purposeEquilibrium;
+      const decayRate = config.purposeDecayRate * speedMultiplier;
+      const currentTarget = this.purposeSmoother.getValue();
+
+      // Move current target toward equilibrium by decay rate
+      const newTarget = currentTarget - (currentTarget - target) * decayRate;
+      this.purposeSmoother.setValue(newTarget);
+      this.derivedStats.purpose = this.purposeSmoother.getValue();
+    }
+
+    // Update Nutrition: smooth toward food quality target
+    if (this.nutritionSmoother) {
+      // Convert food quality (0-3) to nutrition scale (0-100)
+      // recentFoodQuality 0 -> 0%, recentFoodQuality 3 -> 100%
+      const targetNutrition = (this.recentFoodQuality / 3) * 100;
+      this.derivedStats.nutrition = this.nutritionSmoother.update(targetNutrition);
+    }
+  }
+
   // ============================================================================
   // v1.0 Resource Modifiers (existing system)
   // ============================================================================
@@ -691,6 +790,8 @@ export class Character {
     if (needsEnabled && this.needs) {
       // v1.1: Apply needs decay (asymptotic to prevent death spirals)
       this.applyNeedsDecay(speedMultiplier);
+      // v1.1: Apply derived stats update (mood, purpose, nutrition)
+      this.applyDerivedStatsUpdate(speedMultiplier);
     } else {
       // v1.0: Apply resource drain/recovery
 
