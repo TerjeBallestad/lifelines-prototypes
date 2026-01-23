@@ -31,6 +31,10 @@ export const STARTER_ACTIVITIES: ActivityData[] = [
       { skillId: 'small-talk', weight: 1.0, maxReduction: 0.8 },
       { skillId: 'eye-contact', weight: 0.5, maxReduction: 0.4 },
     ],
+    tags: ['social'],
+    needEffects: {
+      social: 2, // Small social need restoration
+    },
   },
   {
     id: 'phone-call-practice',
@@ -55,6 +59,10 @@ export const STARTER_ACTIVITIES: ActivityData[] = [
       { skillId: 'phone-call', weight: 1.0, maxReduction: 1.0 },
       { skillId: 'small-talk', weight: 0.5, maxReduction: 0.5 },
     ],
+    tags: ['social', 'stressful', 'concentration'],
+    needEffects: {
+      social: 1.5, // Less than in-person
+    },
   },
 
   // === ORGANISATIONAL DOMAIN ===
@@ -80,6 +88,10 @@ export const STARTER_ACTIVITIES: ActivityData[] = [
       { skillId: 'make-list', weight: 1.0, maxReduction: 0.8 },
       { skillId: 'follow-routine', weight: 0.3, maxReduction: 0.3 },
     ],
+    tags: ['routine', 'concentration'],
+    needEffects: {
+      security: 1, // Planning creates sense of security
+    },
   },
   {
     id: 'tidy-room',
@@ -105,6 +117,11 @@ export const STARTER_ACTIVITIES: ActivityData[] = [
       { skillId: 'follow-routine', weight: 1.0, maxReduction: 0.8 },
       { skillId: 'make-list', weight: 0.4, maxReduction: 0.4 },
     ],
+    tags: ['routine'],
+    needEffects: {
+      hygiene: 1, // Clean space
+      security: 0.5, // Sense of control
+    },
   },
 
   // === PHYSICAL DOMAIN ===
@@ -130,6 +147,10 @@ export const STARTER_ACTIVITIES: ActivityData[] = [
       { skillId: 'go-outside', weight: 1.0, maxReduction: 0.8 },
       { skillId: 'walk-neighborhood', weight: 0.5, maxReduction: 0.5 },
     ],
+    tags: ['solo'],
+    needEffects: {
+      fun: 1, // Enjoyable activity
+    },
   },
   {
     id: 'visit-store',
@@ -157,6 +178,8 @@ export const STARTER_ACTIVITIES: ActivityData[] = [
       { skillId: 'go-outside', weight: 0.3, maxReduction: 0.3 },
       { skillId: 'make-list', weight: 0.3, maxReduction: 0.3 },
     ],
+    tags: ['social', 'stressful'],
+    needEffects: {}, // No immediate need restoration
   },
 
   // === RESTORATIVE ACTIVITIES ===
@@ -176,6 +199,10 @@ export const STARTER_ACTIVITIES: ActivityData[] = [
     startRequirements: {}, // Can always rest
     baseDifficulty: 1,
     skillRequirements: [], // Anyone can rest
+    tags: ['solo'],
+    needEffects: {
+      energy: 3, // Restores energy need
+    },
   },
   {
     id: 'solo-hobby',
@@ -197,5 +224,9 @@ export const STARTER_ACTIVITIES: ActivityData[] = [
     startRequirements: { minOverskudd: 10 },
     baseDifficulty: 2,
     skillRequirements: [], // No skill requirements for hobbies
+    tags: ['solo', 'creative'],
+    needEffects: {
+      fun: 2, // Entertainment satisfaction
+    },
   },
 ];
