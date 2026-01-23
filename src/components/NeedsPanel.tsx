@@ -1,11 +1,15 @@
 import { observer } from 'mobx-react-lite';
 import { NeedBar } from './NeedBar';
-import type { Needs, NeedKey } from '../entities/types';
+import { DerivedStatsSection } from './DerivedStatsSection';
+import type { Needs, NeedKey, DerivedStats, StatBreakdown } from '../entities/types';
 import type { NeedsConfig } from '../config/balance';
 
 interface NeedsPanelProps {
   needs: Needs;
   needsConfig: NeedsConfig;
+  derivedStats?: DerivedStats;
+  moodBreakdown?: StatBreakdown;
+  purposeEquilibrium?: number;
 }
 
 // Need groupings
@@ -30,6 +34,9 @@ const SOCIAL_NEEDS: { key: NeedKey; label: string; rateKey: keyof NeedsConfig }[
 export const NeedsPanel = observer(function NeedsPanel({
   needs,
   needsConfig,
+  derivedStats,
+  moodBreakdown,
+  purposeEquilibrium,
 }: NeedsPanelProps) {
   const { criticalThreshold } = needsConfig;
 
@@ -70,6 +77,15 @@ export const NeedsPanel = observer(function NeedsPanel({
           ))}
         </div>
       </div>
+
+      {/* Derived Wellbeing - only show if derivedStats available */}
+      {derivedStats && moodBreakdown && purposeEquilibrium !== undefined && (
+        <DerivedStatsSection
+          derivedStats={derivedStats}
+          moodBreakdown={moodBreakdown}
+          purposeEquilibrium={purposeEquilibrium}
+        />
+      )}
     </div>
   );
 });
