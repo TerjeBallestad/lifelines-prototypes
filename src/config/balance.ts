@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+import type { NeedKey } from '../entities/types';
 
 // ============================================================================
 // Primary Needs Configuration (v1.1)
@@ -51,8 +52,6 @@ export const DEFAULT_NEEDS_CONFIG: NeedsConfig = {
 // Derived Stats Configuration (v1.1)
 // ============================================================================
 
-import { NeedKey } from '../entities/types';
-
 /**
  * Configuration for derived wellbeing stats (mood, purpose, nutrition).
  * Controls smoothing alphas, bounds, and weights for the derivation formulas.
@@ -100,12 +99,12 @@ export const DEFAULT_DERIVED_STATS_CONFIG: DerivedStatsConfig = {
   moodFloor: 10,
   moodCeiling: 95,
   needWeights: {
-    hunger: 1.5,   // High impact - basic survival
-    energy: 1.5,   // High impact - basic survival
-    hygiene: 1.0,  // Standard impact
-    bladder: 1.0,  // Standard impact
-    social: 1.0,   // Standard impact
-    fun: 1.0,      // Standard impact
+    hunger: 1.5, // High impact - basic survival
+    energy: 1.5, // High impact - basic survival
+    hygiene: 1.0, // Standard impact
+    bladder: 1.0, // Standard impact
+    social: 1.0, // Standard impact
+    fun: 1.0, // Standard impact
     security: 1.0, // Standard impact
   },
 
@@ -114,14 +113,14 @@ export const DEFAULT_DERIVED_STATS_CONFIG: DerivedStatsConfig = {
   purposeDecayRate: 0.02,
   purposeEquilibriumWeights: {
     conscientiousness: 20, // High conscientiousness = higher purpose ceiling
-    openness: 10,          // High openness = moderate purpose ceiling bonus
+    openness: 10, // High openness = moderate purpose ceiling bonus
   },
 
   // Nutrition: very slow-moving, affects energy and mood
   nutritionSmoothingAlpha: 0.01,
-  nutritionEnergyModMin: 0.5,  // 50% energy regen at nutrition 0
-  nutritionEnergyModMax: 1.0,  // 100% energy regen at nutrition 100
-  nutritionMoodPenalty: -20,   // Max -20 mood penalty at nutrition 0
+  nutritionEnergyModMin: 0.5, // 50% energy regen at nutrition 0
+  nutritionEnergyModMax: 1.0, // 100% energy regen at nutrition 100
+  nutritionMoodPenalty: -20, // Max -20 mood penalty at nutrition 0
 };
 
 // ============================================================================

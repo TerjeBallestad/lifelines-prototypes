@@ -1,3 +1,4 @@
+import { useId, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 import type { StatBreakdown } from '../entities/types';
 
@@ -20,36 +21,66 @@ function getMoodEmoji(value: number): string {
 /**
  * MoodIcon - Displays emoji based on mood value with tooltip breakdown.
  * Shows intuitive mood representation and detailed contribution analysis on hover.
+ * Uses native Popover API for proper layering without z-index issues.
  */
 export const MoodIcon = observer(function MoodIcon({
   value,
   breakdown,
 }: MoodIconProps) {
+  const popoverId = useId();
+  const popoverRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLSpanElement>(null);
   const emoji = getMoodEmoji(value);
 
-  // Format tooltip text with breakdown
-  const tooltipLines = [
-    `Mood: ${Math.round(breakdown.total)}`,
-    '',
-    ...breakdown.contributions.map(({ source, value: contribValue }) => {
-      const sign = contribValue >= 0 ? '+' : '';
-      return `${source}: ${sign}${Math.round(contribValue)}`;
-    }),
-  ];
-  const tooltipText = tooltipLines.join('\n');
+  const showPopover = () => {
+    const popover = popoverRef.current;
+    const trigger = triggerRef.current;
+    if (!popover || !trigger) return;
+
+    // Position popover to the right of trigger
+    const rect = trigger.getBoundingClientRect();
+    popover.style.top = `${rect.top + rect.height / 2}px`;
+    popover.style.left = `${rect.right + 8}px`;
+    popover.style.transform = 'translateY(-50%)';
+
+    popover.showPopover();
+  };
+
+  const hidePopover = () => {
+    popoverRef.current?.hidePopover();
+  };
 
   return (
-    <div
-      className="tooltip tooltip-right whitespace-pre-line"
-      data-tip={tooltipText}
-    >
+    <>
       <span
-        className="text-4xl cursor-help"
+        ref={triggerRef}
+        className="cursor-help text-4xl"
         role="img"
         aria-label={`mood: ${emoji}`}
+        onMouseEnter={showPopover}
+        onMouseLeave={hidePopover}
       >
         {emoji}
       </span>
-    </div>
+
+      <div
+        ref={popoverRef}
+        id={popoverId}
+        popover="manual"
+        className="m-0 rounded bg-neutral px-3 py-2 text-sm text-neutral-content shadow-lg"
+      >
+        <div className="font-semibold">Mood: {Math.round(breakdown.total)}</div>
+        <div className="mt-1 space-y-0.5 text-xs opacity-90">
+          {breakdown.contributions.map(({ source, value: contribValue }) => {
+            const sign = contribValue >= 0 ? '+' : '';
+            return (
+              <div key={source}>
+                {source}: {sign}{Math.round(contribValue)}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </>
   );
 });
