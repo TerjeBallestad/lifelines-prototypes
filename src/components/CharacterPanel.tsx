@@ -19,7 +19,7 @@ export const CharacterPanel = observer(function CharacterPanel() {
   }
 
   return (
-    <div className="bg-base-200 flex h-screen w-80 flex-col overflow-y-auto">
+    <div className="bg-base-200 flex h-screen w-80 flex-col">
       {/* Header with name */}
       <div className="border-base-300 border-b p-4">
         <h2 className="text-lg font-bold">{character.displayName}</h2>
@@ -71,7 +71,10 @@ export const CharacterPanel = observer(function CharacterPanel() {
           </summary>
           <div className="mt-2 flex flex-col gap-2">
             {Object.entries(character.personality).map(([key, value]) => (
-              <label key={key} className="input input-xs flex items-center gap-2">
+              <label
+                key={key}
+                className="input input-xs flex items-center gap-2"
+              >
                 <span className="label w-24 capitalize">{key}</span>
                 <input
                   type="range"
