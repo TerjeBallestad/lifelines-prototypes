@@ -1,316 +1,378 @@
-# Technology Stack
+# Stack Research: Needs-Based Resource System & Autonomous AI
 
-**Project:** Lifelines Prototypes - React Game Prototypes (Skill Trees, Character Systems)
-**Researched:** 2026-01-20
-**Overall Confidence:** HIGH
+## Summary
 
-## Executive Summary
+The existing React + MobX stack requires NO additional libraries for the needs/resource system. MobX's computed values natively handle interdependent calculations through automatic dependency tracking. Autonomous AI behavior selection should use a **utility scoring system** (not state machines) implemented directly in TypeScript. The existing BalanceConfigStore pattern extends cleanly to needs-system formulas.
 
-The stack is constrained by project requirements (React, Tailwind, DaisyUI, MobX) and the goal of eventual Unreal Engine port. This research focuses on:
-1. Validating versions and compatibility
-2. Recommending supporting libraries
-3. Identifying patterns that translate to Unreal C++
-
-**Key insight:** Use plain MobX with OOP classes (not MobX-State-Tree). MST's functional model-based approach doesn't map cleanly to C++ class hierarchies. Plain MobX with classes mirrors Unreal's UPROPERTY/UCLASS pattern.
+**Confidence:** HIGH (verified with MobX official docs, utility AI references, and existing codebase patterns)
 
 ---
 
-## Recommended Stack
+## Recommendations
 
-### Core Framework
+### Core Architecture: NO NEW DEPENDENCIES
 
-| Technology | Version | Purpose | Why | Confidence |
-|------------|---------|---------|-----|------------|
-| React | ^19.2.3 | UI framework | Current stable, Activity API useful for UI state hiding | HIGH |
-| TypeScript | ^5.6.x | Type safety | Types translate directly to C++ struct definitions | HIGH |
-| Vite | ^7.3.x | Build tool | Industry standard 2025, fastest HMR, zero-config | HIGH |
+**Recommendation:** Use existing MobX 6.15.0 with computed values for all derived state.
 
-**Rationale:** React 19.2 is stable (released Oct 2025). Vite 7.3 requires Node 20.19+ but offers 5x faster builds. TypeScript strict mode enforced - the type definitions become the spec for Unreal C++ translation.
+**Rationale:**
+- MobX computed values automatically handle interdependent calculations (Mood from needs, Overskudd from mood+energy+purpose)
+- Lazy evaluation and automatic caching prevent performance issues
+- Chaining computed values is explicitly supported and optimized
+- Existing Character class already demonstrates this pattern (`effectiveCapacities`, `activeModifiers`)
 
-### Styling
-
-| Technology | Version | Purpose | Why | Confidence |
-|------------|---------|---------|-----|------------|
-| Tailwind CSS | ^4.1.x | Utility CSS | v4 is 5x faster, CSS-first config | HIGH |
-| DaisyUI | ^5.5.x | Component classes | Semantic classes reduce JSX clutter, 75% smaller CDN | HIGH |
-
-**Rationale:** DaisyUI 5 requires Tailwind 4. Both released stable in 2025 with significant performance improvements. DaisyUI's class-based approach (`btn`, `card`) keeps component logic clean.
-
-**Installation note:** Tailwind 4 changed installation:
-```bash
-npm install tailwindcss @tailwindcss/postcss postcss
-npm install daisyui
-```
-
-### State Management
-
-| Technology | Version | Purpose | Why | Confidence |
-|------------|---------|---------|-----|------------|
-| MobX | ^6.15.0 | Reactive state | OOP-friendly, classes with decorators map to C++ | HIGH |
-| mobx-react-lite | ^4.1.1 | React bindings | Lightweight (1.5kB), functional components only | HIGH |
-
-**CRITICAL DECISION: MobX vs MobX-State-Tree**
-
-Choose **plain MobX with classes**, NOT MobX-State-Tree. Rationale:
-
-| Criterion | MobX + Classes | MobX-State-Tree |
-|-----------|----------------|-----------------|
-| OOP patterns | Native class inheritance | Model composition (functional) |
-| C++ translation | Direct mapping to UCLASS | Requires architectural rewrite |
-| Performance | Faster (no runtime type checking) | Slower (runtime validation) |
-| Type safety | TypeScript compile-time | Runtime + TypeScript |
-| Learning curve | Familiar OOP | New paradigms |
-
-MST excels at serialization/snapshots, but the functional model approach (`types.model()`) doesn't translate to Unreal's class-based entity system. Plain MobX with classes like:
-
+**Integration:**
 ```typescript
-class Skill {
-  @observable name: string;
-  @observable level: number;
-  @computed get effectiveValue() { ... }
-  @action levelUp() { ... }
+// Existing pattern (Character.ts lines 105-215)
+get activeModifiers(): ResourceModifier[] { ... }
+get effectiveCapacities(): Capacities { ... }
+
+// Extends cleanly to needs-derived state
+get mood(): number {
+  // Computed from primary needs
+  return calculateMoodFromNeeds(this.needs);
+}
+
+get overskudd(): number {
+  // Computed from other computed values
+  return calculateOverskudd(this.mood, this.energy, this.purpose, this.willpower);
 }
 ```
 
-...maps directly to Unreal:
+**Source:** [MobX Computed Values Official Docs](https://mobx.js.org/computeds.html)
 
-```cpp
-UCLASS()
-class USkill : public UObject {
-  UPROPERTY() FString Name;
-  UPROPERTY() int32 Level;
-  UFUNCTION() int32 GetEffectiveValue();
-  UFUNCTION() void LevelUp();
-};
-```
+---
 
-### Data Persistence
+### Derived State Pattern: MobX Computed Getters
 
-| Technology | Version | Purpose | Why | Confidence |
-|------------|---------|---------|-----|------------|
-| localStorage | (browser) | Dev save/load | Zero dependencies, sufficient for prototypes | HIGH |
-| JSON | (native) | Serialization | Human-readable, debuggable | HIGH |
+**Recommendation:** Model needs as observable state, wellbeing metrics as computed getters.
 
-**Pattern:** Custom save/load with debounced auto-save:
+**Rationale:**
+- Primary needs (Hunger, Energy, Hygiene, etc.) are **observable properties** that change over time
+- Derived wellbeing (Mood, Purpose) are **computed getters** that recalculate automatically
+- Action resources (Overskudd) are **computed from computed values** (MobX handles multi-level dependencies)
+- Zero risk of stale/inconsistent state due to automatic dependency tracking
+
+**MobX Performance Characteristics:**
+- Computed values suspend when not observed (no wasted calculations)
+- Structural comparison available via `computed.struct` if needed
+- Chained computations automatically optimized
+
+**Pattern:**
 ```typescript
-// Debounce saves to avoid performance issues
-const saveState = debounce(() => {
-  localStorage.setItem('lifelines-save', JSON.stringify(store.snapshot));
-}, 1000);
-```
+export class Character {
+  // Observable: Primary needs (mutate over time)
+  needs = {
+    hunger: 100,
+    energy: 100,
+    hygiene: 100,
+    bladder: 100,
+    social: 100,
+    fun: 100,
+    security: 100,
+  };
 
-**NOT RECOMMENDED:** IndexedDB (overkill for prototypes), external state persistence libraries (unnecessary dependency).
-
-### Visualization (Skill Trees)
-
-| Technology | Version | Purpose | Why | Confidence |
-|------------|---------|---------|-----|------------|
-| Custom React/SVG | N/A | Skill tree rendering | Full control, no stale dependencies | HIGH |
-| (alternative) beautiful-skill-tree | 1.7.1 | Quick prototyping | Purpose-built, but unmaintained since 2020 | LOW |
-
-**Rationale:** `beautiful-skill-tree` is purpose-built for RPG skill trees but hasn't been updated in 5 years (last publish: 2020). For a prototype, consider:
-
-1. **Quick prototype:** Use beautiful-skill-tree, accept limitations
-2. **Production path:** Build custom with React + SVG/CSS Grid
-
-For Piaget-inspired skill dependencies, custom implementation offers:
-- Control over dependency visualization (lines, colors, states)
-- Ability to show unlock conditions
-- No risk of abandoned dependency
-
-**Implementation pattern:**
-```typescript
-// Skill tree as directed acyclic graph (DAG)
-interface SkillNode {
-  id: string;
-  name: string;
-  prerequisites: string[]; // IDs of required skills
-  level: number;
-  maxLevel: number;
-}
-
-// Render with CSS Grid or SVG for connections
-```
-
-### Canvas Rendering (if needed)
-
-| Technology | Version | Purpose | Why | Confidence |
-|------------|---------|---------|-----|------------|
-| React + CSS | N/A | Character/activity UI | Sufficient for non-realtime prototypes | HIGH |
-| (if animations needed) Konva | ^9.x | 2D canvas with events | Better DX than Pixi, adequate performance | MEDIUM |
-| (if high-perf needed) PixiJS | ^8.x | WebGL 2D rendering | 2-3x faster than Konva, game-focused | MEDIUM |
-
-**Decision tree:**
-- Prototype with no animations: **React + CSS**
-- Prototype with animations/interactions: **Konva** (react-konva)
-- Performance-critical game loop: **PixiJS** (@pixi/react)
-
-For a prototype exploring game mechanics (not rendering performance), React + CSS is sufficient.
-
----
-
-## Supporting Libraries
-
-| Library | Version | Purpose | When to Use | Confidence |
-|---------|---------|---------|-------------|------------|
-| uuid | ^11.x | Unique IDs for entities | All entity creation | HIGH |
-| lodash-es | ^4.17.x | Utility functions | debounce, cloneDeep, etc. | HIGH |
-| zod | ^3.24.x | Runtime validation | Save file validation, API contracts | HIGH |
-| clsx | ^2.x | Conditional classes | Tailwind class composition | HIGH |
-
-**NOT RECOMMENDED:**
-- Immer: MobX already handles mutable-style updates with immutable semantics
-- React Query: No backend in prototypes
-- Form libraries: DaisyUI + controlled inputs sufficient
-
----
-
-## Development Dependencies
-
-| Library | Version | Purpose | Confidence |
-|---------|---------|---------|------------|
-| @types/react | ^19.x | React types | HIGH |
-| @types/node | ^22.x | Node types | HIGH |
-| eslint | ^9.x | Linting | HIGH |
-| prettier | ^3.x | Formatting | HIGH |
-| vitest | ^3.x | Testing | HIGH |
-| @testing-library/react | ^16.x | Component testing | HIGH |
-
----
-
-## Installation Commands
-
-```bash
-# Create project
-npm create vite@latest lifelines-prototype -- --template react-swc-ts
-
-# Core dependencies
-npm install react@^19.2.3 react-dom@^19.2.3
-
-# Styling
-npm install tailwindcss@^4.1.18 @tailwindcss/postcss postcss daisyui@^5.5.14
-
-# State management
-npm install mobx@^6.15.0 mobx-react-lite@^4.1.1
-
-# Utilities
-npm install uuid lodash-es zod clsx
-
-# Dev dependencies
-npm install -D @types/react @types/react-dom @types/node typescript @types/uuid @types/lodash-es
-npm install -D eslint prettier vitest @testing-library/react @testing-library/jest-dom jsdom
-```
-
----
-
-## TypeScript Configuration for Unreal Translation
-
-Enable strict settings to catch type issues that would cause problems in C++:
-
-```json
-{
-  "compilerOptions": {
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true
+  // Computed: Derived wellbeing (auto-updates when needs change)
+  get mood(): number {
+    // Averages need satisfaction with weights
+    const needsArray = Object.values(this.needs);
+    return weightedAverage(needsArray, MOOD_WEIGHTS);
   }
-}
-```
 
-**Why:** C++ requires explicit types. Strict TypeScript catches patterns that would require rewriting for Unreal.
+  get purpose(): number {
+    // Activity-personality fit (computed from current activity + personality)
+    const activity = this.root?.activityStore.currentActivity;
+    return calculatePurpose(activity, this.personality);
+  }
 
----
-
-## Data Structure Patterns for Unreal Translation
-
-Design TypeScript types that map to Unreal equivalents:
-
-| TypeScript | Unreal C++ | Notes |
-|------------|------------|-------|
-| `string` | `FString` | Unicode support |
-| `number` | `int32` or `float` | Be explicit about integers vs floats |
-| `boolean` | `bool` | Direct mapping |
-| `Array<T>` | `TArray<T>` | Dynamic arrays |
-| `Map<K, V>` | `TMap<K, V>` | Hash maps |
-| `Set<T>` | `TSet<T>` | Unique collections |
-| `Record<string, T>` | `TMap<FString, T>` | String-keyed maps |
-| `interface Foo` | `USTRUCT() FFoo` | Data containers |
-| `class Foo` | `UCLASS() UFoo` | Objects with behavior |
-
-**Pattern example:**
-```typescript
-// TypeScript
-interface SkillData {
-  id: string;
-  name: string;
-  prerequisites: string[];
-  maxLevel: number;
-}
-
-class Skill {
-  @observable data: SkillData;
-  @observable currentLevel: number = 0;
-
-  @computed get isUnlocked(): boolean {
-    return this.data.prerequisites.every(id =>
-      skillStore.getSkill(id).currentLevel > 0
+  // Computed from computed values (multi-level derivation)
+  get overskudd(): number {
+    return clamp(
+      this.mood * 0.3 +
+      this.energy * 0.3 +
+      this.purpose * 0.2 +
+      this.willpower * 0.2
     );
   }
 }
 ```
 
-```cpp
-// Equivalent Unreal C++
-USTRUCT()
-struct FSkillData {
-  UPROPERTY() FString Id;
-  UPROPERTY() FString Name;
-  UPROPERTY() TArray<FString> Prerequisites;
-  UPROPERTY() int32 MaxLevel;
-};
+**Why NOT use reactions:** Reactions are for side effects. Our derived state has no side effects, so computed values are the correct primitive.
 
-UCLASS()
-class USkill : public UObject {
-  UPROPERTY() FSkillData Data;
-  UPROPERTY() int32 CurrentLevel = 0;
+**Source:** [MobX Computed Values](https://mobx.js.org/computeds.html)
 
-  UFUNCTION() bool IsUnlocked() const;
-};
+---
+
+### Autonomous AI: Utility Scoring (NOT State Machines)
+
+**Recommendation:** Implement utility AI with weighted scoring for activity selection.
+
+**Rationale:**
+- State machines are brittle for needs-based systems (combinatorial explosion of states)
+- Utility AI is industry-standard for The Sims-style simulations
+- Weighted scoring naturally handles multiple competing needs
+- Easily tunable via BalanceConfigStore pattern
+
+**Implementation Location:** New file `src/ai/UtilityAI.ts`
+
+**Pattern:**
+```typescript
+export interface ActivityUtility {
+  activity: Activity;
+  score: number;
+  breakdown: { factor: string; value: number }[]; // For debugging
+}
+
+export class UtilityAI {
+  /**
+   * Score an activity based on character's current needs + personality.
+   * Returns 0-100 utility score.
+   */
+  static scoreActivity(
+    activity: Activity,
+    character: Character,
+    config: BalanceConfig
+  ): number {
+    let score = 0;
+
+    // Factor 1: Need satisfaction (which needs does this activity restore?)
+    const needScore = this.calculateNeedScore(activity, character);
+    score += needScore * 0.5; // 50% weight
+
+    // Factor 2: Resource feasibility (can character afford this?)
+    const resourceScore = this.calculateResourceScore(activity, character);
+    score += resourceScore * 0.3; // 30% weight
+
+    // Factor 3: Personality fit (does character enjoy this type of activity?)
+    const personalityScore = this.calculatePersonalityFit(activity, character);
+    score += personalityScore * 0.2; // 20% weight
+
+    return clamp(score, 0, 100);
+  }
+
+  /**
+   * Select best activity from available options.
+   * Returns top-scoring activity or null if none viable.
+   */
+  static selectActivity(
+    availableActivities: Activity[],
+    character: Character,
+    config: BalanceConfig
+  ): Activity | null {
+    const scored = availableActivities.map(activity => ({
+      activity,
+      score: this.scoreActivity(activity, character, config)
+    }));
+
+    // Sort by score descending
+    scored.sort((a, b) => b.score - a.score);
+
+    // Return highest scoring activity with score > threshold
+    const best = scored[0];
+    return best && best.score > config.minUtilityThreshold ? best.activity : null;
+  }
+}
 ```
 
----
+**Why NOT behavior trees:** Overkill for this scope. Utility scoring is simpler and sufficient for needs-based selection.
 
-## Alternatives Considered
+**Why NOT state machines:** Needs-based systems have too many state combinations (hungry+tired+lonely+bored = explosion). Utility AI evaluates all factors simultaneously.
 
-| Category | Recommended | Alternative | Why Not |
-|----------|-------------|-------------|---------|
-| State | MobX | MobX-State-Tree | MST patterns don't translate to C++ OOP |
-| State | MobX | Zustand | Less OOP-friendly, fewer computed properties |
-| State | MobX | Redux Toolkit | Excessive boilerplate for prototypes |
-| Skill Trees | Custom | beautiful-skill-tree | Unmaintained (5 years), React 18 compatibility unknown |
-| Canvas | CSS/SVG | Pixi.js | Overkill for UI prototypes |
-| Build | Vite | Next.js | SSR unnecessary for prototype |
-| Testing | Vitest | Jest | Vitest native to Vite ecosystem |
+**Sources:**
+- [Utility System Wikipedia](https://en.wikipedia.org/wiki/Utility_system)
+- [Game AI Pro - Introduction to Utility Theory (PDF)](http://www.gameaipro.com/GameAIPro/GameAIPro_Chapter09_An_Introduction_to_Utility_Theory.pdf)
+- [The Shaggy Dev - Utility AI](https://shaggydev.com/2023/04/19/utility-ai/)
 
 ---
 
-## Sources
+### Balance Configuration: Extend Existing Pattern
 
-### HIGH Confidence (Official Documentation)
-- [MobX Documentation](https://mobx.js.org/) - React integration, defining data stores
-- [MobX-State-Tree GitHub](https://github.com/mobxjs/mobx-state-tree) - v7.0.2 (Feb 2025)
-- [Vite Documentation](https://vite.dev/guide/) - v7.3.1 current
-- [DaisyUI Documentation](https://daisyui.com/) - v5.5.14 current
-- [Tailwind CSS v4](https://tailwindcss.com/blog/tailwindcss-v4) - Released Jan 2025
-- [React 19.2 Release](https://react.dev/blog/2025/10/01/react-19-2) - Oct 2025
-- [Unreal Engine Data Structures](https://store.algosyntax.com/tutorials/unreal-engine/data-structures-in-unreal-engine-5-tarray-tmap-and-tset/) - TArray, TMap, TSet
+**Recommendation:** Add needs-system formulas to BalanceConfigStore.
 
-### MEDIUM Confidence (Verified Community Sources)
-- [MobX Best Practices](https://iconof.com/best-practices-for-mobx-with-react/) - RootStore pattern
-- [MobX-State-Tree 2025 Assessment](https://coolsoftware.dev/blog/mobx-state-tree-react-2025/) - React Compiler compatibility
-- [Canvas Engines Comparison](https://benchmarks.slaylines.io/) - Pixi vs Konva benchmarks
+**Rationale:**
+- Existing BalanceConfigStore (src/config/balance.ts) already provides runtime-tunable parameters
+- Needs decay rates, mood weights, and utility thresholds belong in balance config
+- MobX reactivity means UI/dev tools can tune formulas live
 
-### LOW Confidence (Needs Validation)
-- [beautiful-skill-tree npm](https://www.npmjs.com/package/beautiful-skill-tree) - v1.7.1, last updated 2020
+**Extension:**
+```typescript
+export interface BalanceConfig {
+  // ... existing fields ...
+
+  // Needs system
+  needDecayRatePerTick: Record<NeedKey, number>; // Hunger, Energy, etc.
+  moodWeights: Record<NeedKey, number>; // How each need contributes to Mood
+  overskuddFormula: { mood: number; energy: number; purpose: number; willpower: number }; // Weights
+
+  // Autonomous AI
+  minUtilityThreshold: number; // Minimum score to select activity (0-100)
+  utilityWeights: { needs: number; resources: number; personality: number }; // Factor weights
+}
+```
+
+**Why centralize:** Game balance iteration requires tweaking formulas. Centralized config enables rapid experimentation without code changes.
+
+**Source:** Existing pattern in `src/config/balance.ts`
+
+---
+
+## Integration Notes
+
+### How This Fits Existing Architecture
+
+**Character Entity:**
+- Add `needs` observable object (primary needs)
+- Add computed getters for `mood`, `purpose`, `overskudd` (derived wellbeing)
+- Existing `applyTickUpdate()` method extends to decay needs
+
+**ActivityStore:**
+- Add `selectAutonomousActivity()` method using UtilityAI
+- Existing `canStartActivity()` pattern extends to check derived resources
+- Existing `processTick()` already handles activity execution
+
+**RootStore:**
+- No changes needed (UtilityAI uses existing stores via root reference)
+
+**BalanceConfigStore:**
+- Extend interface with needs-system parameters
+- Existing update/reset pattern unchanged
+
+**Unreal Portability:**
+- Computed values map to Unreal's `UPROPERTY(BlueprintReadOnly)` getters
+- Utility AI is pure calculation logic (portable to C++)
+- BalanceConfigStore maps to Unreal DataAsset
+
+---
+
+## What NOT to Add
+
+### State Machine Library (xstate, etc.)
+
+**Why avoid:**
+- Needs-based systems don't fit state machine paradigm
+- Would introduce unnecessary complexity for linear need satisfaction
+- Utility AI is more appropriate for continuous numerical evaluation
+
+**When to revisit:** If you add complex behaviors with sequential steps (e.g., "go to kitchen, then cook, then eat"), behavior trees or state machines become useful. Current scope doesn't need this.
+
+### Immutable State Library (immer, etc.)
+
+**Why avoid:**
+- MobX is built for mutable state with automatic tracking
+- Immutability would fight against MobX's design philosophy
+- Existing codebase successfully uses mutable pattern (Character.resources.energy = X)
+
+**Unreal note:** Unreal also uses mutable state (UProperties), so current pattern ports correctly.
+
+### Math/Formula Libraries (mathjs, etc.)
+
+**Why avoid:**
+- Needs calculations are simple weighted averages and linear formulas
+- TypeScript native math is sufficient (Math.min, Math.max, Math.round)
+- Library overhead not justified for basic arithmetic
+
+**When to revisit:** If you add complex statistical analysis or curve fitting for balance tuning, consider a library. Current needs-system formulas don't require this.
+
+### Utility AI Frameworks (goap.js, etc.)
+
+**Why avoid:**
+- Utility scoring is ~50 lines of pure functions
+- Frameworks add learning curve and bundle size for marginal benefit
+- Direct implementation provides full control for balance tuning
+
+**When to revisit:** If you add GOAP (Goal-Oriented Action Planning) with complex goal hierarchies, consider a framework. Current autonomous selection is simpler.
+
+### Redux/Zustand/Other State Management
+
+**Why avoid:**
+- MobX already chosen and working well (PROJECT.md decision log)
+- Switching state management mid-project is high risk, low reward
+- MobX computed values are perfect fit for derived needs
+
+**Already decided:** React + MobX validated in v1.0 (3-day prototype, 4,430 LOC)
+
+---
+
+## Version Verification
+
+**Current Dependencies (package.json):**
+- `mobx: ^6.15.0` - Latest stable (released 2024-12-20)
+- `mobx-react-lite: ^4.1.1` - Latest (released 2024-12-02)
+- `react: ^19.2.0` - Current
+- `typescript: ~5.9.3` - Current
+
+**Verification:** No updates needed. MobX 6.15.0 is current and fully supports computed value chaining.
+
+**Source:** Verified via package.json and [MobX GitHub Releases](https://github.com/mobxjs/mobx/releases)
+
+---
+
+## Implementation Checklist
+
+When implementing needs-system, use this stack:
+
+- [ ] MobX computed getters for Mood (from needs)
+- [ ] MobX computed getters for Purpose (from activity fit)
+- [ ] MobX computed getters for Overskudd (from mood/energy/purpose/willpower)
+- [ ] Pure utility scoring functions in `src/ai/UtilityAI.ts`
+- [ ] Extended BalanceConfigStore with needs-system parameters
+- [ ] NO new npm dependencies
+
+---
+
+## Original v1.0 Stack (Preserved for Reference)
+
+### Core Framework
+
+| Technology | Version | Purpose | Confidence |
+|------------|---------|---------|------------|
+| React | ^19.2.0 | UI framework | HIGH |
+| TypeScript | ~5.9.3 | Type safety | HIGH |
+| Vite | ^7.2.4 | Build tool | HIGH |
+
+### Styling
+
+| Technology | Version | Purpose | Confidence |
+|------------|---------|---------|------------|
+| Tailwind CSS | ^4.1.18 | Utility CSS | HIGH |
+| DaisyUI | ^5.5.14 | Component classes | HIGH |
+
+### State Management
+
+| Technology | Version | Purpose | Confidence |
+|------------|---------|---------|------------|
+| MobX | ^6.15.0 | Reactive state | HIGH |
+| mobx-react-lite | ^4.1.1 | React bindings | HIGH |
+
+### Data Persistence
+
+| Technology | Version | Purpose | Confidence |
+|------------|---------|---------|------------|
+| localStorage | (browser) | Dev save/load | HIGH |
+| JSON | (native) | Serialization | HIGH |
+
+### Visualization
+
+| Technology | Version | Purpose | Confidence |
+|------------|---------|---------|------------|
+| Recharts | ^3.6.0 | Charts for skill visualization | HIGH |
+
+### Supporting Libraries
+
+| Library | Version | Purpose | Confidence |
+|---------|---------|---------|------------|
+| clsx | ^2.1.1 | Conditional classes | HIGH |
+| sonner | ^2.0.7 | Toast notifications | HIGH |
+
+---
+
+*Researched: 2026-01-23 (Updated for v1.1 needs-system milestone)*
+*Original: 2026-01-20 (v1.0 foundation stack)*
+
+**Sources:**
+- [MobX Computed Values Official Docs](https://mobx.js.org/computeds.html)
+- [Utility System (Wikipedia)](https://en.wikipedia.org/wiki/Utility_system)
+- [Game AI Pro - Introduction to Utility Theory (PDF)](http://www.gameaipro.com/GameAIPro/GameAIPro_Chapter09_An_Introduction_to_Utility_Theory.pdf)
+- [The Shaggy Dev - Utility AI](https://shaggydev.com/2023/04/19/utility-ai/)
+- [The Sims 4 Balance System](https://sims.fandom.com/wiki/Balance)
+- [Toolify AI - Implementing Utility AI](https://www.toolify.ai/ai-news/enhance-game-ai-implementing-utility-ai-with-examples-2212089)
+- [MobX GitHub Releases](https://github.com/mobxjs/mobx/releases)
