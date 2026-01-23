@@ -1,5 +1,4 @@
 import type { ActivityData } from '../entities/types';
-import type { SkillRequirement } from '../types/difficulty';
 
 /**
  * Starter activities representing daily life tasks across domains.
