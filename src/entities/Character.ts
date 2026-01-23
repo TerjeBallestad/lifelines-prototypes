@@ -466,26 +466,39 @@ export class Character {
    * Action: Apply time-based resource updates for one simulation tick.
    * Called by SimulationStore.tick() each tick.
    *
+   * Branches based on needsSystemEnabled toggle:
+   * - v1.1 (enabled): Apply needs decay via applyNeedsDecay()
+   * - v1.0 (disabled): Apply resource drain/recovery via existing logic
+   *
    * @param speedMultiplier - Simulation speed (1 = normal, higher = faster drain/recovery)
    */
   applyTickUpdate(speedMultiplier: number): void {
-    // Apply drain to draining resources
-    for (const key of Object.keys(BASE_DRAIN_RATES) as ResourceKey[]) {
-      const effectiveRate = this.effectiveDrainRate(key);
-      const drain = effectiveRate * speedMultiplier;
-      this.resources[key] = clampResource(this.resources[key] - drain);
-    }
+    const needsEnabled = this.root?.needsSystemEnabled ?? false;
 
-    // Apply recovery to recovering resources
-    for (const key of Object.keys(BASE_RECOVERY_RATES) as ResourceKey[]) {
-      const effectiveRate = this.effectiveRecoveryRate(key);
-      const recovery = effectiveRate * speedMultiplier;
+    if (needsEnabled && this.needs) {
+      // v1.1: Apply needs decay (asymptotic to prevent death spirals)
+      this.applyNeedsDecay(speedMultiplier);
+    } else {
+      // v1.0: Apply resource drain/recovery
 
-      // Stress is inverse: recovery means it goes DOWN (good)
-      if (key === 'stress') {
-        this.resources[key] = clampResource(this.resources[key] - recovery);
-      } else {
-        this.resources[key] = clampResource(this.resources[key] + recovery);
+      // Apply drain to draining resources
+      for (const key of Object.keys(BASE_DRAIN_RATES) as ResourceKey[]) {
+        const effectiveRate = this.effectiveDrainRate(key);
+        const drain = effectiveRate * speedMultiplier;
+        this.resources[key] = clampResource(this.resources[key] - drain);
+      }
+
+      // Apply recovery to recovering resources
+      for (const key of Object.keys(BASE_RECOVERY_RATES) as ResourceKey[]) {
+        const effectiveRate = this.effectiveRecoveryRate(key);
+        const recovery = effectiveRate * speedMultiplier;
+
+        // Stress is inverse: recovery means it goes DOWN (good)
+        if (key === 'stress') {
+          this.resources[key] = clampResource(this.resources[key] - recovery);
+        } else {
+          this.resources[key] = clampResource(this.resources[key] + recovery);
+        }
       }
     }
   }

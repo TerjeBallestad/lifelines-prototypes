@@ -1,3 +1,4 @@
+import { makeAutoObservable } from 'mobx';
 import { CharacterStore } from './CharacterStore';
 import { SimulationStore } from './SimulationStore';
 import { createContext, useContext } from 'react';
@@ -14,6 +15,9 @@ export class RootStore {
   talentStore: TalentStore;
   balanceConfig: BalanceConfigStore;
 
+  // v1.1 Primary Needs System toggle
+  needsSystemEnabled = false;
+
   constructor() {
     this.characterStore = new CharacterStore(this);
     this.simulationStore = new SimulationStore(this);
@@ -21,6 +25,31 @@ export class RootStore {
     this.activityStore = new ActivityStore(this);
     this.talentStore = new TalentStore(this);
     this.balanceConfig = new BalanceConfigStore();
+
+    // Make RootStore observable for needsSystemEnabled toggle
+    makeAutoObservable(this, {
+      characterStore: false,
+      simulationStore: false,
+      skillStore: false,
+      activityStore: false,
+      talentStore: false,
+      balanceConfig: false,
+    });
+  }
+
+  /**
+   * Action: Toggle between v1.0 resource system and v1.1 needs system.
+   * When enabling v1.1, initializes needs on all existing characters.
+   */
+  toggleNeedsSystem(): void {
+    this.needsSystemEnabled = !this.needsSystemEnabled;
+
+    // When enabling, initialize needs on all characters
+    if (this.needsSystemEnabled) {
+      for (const char of this.characterStore.allCharacters) {
+        char.initializeNeeds();
+      }
+    }
   }
 }
 export const StoreContext = createContext<RootStore | null>(null);
