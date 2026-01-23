@@ -5,10 +5,29 @@ import type {
   ResourceKey,
   CapacityKey,
   DurationMode,
+  NeedKey,
 } from './types';
 import type { SkillRequirement, DifficultyBreakdown } from '../types/difficulty';
 import type { Character } from './Character';
 import { STARTER_SKILLS } from '../data/skills';
+import { calculatePersonalityAlignment, type ActivityAlignment } from '../utils/personalityFit';
+
+/**
+ * Resource costs required to perform an activity.
+ * Costs scale with difficulty and are modified by personality alignment.
+ */
+export interface ResourceCosts {
+  /** Required to start, consumed during activity */
+  overskudd: number;
+  /** Consumed at activity start */
+  willpower: number;
+  /** Consumed during concentration activities */
+  focus: number;
+  /** Consumed during social activities */
+  socialBattery: number;
+  /** Personality alignment modifier applied to costs */
+  alignment: ActivityAlignment;
+}
 
 /**
  * Activity entity - represents an activity that a character can perform.
@@ -34,6 +53,10 @@ export class Activity {
   readonly baseDifficulty: number; // 1-5 stars
   readonly skillRequirements: SkillRequirement[];
 
+  // Personality alignment system (Phase 10)
+  readonly tags?: string[];
+  readonly needEffects?: Partial<Record<NeedKey, number>>;
+
   // Mutable mastery properties
   masteryLevel = 1; // 1-10
   masteryXP = 0;
@@ -52,6 +75,10 @@ export class Activity {
     // Difficulty system (backward compatible defaults)
     this.baseDifficulty = data.baseDifficulty ?? 3;
     this.skillRequirements = data.skillRequirements ?? [];
+
+    // Personality alignment system (Phase 10)
+    this.tags = data.tags;
+    this.needEffects = data.needEffects;
 
     // Makes all properties observable and all methods actions
     makeAutoObservable(this);
@@ -243,5 +270,63 @@ export class Activity {
       masteryReduction: Math.round(masteryReduction * 100) / 100,
       skillDetails,
     };
+  }
+
+  // ============================================================================
+  // Resource Cost Calculation (Phase 10)
+  // ============================================================================
+
+  /**
+   * Check if activity has a specific tag.
+   * @param tag - Tag to check for
+   * @returns True if activity has the tag
+   */
+  private hasTag(tag: string): boolean {
+    return this.tags?.includes(tag) ?? false;
+  }
+
+  /**
+   * Calculate resource costs for this activity based on difficulty and personality.
+   * Costs scale linearly with effective difficulty (1:1 mapping).
+   * Personality alignment reduces costs for well-matched activities.
+   *
+   * CONTEXT.md rules:
+   * - Difficulty maps to costs linearly (1:1)
+   * - No minimum cost floor (mastered activities can become nearly free)
+   * - Overskudd: visible, required to start, consumed during
+   * - Willpower: consumed at start
+   * - Focus: consumed during concentration activities
+   * - socialBattery: consumed during social activities
+   *
+   * @param character - Character performing the activity
+   * @returns ResourceCosts with difficulty-scaled, alignment-adjusted costs
+   */
+  getResourceCosts(character: Character): ResourceCosts {
+    // 1. Get effective difficulty (1-5 stars, adjusted by skills/mastery)
+    const effectiveDifficulty = this.getEffectiveDifficulty(character);
+
+    // 2. Calculate base costs from difficulty
+    // difficulty 1 = 5 cost, difficulty 5 = 25 cost
+    const baseCost = effectiveDifficulty * 5;
+
+    // 3. Distribute costs across resources
+    const overskudd = baseCost; // Full scaling
+    const willpower = baseCost * 0.5;
+    const focus = this.hasTag('concentration') ? baseCost * 0.3 : 0;
+    const socialBattery = this.hasTag('social') ? baseCost * 0.4 : 0;
+
+    // 4. Get personality alignment
+    const alignment = calculatePersonalityAlignment(this.tags, character.personality);
+
+    // 5. Apply alignment cost multiplier to all non-zero costs
+    const adjustedCosts: ResourceCosts = {
+      overskudd: overskudd * alignment.costMultiplier,
+      willpower: willpower * alignment.costMultiplier,
+      focus: focus * alignment.costMultiplier,
+      socialBattery: socialBattery * alignment.costMultiplier,
+      alignment,
+    };
+
+    return adjustedCosts;
   }
 }
