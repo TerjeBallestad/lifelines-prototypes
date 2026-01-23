@@ -40,7 +40,7 @@ export class ActivityStore {
   floatingNumbers = observable.array<FloatingNumberData>();
 
   // Track cumulative changes for completion summary
-  private activityEffectTotals: Map<string, number> = new Map();
+  private activityEffectTotals = new Map<string, number>();
 
   // Private reference to root store
   private readonly root: RootStore;
@@ -365,7 +365,7 @@ export class ActivityStore {
 
       // Build summary description from cumulative changes
       const significantChanges = Array.from(this.activityEffectTotals.entries())
-        .filter(([_, val]) => Math.abs(val) >= 1)
+        .filter(([, val]) => Math.abs(val) >= 1)
         .map(([key, val]) => {
           const sign = val >= 0 ? '+' : '';
           return `${key}: ${sign}${val.toFixed(0)}`;
@@ -420,8 +420,9 @@ export class ActivityStore {
     if (!character.needs) return 1.0; // v1.0 mode, no escape valve
 
     const physiologicalNeeds = ['hunger', 'energy', 'hygiene', 'bladder'] as const;
+    const needs = character.needs;
     const isStrugging = physiologicalNeeds.some(
-      need => character.needs![need] < 20
+      need => needs[need] < 20
     );
 
     return isStrugging ? 0.5 : 1.0;
