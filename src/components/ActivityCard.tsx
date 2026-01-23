@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { Activity } from '../entities/Activity';
+import { Activity, type ResourceCosts } from '../entities/Activity';
 import type { ActivityData } from '../entities/types';
 import type { Character } from '../entities/Character';
 import clsx from 'clsx';
@@ -49,6 +49,16 @@ export const ActivityCard = observer(function ActivityCard({
   } else {
     // Fallback: default to 3 stars (medium)
     difficulty = 3;
+  }
+
+  // Calculate resource costs (if possible)
+  let costs = undefined;
+  let alignmentInfo = undefined;
+
+  if (activity instanceof Activity && character) {
+    const resourceCosts = activity.getResourceCosts(character);
+    costs = resourceCosts;
+    alignmentInfo = resourceCosts.alignment;
   }
 
   // Format resource effects for preview
@@ -141,6 +151,27 @@ export const ActivityCard = observer(function ActivityCard({
                 {effect}
               </span>
             ))}
+          </div>
+        )}
+
+        {/* Estimated costs (if available) */}
+        {variant === 'preview' && costs && (
+          <div className="mt-1 text-xs text-base-content/60">
+            <span className="font-medium">Costs:</span>{' '}
+            <span>Overskudd -{costs.overskudd.toFixed(0)}</span>
+            {costs.willpower > 0 && <span>, Willpower -{costs.willpower.toFixed(0)}</span>}
+            {costs.focus > 0 && <span>, Focus -{costs.focus.toFixed(0)}</span>}
+            {costs.socialBattery > 0 && <span>, Social -{costs.socialBattery.toFixed(0)}</span>}
+          </div>
+        )}
+
+        {/* Personality alignment indicator (tooltip only - card stays clean per CONTEXT.md) */}
+        {variant === 'preview' && alignmentInfo && alignmentInfo.breakdown.length > 0 && (
+          <div
+            className="mt-1 text-xs opacity-50 cursor-help"
+            title={alignmentInfo.breakdown.map(b => `${b.trait}: ${b.contribution > 0 ? '+' : ''}${(b.contribution * 100).toFixed(0)}%`).join(', ')}
+          >
+            {alignmentInfo.costMultiplier < 0.95 ? '(Good fit)' : alignmentInfo.costMultiplier > 1.05 ? '(Poor fit)' : ''}
           </div>
         )}
 

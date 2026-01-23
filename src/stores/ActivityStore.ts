@@ -363,8 +363,22 @@ export class ActivityStore {
       // SUCCESS: Full mastery XP, normal domain XP
       activity.addMasteryXP(10);
 
+      // Build summary description from cumulative changes
+      const significantChanges = Array.from(this.activityEffectTotals.entries())
+        .filter(([_, val]) => Math.abs(val) >= 1)
+        .map(([key, val]) => {
+          const sign = val >= 0 ? '+' : '';
+          return `${key}: ${sign}${val.toFixed(0)}`;
+        })
+        .slice(0, 4); // Max 4 changes to keep toast readable
+
+      const description = significantChanges.length > 0
+        ? significantChanges.join(', ')
+        : undefined;
+
       toast.success(`Completed: ${activity.name}!`, {
-        duration: 2000,
+        description,
+        duration: 3000,
       });
     } else {
       // FAILURE: Reduced mastery XP (50%), reduced domain XP happens via multiplier
