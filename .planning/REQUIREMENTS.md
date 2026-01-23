@@ -14,14 +14,14 @@ Requirements for Game Balance milestone. Each maps to roadmap phases.
 - [x] **NEED-03**: Needs use Maslow-style curves (Hunger/Bladder/Energy spike urgently, Social/Fun are gentler)
 - [x] **NEED-04**: Critical threshold at 20% triggers urgent behavior indicators
 - [x] **NEED-05**: Visual feedback with color-coded bars (green/yellow/orange/red)
-- [ ] **NEED-06**: Nutrition exists as slow-moving health stat affecting Energy regen and Mood
+- [x] **NEED-06**: Nutrition exists as slow-moving health stat affecting Energy regen and Mood
 
 ### Derived Wellbeing
 
-- [ ] **WELL-01**: Mood is computed from primary need satisfaction (weighted average)
-- [ ] **WELL-02**: Mood has a floor value (prevents death spiral from one bad need)
-- [ ] **WELL-03**: Purpose is computed from activity-personality alignment
-- [ ] **WELL-04**: Low Purpose affects Overskudd negatively
+- [x] **WELL-01**: Mood is computed from primary need satisfaction (weighted average)
+- [x] **WELL-02**: Mood has a floor value (prevents death spiral from one bad need)
+- [~] **WELL-03**: Purpose is computed from activity-personality alignment (foundation ready, full integration Phase 10)
+- [~] **WELL-04**: Low Purpose affects Overskudd negatively (foundation ready, full integration Phase 9)
 
 ### Action Resources
 
@@ -95,11 +95,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | NEED-03 | Phase 7 | Complete |
 | NEED-04 | Phase 7 | Complete |
 | NEED-05 | Phase 7 | Complete |
-| NEED-06 | Phase 8 | Pending |
-| WELL-01 | Phase 8 | Pending |
-| WELL-02 | Phase 8 | Pending |
-| WELL-03 | Phase 8 | Pending |
-| WELL-04 | Phase 8 | Pending |
+| NEED-06 | Phase 8 | Complete |
+| WELL-01 | Phase 8 | Complete |
+| WELL-02 | Phase 8 | Complete |
+| WELL-03 | Phase 8 | Partial (Phase 10) |
+| WELL-04 | Phase 8 | Partial (Phase 9) |
 | RSRC-01 | Phase 9 | Pending |
 | RSRC-02 | Phase 9 | Pending |
 | RSRC-03 | Phase 9 | Pending |
@@ -132,4 +132,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-23*
-*Last updated: 2026-01-23 (Phase 7 complete)*
+*Last updated: 2026-01-23 (Phase 8 complete)*
