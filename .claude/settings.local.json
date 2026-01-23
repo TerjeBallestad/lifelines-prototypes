@@ -26,7 +26,13 @@
       "Bash(git check-ignore:*)",
       "Bash(ls:*)",
       "mcp__daisyui__fetch_generic_url_content",
-      "mcp__daisyui__search_daisyui_code"
+      "mcp__daisyui__search_daisyui_code",
+      "WebFetch(domain:sims.fandom.com)",
+      "Bash(git -C /Users/godstemning/Projects/lifelines-prototypes log --oneline -10)",
+      "Bash(git -C /Users/godstemning/Projects/lifelines-prototypes rev-parse --short HEAD)",
+      "Skill(gsd:add-todo)",
+      "Skill(gsd:discuss-phase)",
+      "Bash(git log:*)"
     ]
   }
 }
