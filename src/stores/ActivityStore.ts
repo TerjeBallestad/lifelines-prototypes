@@ -398,6 +398,22 @@ export class ActivityStore {
   }
 
   /**
+   * Calculate escape valve multiplier for struggling patients.
+   * When any physiological need is below 20%, reduce activity costs by 50%.
+   * This prevents total paralysis when patient is in crisis.
+   */
+  private calculateEscapeValve(character: Character): number {
+    if (!character.needs) return 1.0; // v1.0 mode, no escape valve
+
+    const physiologicalNeeds = ['hunger', 'energy', 'hygiene', 'bladder'] as const;
+    const isStrugging = physiologicalNeeds.some(
+      need => character.needs![need] < 20
+    );
+
+    return isStrugging ? 0.5 : 1.0;
+  }
+
+  /**
    * Apply per-tick resource effects from the current activity.
    * v1.1: Also handles need restoration with personality alignment.
    */
@@ -406,15 +422,29 @@ export class ActivityStore {
     const character = this.root.characterStore.character;
     if (!activity || !character) return;
 
+    // Calculate alignment once for this tick
+    const alignment = calculatePersonalityAlignment(
+      activity.tags,
+      character.personality
+    );
+
+    // Calculate escape valve multiplier (struggling patient gets 50% cost reduction)
+    const escapeValve = this.calculateEscapeValve(character);
+
     for (const [key, baseEffect] of Object.entries(activity.resourceEffects)) {
       const resourceKey = key as ResourceKey;
       let effect = baseEffect * speedMultiplier;
 
       // Mastery reduces drain, modestly increases restore
       if (effect < 0) {
+        // DRAIN: apply mastery reduction, alignment cost multiplier, escape valve
         effect *= 1 - activity.masteryDrainReduction;
+        effect *= alignment.costMultiplier;  // aligned = lower costs
+        effect *= escapeValve;               // struggling = lower costs
       } else {
+        // RESTORE: apply mastery bonus, alignment gain multiplier
         effect *= 1 + activity.masteryBonus * 0.5;
+        effect *= alignment.gainMultiplier;  // aligned = higher gains
       }
 
       // Apply to character resources (clamp handled in updateResources)
@@ -427,11 +457,6 @@ export class ActivityStore {
 
     // v1.1 Need restoration (if needs system enabled)
     if (character.needs && activity.needEffects) {
-      const alignment = calculatePersonalityAlignment(
-        activity.tags,
-        character.personality
-      );
-
       for (const [needKey, baseRestore] of Object.entries(activity.needEffects)) {
         // Apply personality gain multiplier
         let restore = baseRestore * alignment.gainMultiplier * speedMultiplier;
