@@ -11,28 +11,29 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 ## Current Position
 
 Phase: 7 of 12 (Primary Needs Foundation)
-Plan: 1 of 3 in current phase
+Plan: 2 of 3 in current phase
 Status: In progress
-Last activity: 2026-01-23 - Completed 07-01-PLAN.md (Needs Types and Config)
+Last activity: 2026-01-23 - Completed 07-02-PLAN.md (Toggle Integration)
 
-Progress: [█░░░░░░░░░] ~8% (milestone v1.1, 1/~12 plans across 6 phases)
+Progress: [██░░░░░░░░] ~17% (milestone v1.1, 2/~12 plans across 6 phases)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1 (v1.1)
-- Average duration: 2 min
-- Total execution time: 2 min
+- Total plans completed: 2 (v1.1)
+- Average duration: 2.5 min
+- Total execution time: 5 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 07-primary-needs | 1 | 2 min | 2 min |
+| 07-primary-needs | 2 | 5 min | 2.5 min |
 
 **Recent Trend:**
 - 07-01: 2 min (2 tasks, 4 files)
-- Trend: Starting strong
+- 07-02: 3 min (3 tasks, 6 files)
+- Trend: Consistent rapid delivery
 
 **v1.0 Reference:**
 - 26 plans completed in 3 days
@@ -48,15 +49,20 @@ Progress: [█░░░░░░░░░] ~8% (milestone v1.1, 1/~12 plans acro
 Decisions are logged in PROJECT.md Key Decisions table.
 
 **v1.1 Architecture decisions:**
-- MobX computed values for needs derivation (Mood from needs → Overskudd from mood/energy/purpose)
+- MobX computed values for needs derivation (Mood from needs -> Overskudd from mood/energy/purpose)
 - Parallel v1.0/v1.1 with toggle, preserving validated mechanics
-- Bottom-up dependency chain: Primary needs → Derived wellbeing → Action resources → Autonomous AI
+- Bottom-up dependency chain: Primary needs -> Derived wellbeing -> Action resources -> Autonomous AI
 
 **v1.1 Resource model:**
 - Primary Needs (7): Hunger, Energy, Hygiene, Bladder, Social, Fun, Security
 - Derived Wellbeing (2): Mood (from needs), Purpose (from activity-personality fit)
 - Action Resources (4): Overskudd, socialBattery, Focus, Willpower
 - Health Stats (1): Nutrition (slow-moving, affects Energy regen and Mood)
+
+**07-02 Toggle Implementation:**
+- needsSystemEnabled toggle in RootStore controls which system runs
+- Color thresholds for urgency: green >= 70, yellow >= 40, orange >= 20, red < 20
+- Critical indicator: animate-pulse for needs below 20%
 
 ### Pending Todos
 
@@ -79,7 +85,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-23
-Stopped at: Completed 07-01-PLAN.md (Needs Types and Config)
+Stopped at: Completed 07-02-PLAN.md (Toggle Integration)
 Resume file: None
 
-**Next step:** Execute 07-02-PLAN.md (Toggle Integration) to enable needs decay in simulation loop
+**Next step:** Execute 07-03-PLAN.md (Recovery Activities) to implement activities that restore needs
