@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import type { NeedKey } from '../entities/types';
+import type { DifficultyConfig } from '../types/difficulty';
 
 // ============================================================================
 // Primary Needs Configuration (v1.1)
@@ -210,6 +211,20 @@ export const DEFAULT_ACTION_RESOURCES_CONFIG: ActionResourcesConfig = {
 };
 
 // ============================================================================
+// Difficulty Configuration (Phase 9.1)
+// ============================================================================
+
+/**
+ * Default difficulty configuration.
+ * Tuned for meaningful skill/mastery impact with diminishing returns.
+ */
+export const DEFAULT_DIFFICULTY_CONFIG: DifficultyConfig = {
+  maxSkillReduction: 1.5, // Max 1.5 stars reduction from skills
+  maxMasteryReduction: 1.0, // Max 1.0 star reduction from mastery
+  skillDiminishingReturns: 'sqrt', // Square root diminishing returns
+};
+
+// ============================================================================
 // Core Balance Configuration (v1.0)
 // ============================================================================
 
@@ -242,6 +257,9 @@ export interface BalanceConfig {
 
   // Action Resources system (v1.1)
   actionResources: ActionResourcesConfig;
+
+  // Difficulty system (Phase 9.1)
+  difficulty: DifficultyConfig;
 }
 
 /**
@@ -260,6 +278,7 @@ export const DEFAULT_BALANCE: BalanceConfig = {
   needs: DEFAULT_NEEDS_CONFIG,
   derivedStats: DEFAULT_DERIVED_STATS_CONFIG,
   actionResources: DEFAULT_ACTION_RESOURCES_CONFIG,
+  difficulty: DEFAULT_DIFFICULTY_CONFIG,
 };
 
 /**
@@ -318,6 +337,10 @@ export class BalanceConfigStore {
 
   get actionResourcesConfig(): ActionResourcesConfig {
     return this.config.actionResources;
+  }
+
+  get difficultyConfig(): DifficultyConfig {
+    return this.config.difficulty;
   }
 
   /**

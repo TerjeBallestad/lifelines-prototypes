@@ -235,6 +235,9 @@ export function defaultResources(): Resources {
   } satisfies Resources;
 }
 
+// Import difficulty types (Phase 9.1)
+import type { SkillRequirement } from '../types/difficulty';
+
 // Skill domain categories
 export type SkillDomain =
   | 'social'
@@ -294,6 +297,9 @@ export interface ActivityData {
     minOverskudd?: number;
     minEnergy?: number;
   };
+  // Difficulty system (Phase 9.1) - optional for backward compatibility
+  baseDifficulty?: number; // 1-5 stars (default 3)
+  skillRequirements?: SkillRequirement[]; // Skills that reduce difficulty
 }
 
 // ============================================================================
