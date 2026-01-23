@@ -11,19 +11,19 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 ## Current Position
 
 Phase: 10 of 12 (Activity-Need Integration)
-Plan: 1 of 3 in current phase
+Plan: 2 of 3 in current phase
 Status: In progress
-Last activity: 2026-01-23 - Completed 10-01-PLAN.md
+Last activity: 2026-01-23 - Completed 10-02-PLAN.md
 
-Progress: [█████████░] ~93% (milestone v1.1, 14/15 plans across 9 phases)
+Progress: [█████████░] ~96% (milestone v1.1, 15/15 plans across 9 phases)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 14 (v1.1)
-- Average duration: ~2.4 min (code plans only)
-- Total execution time: ~42 min (excluding human verification)
+- Total plans completed: 15 (v1.1)
+- Average duration: ~2.3 min (code plans only)
+- Total execution time: ~44 min (excluding human verification)
 
 **By Phase:**
 
@@ -33,7 +33,7 @@ Progress: [█████████░] ~93% (milestone v1.1, 14/15 plans acr
 | 08-derived-wellbeing        | 4     | 7 min   | 2.3 min  |
 | 09-action-resources         | 3     | 19 min  | 6.3 min  |
 | 09.1-activity-difficulty    | 3     | 21 min  | 7.0 min  |
-| 10-activity-need-integration| 1     | 1.4 min | 1.4 min  |
+| 10-activity-need-integration| 2     | 3.2 min | 1.6 min  |
 
 **Recent Trend:**
 
@@ -51,6 +51,7 @@ Progress: [█████████░] ~93% (milestone v1.1, 14/15 plans acr
 - 09.1-02: 3 min (3 tasks, 3 files)
 - 09.1-03: 15 min (1 checkpoint + 6 bug fixes)
 - 10-01: 1.4 min (2 tasks, 2 files)
+- 10-02: 1.8 min (2 tasks, 2 files)
 - Trend: Consistent rapid delivery, verification checkpoints ~10-15 min
 
 **v1.0 Reference:**
@@ -177,6 +178,15 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - Modifier strength 25-40% for balanced impact without dominating choices
 - Aligned activities are cheaper AND provide more restoration
 
+**10-02 Activity Resource Costs:**
+
+- Activity.getResourceCosts() method calculates costs from effective difficulty with personality alignment
+- Linear difficulty-to-cost scaling (1:1): difficulty 1 = 5 base cost, difficulty 5 = 25 base cost
+- No minimum cost floor (mastered activities can become nearly free)
+- Cost distribution: overskudd (100%), willpower (50%), focus (30% if concentration), socialBattery (40% if social)
+- All 8 starter activities have tags and needEffects for personality/need integration
+- ResourceCosts interface includes alignment breakdown for tooltip display
+
 ### Pending Todos
 
 No pending todos.
@@ -202,7 +212,7 @@ No pending todos.
 ## Session Continuity
 
 Last session: 2026-01-23
-Stopped at: Completed 10-01-PLAN.md
+Stopped at: Completed 10-02-PLAN.md
 Resume file: None
 
-**Next step:** Phase 10-02 - Integrate alignment into Activity costs and integrate need restoration
+**Next step:** Phase 10-03 - ActivityStore integration of costs and need restoration
