@@ -11,8 +11,10 @@ import type {
   DerivedStats,
   FoodQuality,
   StatBreakdown,
+  ActionResources,
+  SocialContext,
 } from './types';
-import { defaultNeeds, defaultDerivedStats } from './types';
+import { defaultNeeds, defaultDerivedStats, defaultActionResources } from './types';
 import { needToMoodCurve, asymptoticClamp } from '../utils/curves';
 import { SmoothedValue } from '../utils/smoothing';
 import {
@@ -59,14 +61,22 @@ export class Character {
   resources: Resources;
   needs?: Needs; // v1.1 Primary Needs (optional, initialized via initializeNeeds)
   derivedStats?: DerivedStats; // v1.1 Derived Wellbeing (optional, initialized via initializeDerivedStats)
+  actionResources?: ActionResources; // v1.1 Action Resources (optional, initialized via initializeActionResources)
 
   // Transient smoothers (not serialized, recreated on initialization)
   private moodSmoother?: SmoothedValue;
   private purposeSmoother?: SmoothedValue;
   private nutritionSmoother?: SmoothedValue;
+  private overskuddSmoother?: SmoothedValue;
+  private socialBatterySmoother?: SmoothedValue;
+  private focusSmoother?: SmoothedValue;
+  private willpowerSmoother?: SmoothedValue;
 
   /** Running average of food quality (0-3 scale), affects nutrition target */
   private recentFoodQuality: number = 1.0;
+
+  /** Current social context for socialBattery drain/charge calculation */
+  currentSocialContext: SocialContext = 0; // Default to Solo
 
   private root?: RootStore;
 
@@ -156,6 +166,40 @@ export class Character {
     this.nutritionSmoother = new SmoothedValue(
       this.derivedStats.nutrition,
       config.nutritionSmoothingAlpha
+    );
+
+    // Chain to action resources initialization
+    this.initializeActionResources();
+  }
+
+  /**
+   * Action: Initialize the v1.1 action resources system.
+   * Sets up action resources and smoothers for overskudd, socialBattery, focus, willpower.
+   * Called automatically at the end of initializeDerivedStats().
+   */
+  initializeActionResources(): void {
+    // Guard: only if balance config is available
+    if (!this.root?.balanceConfig) return;
+
+    this.actionResources = defaultActionResources();
+    const config = this.root.balanceConfig.actionResourcesConfig;
+
+    // Initialize smoothers with starting values and config alphas
+    this.overskuddSmoother = new SmoothedValue(
+      this.actionResources.overskudd,
+      config.overskuddAlpha
+    );
+    this.socialBatterySmoother = new SmoothedValue(
+      this.actionResources.socialBattery,
+      config.socialBatteryAlpha
+    );
+    this.focusSmoother = new SmoothedValue(
+      this.actionResources.focus,
+      config.focusAlpha
+    );
+    this.willpowerSmoother = new SmoothedValue(
+      this.actionResources.willpower,
+      config.willpowerAlpha
     );
   }
 
@@ -490,6 +534,191 @@ export class Character {
     this.purposeSmoother?.setValue(newTarget);
   }
 
+  // ============================================================================
+  // v1.1 Action Resources Computed Getters
+  // ============================================================================
+
+  /**
+   * Computed: Target overskudd value based on Mood, Energy (need), and Purpose.
+   * Weighted average: Mood (40%) + Energy need (35%) + Purpose (25%).
+   * Clamped to 0-100 range.
+   *
+   * @returns Target overskudd value (0-100)
+   */
+  get overskuddTarget(): number {
+    // Guard: needs, derivedStats, and config must be available
+    if (!this.needs || !this.derivedStats || !this.root?.balanceConfig) return 70;
+
+    const config = this.root.balanceConfig.actionResourcesConfig;
+    const mood = this.derivedStats.mood;
+    const energy = this.needs.energy;
+    const purpose = this.derivedStats.purpose;
+
+    // Weighted average
+    const target =
+      mood * config.overskuddMoodWeight +
+      energy * config.overskuddEnergyWeight +
+      purpose * config.overskuddPurposeWeight;
+
+    return Math.max(0, Math.min(100, target));
+  }
+
+  /**
+   * Computed: Breakdown of overskudd contributions for tooltip display.
+   *
+   * @returns StatBreakdown with Mood, Energy, Purpose contributions
+   */
+  get overskuddBreakdown(): StatBreakdown {
+    // Guard: if no action resources, return neutral breakdown
+    if (!this.needs || !this.derivedStats || !this.root?.balanceConfig) {
+      return { total: 70, contributions: [] };
+    }
+
+    const config = this.root.balanceConfig.actionResourcesConfig;
+    const mood = this.derivedStats.mood;
+    const energy = this.needs.energy;
+    const purpose = this.derivedStats.purpose;
+
+    const contributions = [
+      {
+        source: 'Mood',
+        value: Math.round(mood * config.overskuddMoodWeight * 10) / 10,
+      },
+      {
+        source: 'Energy',
+        value: Math.round(energy * config.overskuddEnergyWeight * 10) / 10,
+      },
+      {
+        source: 'Purpose',
+        value: Math.round(purpose * config.overskuddPurposeWeight * 10) / 10,
+      },
+    ];
+
+    return {
+      total: Math.round(this.actionResources?.overskudd ?? 70),
+      contributions,
+    };
+  }
+
+  /**
+   * Computed: Target socialBattery value based on Extraversion and currentSocialContext.
+   *
+   * Introvert (E < 40): charges solo (100), drains social (20)
+   * Extrovert (E > 60): drains solo (30), charges social (100)
+   * Ambivert (40-60): neutral target (50) in both contexts
+   *
+   * @returns Target socialBattery value (0-100)
+   */
+  get socialBatteryTarget(): number {
+    const extraversion = this.personality.extraversion;
+
+    // Introvert (low extraversion)
+    if (extraversion < 40) {
+      return this.currentSocialContext === 0 ? 100 : 20; // Solo = charge, Social = drain
+    }
+
+    // Extrovert (high extraversion)
+    if (extraversion > 60) {
+      return this.currentSocialContext === 0 ? 30 : 100; // Solo = drain, Social = charge
+    }
+
+    // Ambivert (moderate extraversion)
+    return 50; // Neutral in both contexts
+  }
+
+  /**
+   * Computed: Breakdown of socialBattery for tooltip display.
+   *
+   * @returns StatBreakdown showing personality effect
+   */
+  get socialBatteryBreakdown(): StatBreakdown {
+    const extraversion = this.personality.extraversion;
+
+    let personalityEffect = '';
+    if (extraversion < 40) {
+      personalityEffect = 'Introvert: charges solo, drains social';
+    } else if (extraversion > 60) {
+      personalityEffect = 'Extrovert: drains solo, charges social';
+    } else {
+      personalityEffect = 'Ambivert: neutral in both contexts';
+    }
+
+    return {
+      total: Math.round(this.actionResources?.socialBattery ?? 70),
+      contributions: [
+        { source: 'Context', value: this.currentSocialContext },
+        { source: 'Extraversion', value: Math.round(extraversion) },
+        { source: personalityEffect, value: this.socialBatteryTarget },
+      ],
+    };
+  }
+
+  /**
+   * Computed: Target focus value (full when resting, depleted by activities).
+   *
+   * @returns Target focus value (0-100)
+   */
+  get focusTarget(): number {
+    // For now, always target full focus when resting
+    // Phase 10 activities will deplete focus
+    return 100;
+  }
+
+  /**
+   * Computed: Breakdown of focus for tooltip display.
+   *
+   * @returns StatBreakdown (simple for now)
+   */
+  get focusBreakdown(): StatBreakdown {
+    return {
+      total: Math.round(this.actionResources?.focus ?? 100),
+      contributions: [{ source: 'Resting', value: 100 }],
+    };
+  }
+
+  /**
+   * Computed: Target willpower value (80 base, boosted by Fun need satisfaction).
+   *
+   * @returns Target willpower value (0-100)
+   */
+  get willpowerTarget(): number {
+    // Guard: needs and config must be available
+    if (!this.needs || !this.root?.balanceConfig) return 80;
+
+    const config = this.root.balanceConfig.actionResourcesConfig;
+    const fun = this.needs.fun;
+
+    // Base target + Fun boost
+    // Fun at 100 -> +30, Fun at 0 -> +0
+    const target = 80 + (fun / 100) * config.willpowerFunBoost * 100;
+
+    return Math.max(0, Math.min(100, target));
+  }
+
+  /**
+   * Computed: Breakdown of willpower for tooltip display.
+   *
+   * @returns StatBreakdown showing Fun boost
+   */
+  get willpowerBreakdown(): StatBreakdown {
+    // Guard: if no needs, return neutral breakdown
+    if (!this.needs || !this.root?.balanceConfig) {
+      return { total: 80, contributions: [] };
+    }
+
+    const config = this.root.balanceConfig.actionResourcesConfig;
+    const fun = this.needs.fun;
+    const funBoost = (fun / 100) * config.willpowerFunBoost * 100;
+
+    return {
+      total: Math.round(this.actionResources?.willpower ?? 80),
+      contributions: [
+        { source: 'Base', value: 80 },
+        { source: 'Fun boost', value: Math.round(funBoost * 10) / 10 },
+      ],
+    };
+  }
+
   /**
    * Action: Apply derived stats update for one simulation tick.
    * Updates mood toward target, decays purpose toward equilibrium,
@@ -529,6 +758,122 @@ export class Character {
       const targetNutrition = (this.recentFoodQuality / 3) * 100;
       this.derivedStats.nutrition = this.nutritionSmoother.update(targetNutrition);
     }
+  }
+
+  /**
+   * Action: Apply action resources update for one simulation tick.
+   * Updates all 4 action resources based on computed targets and personality.
+   *
+   * Called by applyTickUpdate() after applyDerivedStatsUpdate().
+   *
+   * @param speedMultiplier - Simulation speed (1 = normal, higher = faster changes)
+   */
+  applyActionResourcesUpdate(speedMultiplier: number): void {
+    // Guard: actionResources and config must be available
+    if (!this.actionResources || !this.root?.balanceConfig) return;
+
+    const config = this.root.balanceConfig.actionResourcesConfig;
+
+    // Update Overskudd: equilibrium pull with willpower-modified smoothing
+    // Higher willpower -> faster recovery toward target
+    if (this.overskuddSmoother) {
+      const willpower = this.actionResources.willpower;
+      const effectiveAlpha = config.overskuddAlpha * (0.5 + (willpower / 100) * 0.5);
+      // Create temporary smoother with effective alpha for this tick
+      const tempSmoother = new SmoothedValue(
+        this.actionResources.overskudd,
+        effectiveAlpha
+      );
+      this.actionResources.overskudd = tempSmoother.update(this.overskuddTarget);
+    }
+
+    // Update socialBattery: drain/charge based on Extraversion + currentSocialContext
+    if (this.socialBatterySmoother) {
+      const extraversion = this.personality.extraversion;
+      const current = this.actionResources.socialBattery;
+
+      // Compute drain/charge rate per tick
+      let rate = 0;
+      if (extraversion < 40) {
+        // Introvert
+        rate =
+          this.currentSocialContext === 0
+            ? config.introvertChargeRate
+            : -config.introvertDrainRate;
+      } else if (extraversion > 60) {
+        // Extrovert
+        rate =
+          this.currentSocialContext === 0
+            ? -config.extrovertDrainRate
+            : config.extrovertChargeRate;
+      } else {
+        // Ambivert
+        rate = -config.ambivertDrainRate;
+      }
+
+      // Apply rate via smoother (move toward target)
+      const newValue = current + rate * speedMultiplier;
+      this.actionResources.socialBattery = Math.max(
+        0,
+        Math.min(100, this.socialBatterySmoother.update(newValue))
+      );
+
+      // If socialBattery is depleted, drain willpower
+      if (this.actionResources.socialBattery <= 0) {
+        this.actionResources.willpower = Math.max(
+          0,
+          this.actionResources.willpower -
+            config.zeroSocialBatteryWillpowerCost * speedMultiplier
+        );
+      }
+    }
+
+    // Update Focus: passive regen toward target
+    if (this.focusSmoother) {
+      const current = this.actionResources.focus;
+      const target = this.focusTarget;
+      const regenAmount = config.focusRegenRate * speedMultiplier;
+
+      // Move toward target
+      const newValue =
+        current < target ? Math.min(target, current + regenAmount) : current;
+      this.actionResources.focus = this.focusSmoother.update(newValue);
+    }
+
+    // Update Willpower: passive regen toward target
+    if (this.willpowerSmoother) {
+      const current = this.actionResources.willpower;
+      const target = this.willpowerTarget;
+      const regenAmount = config.willpowerRegenRate * speedMultiplier;
+
+      // Move toward target
+      const newValue =
+        current < target ? Math.min(target, current + regenAmount) : current;
+      this.actionResources.willpower = this.willpowerSmoother.update(newValue);
+    }
+  }
+
+  /**
+   * Action: Spend focus for concentration activities (Phase 10).
+   *
+   * @param amount - Amount of focus to spend
+   */
+  spendFocus(amount: number): void {
+    if (!this.actionResources) return;
+    this.actionResources.focus = Math.max(0, this.actionResources.focus - amount);
+  }
+
+  /**
+   * Action: Spend willpower for difficult tasks (Phase 10).
+   *
+   * @param amount - Amount of willpower to spend
+   */
+  spendWillpower(amount: number): void {
+    if (!this.actionResources) return;
+    this.actionResources.willpower = Math.max(
+      0,
+      this.actionResources.willpower - amount
+    );
   }
 
   // ============================================================================
@@ -792,6 +1137,8 @@ export class Character {
       this.applyNeedsDecay(speedMultiplier);
       // v1.1: Apply derived stats update (mood, purpose, nutrition)
       this.applyDerivedStatsUpdate(speedMultiplier);
+      // v1.1: Apply action resources update (overskudd, socialBattery, focus, willpower)
+      this.applyActionResourcesUpdate(speedMultiplier);
     } else {
       // v1.0: Apply resource drain/recovery
 
