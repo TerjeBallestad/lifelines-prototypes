@@ -6,33 +6,34 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** The player experiences satisfying growth by helping patients develop missing life skills - the victory isn't heroic, it's watching someone finally answer the phone.
 
-**Current focus:** Phase 9.1 complete - Activity Difficulty
+**Current focus:** Phase 10 in progress - Activity-Need Integration
 
 ## Current Position
 
-Phase: 9.1 of 12 (Activity Difficulty)
-Plan: 3 of 3 in current phase
-Status: ✓ Phase 9.1 complete
-Last activity: 2026-01-23 - Completed 09.1-03-PLAN.md (verification checkpoint)
+Phase: 10 of 12 (Activity-Need Integration)
+Plan: 1 of 3 in current phase
+Status: In progress
+Last activity: 2026-01-23 - Completed 10-01-PLAN.md
 
-Progress: [████████░░] ~87% (milestone v1.1, 13/15 plans across 8 phases)
+Progress: [█████████░] ~93% (milestone v1.1, 14/15 plans across 9 phases)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 13 (v1.1)
-- Average duration: ~2.5 min (code plans only)
-- Total execution time: ~40 min (excluding human verification)
+- Total plans completed: 14 (v1.1)
+- Average duration: ~2.4 min (code plans only)
+- Total execution time: ~42 min (excluding human verification)
 
 **By Phase:**
 
-| Phase                    | Plans | Total   | Avg/Plan |
-| ------------------------ | ----- | ------- | -------- |
-| 07-primary-needs         | 3     | 5 min   | 1.7 min  |
-| 08-derived-wellbeing     | 4     | 7 min   | 2.3 min  |
-| 09-action-resources      | 3     | 19 min  | 6.3 min  |
-| 09.1-activity-difficulty | 3     | 21 min  | 7.0 min  |
+| Phase                       | Plans | Total   | Avg/Plan |
+| --------------------------- | ----- | ------- | -------- |
+| 07-primary-needs            | 3     | 5 min   | 1.7 min  |
+| 08-derived-wellbeing        | 4     | 7 min   | 2.3 min  |
+| 09-action-resources         | 3     | 19 min  | 6.3 min  |
+| 09.1-activity-difficulty    | 3     | 21 min  | 7.0 min  |
+| 10-activity-need-integration| 1     | 1.4 min | 1.4 min  |
 
 **Recent Trend:**
 
@@ -49,6 +50,7 @@ Progress: [████████░░] ~87% (milestone v1.1, 13/15 plans acr
 - 09.1-01: 3 min (2 tasks, 4 files)
 - 09.1-02: 3 min (3 tasks, 3 files)
 - 09.1-03: 15 min (1 checkpoint + 6 bug fixes)
+- 10-01: 1.4 min (2 tasks, 2 files)
 - Trend: Consistent rapid delivery, verification checkpoints ~10-15 min
 
 **v1.0 Reference:**
@@ -166,6 +168,15 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - Bug fixes: star sizing, popover positioning, Character.getSkill() method for skill access
 - Scope adjusted: cost integration moved to Phase 10 (calculation-only in Phase 9.1)
 
+**10-01 Activity Alignment Foundation:**
+
+- ActivityData.tags field for personality alignment matching ('social', 'solo', 'creative', 'routine', 'cooperative', 'stressful', 'concentration')
+- ActivityData.needEffects field for gradual need restoration during activity execution
+- calculatePersonalityAlignment utility: Big Five traits → cost/gain multipliers (0.6-1.4 range)
+- Tag-to-trait mappings: social/solo (Extraversion), creative (Openness), routine/concentration (Conscientiousness), cooperative (Agreeableness), stressful (Neuroticism)
+- Modifier strength 25-40% for balanced impact without dominating choices
+- Aligned activities are cheaper AND provide more restoration
+
 ### Pending Todos
 
 No pending todos.
@@ -191,7 +202,7 @@ No pending todos.
 ## Session Continuity
 
 Last session: 2026-01-23
-Stopped at: Completed Phase 9.1 (Activity Difficulty)
+Stopped at: Completed 10-01-PLAN.md
 Resume file: None
 
-**Next step:** Phase 10 - Activity-Need Integration
+**Next step:** Phase 10-02 - Integrate alignment into Activity costs and integrate need restoration
