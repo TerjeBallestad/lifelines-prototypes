@@ -39,20 +39,12 @@ export const ActivityQueue = observer(function ActivityQueue() {
           )}
         </h4>
         {currentActivity ? (
-          <div className="relative">
-            <ActivityCard
-              activity={currentActivity}
-              variant="active"
-              progress={getProgressPercent()}
-            />
-            <button
-              className="btn btn-xs btn-circle btn-ghost text-error absolute top-1 right-1"
-              onClick={() => activityStore.cancelCurrent()}
-              title="Cancel activity"
-            >
-              ✕
-            </button>
-          </div>
+          <ActivityCard
+            activity={currentActivity}
+            variant="active"
+            progress={getProgressPercent()}
+            onCancel={() => activityStore.cancelCurrent()}
+          />
         ) : (
           <div className="text-base-content/50 bg-base-200 rounded-lg p-3 text-sm italic">
             No activity in progress

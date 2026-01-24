@@ -37,9 +37,9 @@ export class SkillStore {
     this.seedSkills(STARTER_SKILLS);
 
     // Starting XP for testing unlocks
-    this.domainXP.set('social', 100);
-    this.domainXP.set('organisational', 50);
-    this.domainXP.set('physical', 100);
+    this.domainXP.set('social', 400);
+    this.domainXP.set('organisational', 450);
+    this.domainXP.set('physical', 300);
   }
 
   get skillsArray(): Array<Skill> {
@@ -137,7 +137,7 @@ export class SkillStore {
     }
 
     // Start with skills that have no prerequisites (in-degree 0)
-    const queue: Array<string> = [];
+    const queue = Array<string>();
     for (const [id, degree] of inDegree) {
       if (degree === 0) {
         queue.push(id);

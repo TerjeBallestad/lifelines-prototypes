@@ -93,11 +93,11 @@ export const ActivityCard = observer(function ActivityCard({
               <DifficultyStars
                 difficulty={difficulty}
                 breakdown={difficultyBreakdown}
-                size="xs"
+                size="md"
               />
             </div>
           </div>
-          {variant === 'queued' && onCancel && (
+          {variant !== 'preview' && onCancel && (
             <button
               className="btn btn-ghost btn-xs text-error"
               onClick={(e) => {

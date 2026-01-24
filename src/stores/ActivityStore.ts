@@ -11,9 +11,6 @@ import type {
 import type { Character } from '../entities/Character';
 import { calculatePersonalityAlignment } from '../utils/personalityFit';
 
-// Minimum overskudd required to start any activity
-const MIN_OVERSKUDD_TO_START = 20;
-
 // Activity execution state
 type CurrentState = 'idle' | 'starting' | 'active' | 'completing';
 
@@ -129,7 +126,7 @@ export class ActivityStore {
 
   /**
    * Check if the character can start an activity.
-   * Returns { canStart: true } if allowed, or { canStart: false, reason: "..." } if not.
+   * @Returns `{ canStart: true }` if allowed, or `{ canStart: false, reason: "..." }` if not.
    */
   canStartActivity(activity: Activity): { canStart: boolean; reason?: string } {
     const character = this.root.characterStore.character;
@@ -145,7 +142,7 @@ export class ActivityStore {
         : character.resources.overskudd;
 
     // Check overskudd threshold
-    if (overskudd < MIN_OVERSKUDD_TO_START) {
+    if (overskudd < activity.getResourceCosts(character).overskudd) {
       return {
         canStart: false,
         reason: `${character.name} doesn't have the energy to start this`,
