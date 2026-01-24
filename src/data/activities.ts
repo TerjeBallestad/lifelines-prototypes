@@ -188,7 +188,7 @@ export const STARTER_ACTIVITIES: ActivityData[] = [
     name: 'Rest',
     description: 'Lie down and relax for a while',
     domain: 'physical',
-    durationMode: { type: 'threshold', resource: 'energy', target: 80 },
+    durationMode: { type: 'needThreshold', need: 'energy', target: 80 },
     resourceEffects: {
       energy: 3, // RESTORE energy
       stress: -1, // Reduces stress

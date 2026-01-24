@@ -278,6 +278,7 @@ export type CapacityKey = keyof Capacities;
 export type DurationMode =
   | { type: 'fixed'; ticks: number } // fixed duration activities (eating)
   | { type: 'threshold'; resource: ResourceKey; target: number } // until resource reaches target (sleeping until energy >= 80)
+  | { type: 'needThreshold'; need: NeedKey; target: number } // until need reaches target (resting until needs.energy >= 80)
   | { type: 'variable'; baseTicks: number }; // affected by mastery
 
 // Activity execution state

@@ -284,6 +284,12 @@ export class ActivityStore {
         const { resource, target } = activity.durationMode;
         return character.resources[resource] >= target;
       }
+      case 'needThreshold': {
+        // v1.1: Check needs instead of resources
+        const { need, target } = activity.durationMode;
+        if (!character.needs) return true; // v1.0 mode - complete immediately
+        return character.needs[need] >= target;
+      }
       case 'variable': {
         const baseTime = activity.durationMode.baseTicks;
         const speedBonus = 1 - activity.masterySpeedBonus;
