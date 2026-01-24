@@ -133,8 +133,13 @@ export class ActivityStore {
       return { canStart: false, reason: 'No character available' };
     }
 
+    // v1.1 vs v1.0: Check appropriate overskudd source
+    const overskudd = this.root.needsSystemEnabled && character.actionResources
+      ? character.actionResources.overskudd
+      : character.resources.overskudd;
+
     // Check overskudd threshold
-    if (character.resources.overskudd < MIN_OVERSKUDD_TO_START) {
+    if (overskudd < MIN_OVERSKUDD_TO_START) {
       return {
         canStart: false,
         reason: `${character.name} doesn't have the energy to start this`,
@@ -145,17 +150,19 @@ export class ActivityStore {
     if (activity.startRequirements) {
       const { minOverskudd, minEnergy } = activity.startRequirements;
 
-      if (
-        minOverskudd !== undefined &&
-        character.resources.overskudd < minOverskudd
-      ) {
+      if (minOverskudd !== undefined && overskudd < minOverskudd) {
         return {
           canStart: false,
           reason: `${character.name} doesn't have the energy to start this`,
         };
       }
 
-      if (minEnergy !== undefined && character.resources.energy < minEnergy) {
+      // v1.1 vs v1.0: Check appropriate energy source
+      const energy = this.root.needsSystemEnabled && character.needs
+        ? character.needs.energy
+        : character.resources.energy;
+
+      if (minEnergy !== undefined && energy < minEnergy) {
         return {
           canStart: false,
           reason: `${character.name} is too tired to start this`,
@@ -404,17 +411,31 @@ export class ActivityStore {
       // FAILURE: Reduced mastery XP (50%), reduced domain XP happens via multiplier
       activity.addMasteryXP(5); // Half XP on failure
 
-      // Apply penalty resource effects (10% additional drain on key resources)
+      // Apply penalty resource effects (additional drain on key resources)
       if (character) {
         const penaltyDrain = 5; // Flat penalty
-        character.resources.overskudd = Math.max(
-          0,
-          character.resources.overskudd - penaltyDrain
-        );
-        character.resources.mood = Math.max(
-          0,
-          character.resources.mood - penaltyDrain
-        );
+
+        if (this.root.needsSystemEnabled && character.actionResources) {
+          // v1.1: Drain action resources
+          character.actionResources.overskudd = Math.max(
+            0,
+            character.actionResources.overskudd - penaltyDrain
+          );
+          character.actionResources.willpower = Math.max(
+            0,
+            character.actionResources.willpower - penaltyDrain
+          );
+        } else {
+          // v1.0: Drain legacy resources
+          character.resources.overskudd = Math.max(
+            0,
+            character.resources.overskudd - penaltyDrain
+          );
+          character.resources.mood = Math.max(
+            0,
+            character.resources.mood - penaltyDrain
+          );
+        }
       }
 
       const probabilityPercent = Math.round(probability * 100);
@@ -516,34 +537,37 @@ export class ActivityStore {
       }
     }
 
-    // v1.0: Apply legacy resource effects (for backward compatibility)
+    // Calculate alignment for need restoration and v1.0 resource effects
     const alignment = calculatePersonalityAlignment(
       activity.tags,
       character.personality
     );
 
-    for (const [key, baseEffect] of Object.entries(activity.resourceEffects)) {
-      const resourceKey = key as ResourceKey;
-      let effect = baseEffect * speedMultiplier;
+    // v1.0 ONLY: Apply legacy resource effects (skip in v1.1 mode)
+    if (!this.root.needsSystemEnabled) {
+      for (const [key, baseEffect] of Object.entries(activity.resourceEffects)) {
+        const resourceKey = key as ResourceKey;
+        let effect = baseEffect * speedMultiplier;
 
-      // Mastery reduces drain, modestly increases restore
-      if (effect < 0) {
-        // DRAIN: apply mastery reduction, alignment cost multiplier, escape valve
-        effect *= 1 - activity.masteryDrainReduction;
-        effect *= alignment.costMultiplier;  // aligned = lower costs
-        effect *= escapeValve;               // struggling = lower costs
-      } else {
-        // RESTORE: apply mastery bonus, alignment gain multiplier
-        effect *= 1 + activity.masteryBonus * 0.5;
-        effect *= alignment.gainMultiplier;  // aligned = higher gains
+        // Mastery reduces drain, modestly increases restore
+        if (effect < 0) {
+          // DRAIN: apply mastery reduction, alignment cost multiplier, escape valve
+          effect *= 1 - activity.masteryDrainReduction;
+          effect *= alignment.costMultiplier;  // aligned = lower costs
+          effect *= escapeValve;               // struggling = lower costs
+        } else {
+          // RESTORE: apply mastery bonus, alignment gain multiplier
+          effect *= 1 + activity.masteryBonus * 0.5;
+          effect *= alignment.gainMultiplier;  // aligned = higher gains
+        }
+
+        // Apply to character resources (clamp handled in updateResources)
+        const newValue = Math.max(
+          0,
+          Math.min(100, character.resources[resourceKey] + effect)
+        );
+        character.resources[resourceKey] = newValue;
       }
-
-      // Apply to character resources (clamp handled in updateResources)
-      const newValue = Math.max(
-        0,
-        Math.min(100, character.resources[resourceKey] + effect)
-      );
-      character.resources[resourceKey] = newValue;
     }
 
     // v1.1 Need restoration (if needs system enabled)
