@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { Activity, type ResourceCosts } from '../entities/Activity';
+import { Activity } from '../entities/Activity';
 import type { ActivityData } from '../entities/types';
 import type { Character } from '../entities/Character';
 import clsx from 'clsx';
@@ -7,14 +7,14 @@ import { DifficultyStars } from './DifficultyStars';
 import { STARTER_SKILLS } from '../data/skills';
 import { useSkillStore } from '../stores/RootStore';
 
-interface ActivityCardProps {
+type ActivityCardProps = {
   activity: Activity | ActivityData;
   variant: 'preview' | 'queued' | 'active';
   onCancel?: () => void;
   onSelect?: () => void;
   progress?: number; // 0-100 for active variant
   character?: Character; // Optional for difficulty calculation
-}
+};
 
 const DOMAIN_COLORS: Record<string, string> = {
   social: 'badge-primary',
@@ -122,7 +122,9 @@ export const ActivityCard = observer(function ActivityCard({
             <div className="mt-1 flex flex-wrap gap-1">
               {activity.skillRequirements.map((req) => {
                 const skill = skillStore.getSkill(req.skillId);
-                const skillData = STARTER_SKILLS.find((s) => s.id === req.skillId);
+                const skillData = STARTER_SKILLS.find(
+                  (s) => s.id === req.skillId
+                );
                 const skillName = skill?.name ?? skillData?.name ?? req.skillId;
                 const charLevel = skill?.level ?? 0;
                 const hasSkill = charLevel > 0;
@@ -134,7 +136,11 @@ export const ActivityCard = observer(function ActivityCard({
                       'badge-success badge-outline': hasSkill,
                       'badge-ghost': !hasSkill,
                     })}
-                    title={hasSkill ? `You have ${skillName} at level ${charLevel}` : `${skillName} helps with this activity`}
+                    title={
+                      hasSkill
+                        ? `You have ${skillName} at level ${charLevel}`
+                        : `${skillName} helps with this activity`
+                    }
                   >
                     {skillName} {hasSkill ? `Lv.${charLevel}` : ''}
                   </span>
@@ -156,24 +162,39 @@ export const ActivityCard = observer(function ActivityCard({
 
         {/* Estimated costs (if available) */}
         {variant === 'preview' && costs && (
-          <div className="mt-1 text-xs text-base-content/60">
+          <div className="text-base-content/60 mt-1 text-xs">
             <span className="font-medium">Costs:</span>{' '}
             <span>Overskudd -{costs.overskudd.toFixed(0)}</span>
-            {costs.willpower > 0 && <span>, Willpower -{costs.willpower.toFixed(0)}</span>}
+            {costs.willpower > 0 && (
+              <span>, Willpower -{costs.willpower.toFixed(0)}</span>
+            )}
             {costs.focus > 0 && <span>, Focus -{costs.focus.toFixed(0)}</span>}
-            {costs.socialBattery > 0 && <span>, Social -{costs.socialBattery.toFixed(0)}</span>}
+            {costs.socialBattery > 0 && (
+              <span>, Social -{costs.socialBattery.toFixed(0)}</span>
+            )}
           </div>
         )}
 
         {/* Personality alignment indicator (tooltip only - card stays clean per CONTEXT.md) */}
-        {variant === 'preview' && alignmentInfo && alignmentInfo.breakdown.length > 0 && (
-          <div
-            className="mt-1 text-xs opacity-50 cursor-help"
-            title={alignmentInfo.breakdown.map(b => `${b.trait}: ${b.contribution > 0 ? '+' : ''}${(b.contribution * 100).toFixed(0)}%`).join(', ')}
-          >
-            {alignmentInfo.costMultiplier < 0.95 ? '(Good fit)' : alignmentInfo.costMultiplier > 1.05 ? '(Poor fit)' : ''}
-          </div>
-        )}
+        {variant === 'preview' &&
+          alignmentInfo &&
+          alignmentInfo.breakdown.length > 0 && (
+            <div
+              className="mt-1 cursor-help text-xs opacity-50"
+              title={alignmentInfo.breakdown
+                .map(
+                  (b) =>
+                    `${b.trait}: ${b.contribution > 0 ? '+' : ''}${(b.contribution * 100).toFixed(0)}%`
+                )
+                .join(', ')}
+            >
+              {alignmentInfo.costMultiplier < 0.95
+                ? '(Good fit)'
+                : alignmentInfo.costMultiplier > 1.05
+                  ? '(Poor fit)'
+                  : ''}
+            </div>
+          )}
 
         {/* Progress bar for active */}
         {variant === 'active' && progress !== undefined && (

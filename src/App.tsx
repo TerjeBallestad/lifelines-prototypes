@@ -23,7 +23,7 @@ const App = observer(function App() {
   }
 
   return (
-    <div className="flex min-h-screen bg-base-100">
+    <div className="bg-base-100 flex min-h-screen">
       <Toaster position="bottom-right" richColors />
       <TalentSelectionModal />
       <FloatingNumbersOverlay />
@@ -36,8 +36,8 @@ const App = observer(function App() {
           <CharacterPanel />
 
           {/* Main content */}
-          <main className="flex-1 p-4 overflow-y-auto">
-            <div className="flex items-center gap-4 mb-6">
+          <main className="flex-1 overflow-y-auto p-4">
+            <div className="mb-6 flex items-center gap-4">
               <h1 className="text-2xl font-bold">Lifelines Prototype</h1>
               <CharacterSelector />
               <button

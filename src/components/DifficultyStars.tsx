@@ -2,14 +2,14 @@ import { useId, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 import type { DifficultyBreakdown } from '../types/difficulty';
 
-interface DifficultyStarsProps {
+type DifficultyStarsProps = {
   /** Effective difficulty (1-5 stars) */
   difficulty: number;
   /** Optional breakdown for tooltip */
   breakdown?: DifficultyBreakdown;
   /** Size variant */
   size?: 'xs' | 'sm' | 'md';
-}
+};
 
 /**
  * Get explicit size classes for star divs.
@@ -80,7 +80,7 @@ export const DifficultyStars = observer(function DifficultyStars({
     <>
       <div
         ref={triggerRef}
-        className="flex gap-0.5 cursor-help"
+        className="flex cursor-help gap-0.5"
         onMouseEnter={showPopover}
         onMouseLeave={hidePopover}
       >
@@ -100,7 +100,7 @@ export const DifficultyStars = observer(function DifficultyStars({
           ref={popoverRef}
           id={popoverId}
           popover="manual"
-          className="fixed m-0 rounded bg-neutral px-3 py-2 text-sm text-neutral-content shadow-lg"
+          className="bg-neutral text-neutral-content fixed m-0 rounded px-3 py-2 text-sm shadow-lg"
         >
           <div className="font-semibold">
             Difficulty: {breakdown.effective.toFixed(1)}★
@@ -117,7 +117,7 @@ export const DifficultyStars = observer(function DifficultyStars({
 
           {/* Per-skill details - only show skills with actual reduction */}
           {breakdown.skillDetails.filter((s) => s.reduction > 0).length > 0 && (
-            <div className="mt-2 border-t border-neutral-content/20 pt-2">
+            <div className="border-neutral-content/20 mt-2 border-t pt-2">
               <div className="text-xs font-semibold opacity-90">
                 Skill Contributions:
               </div>

@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "lint": "eslint . --fix",
+    "preview": "vite preview",
+    "prettier:write": "prettier . --write",
+    "prettier:check": "prettier . --check"
   },
   "dependencies": {
     "clsx": "^2.1.1",

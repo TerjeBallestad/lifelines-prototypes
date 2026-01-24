@@ -11,7 +11,7 @@ export class Skill {
   readonly name: string;
   readonly description: string;
   readonly domain: SkillDomain;
-  readonly prerequisites: string[];
+  readonly prerequisites: Array<string>;
   level: number; // 0-5
 
   constructor(data: SkillData) {

@@ -10,7 +10,7 @@ import { STARTER_SKILLS } from '../data/skills';
 import { type RootStore } from './RootStore';
 
 // All skill domains
-export const DOMAINS: SkillDomain[] = [
+export const DOMAINS: Array<SkillDomain> = [
   'social',
   'organisational',
   'analytical',
@@ -42,11 +42,11 @@ export class SkillStore {
     this.domainXP.set('physical', 100);
   }
 
-  get skillsArray(): Skill[] {
+  get skillsArray(): Array<Skill> {
     return Array.from(this.skills.values());
   }
 
-  skillsByDomain(domain: SkillDomain): Skill[] {
+  skillsByDomain(domain: SkillDomain): Array<Skill> {
     return this.skillsArray.filter((skill) => skill.domain === domain);
   }
 
@@ -80,7 +80,7 @@ export class SkillStore {
   }
 
   // Get progress for each prerequisite
-  getPrerequisiteProgress(skillId: string): PrerequisiteStatus[] {
+  getPrerequisiteProgress(skillId: string): Array<PrerequisiteStatus> {
     const skill = this.skills.get(skillId);
     if (!skill) return [];
 
@@ -107,7 +107,7 @@ export class SkillStore {
   }
 
   // Seed the store with skill data and validate the dependency graph
-  seedSkills(skillDataList: SkillData[]): void {
+  seedSkills(skillDataList: Array<SkillData>): void {
     for (const data of skillDataList) {
       const skill = new Skill(data);
       this.skills.set(data.id, skill);
@@ -137,7 +137,7 @@ export class SkillStore {
     }
 
     // Start with skills that have no prerequisites (in-degree 0)
-    const queue: string[] = [];
+    const queue: Array<string> = [];
     for (const [id, degree] of inDegree) {
       if (degree === 0) {
         queue.push(id);

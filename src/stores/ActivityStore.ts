@@ -2,7 +2,12 @@ import { makeAutoObservable, observable } from 'mobx';
 import { toast } from 'sonner';
 import { Activity } from '../entities/Activity';
 import type { RootStore } from './RootStore';
-import type { ActivityData, CapacityKey, ResourceKey, NeedKey } from '../entities/types';
+import type {
+  ActivityData,
+  CapacityKey,
+  ResourceKey,
+  NeedKey,
+} from '../entities/types';
 import type { Character } from '../entities/Character';
 import { calculatePersonalityAlignment } from '../utils/personalityFit';
 
@@ -12,12 +17,12 @@ const MIN_OVERSKUDD_TO_START = 20;
 // Activity execution state
 type CurrentState = 'idle' | 'starting' | 'active' | 'completing';
 
-interface FloatingNumberData {
+type FloatingNumberData = {
   id: string;
   value: number;
   label: string;
   timestamp: number;
-}
+};
 
 /**
  * ActivityStore - manages the activity queue and execution state.
@@ -134,9 +139,10 @@ export class ActivityStore {
     }
 
     // v1.1 vs v1.0: Check appropriate overskudd source
-    const overskudd = this.root.needsSystemEnabled && character.actionResources
-      ? character.actionResources.overskudd
-      : character.resources.overskudd;
+    const overskudd =
+      this.root.needsSystemEnabled && character.actionResources
+        ? character.actionResources.overskudd
+        : character.resources.overskudd;
 
     // Check overskudd threshold
     if (overskudd < MIN_OVERSKUDD_TO_START) {
@@ -158,9 +164,10 @@ export class ActivityStore {
       }
 
       // v1.1 vs v1.0: Check appropriate energy source
-      const energy = this.root.needsSystemEnabled && character.needs
-        ? character.needs.energy
-        : character.resources.energy;
+      const energy =
+        this.root.needsSystemEnabled && character.needs
+          ? character.needs.energy
+          : character.resources.energy;
 
       if (minEnergy !== undefined && energy < minEnergy) {
         return {
@@ -239,8 +246,10 @@ export class ActivityStore {
    */
   cleanupExpiredFloatingNumbers(): void {
     const now = Date.now();
-    const expired = this.floatingNumbers.filter(fn => now - fn.timestamp > 2000);
-    expired.forEach(fn => {
+    const expired = this.floatingNumbers.filter(
+      (fn) => now - fn.timestamp > 2000
+    );
+    expired.forEach((fn) => {
       const index = this.floatingNumbers.indexOf(fn);
       if (index >= 0) this.floatingNumbers.splice(index, 1);
     });
@@ -251,7 +260,7 @@ export class ActivityStore {
    * Called by UI when animation completes.
    */
   removeFloatingNumber(id: string): void {
-    const index = this.floatingNumbers.findIndex(fn => fn.id === id);
+    const index = this.floatingNumbers.findIndex((fn) => fn.id === id);
     if (index >= 0) this.floatingNumbers.splice(index, 1);
   }
 
@@ -332,10 +341,9 @@ export class ActivityStore {
     if (!activity || !character) return 0;
 
     const capacityProfile = activity.capacityProfile;
-    const profileEntries = Object.entries(capacityProfile) as [
-      CapacityKey,
-      number,
-    ][];
+    const profileEntries = Object.entries(capacityProfile) as Array<
+      [CapacityKey, number]
+    >;
 
     // If no capacity profile defined, activity always succeeds
     if (profileEntries.length === 0) return 1;
@@ -399,9 +407,10 @@ export class ActivityStore {
         })
         .slice(0, 4); // Max 4 changes to keep toast readable
 
-      const description = significantChanges.length > 0
-        ? significantChanges.join(', ')
-        : undefined;
+      const description =
+        significantChanges.length > 0
+          ? significantChanges.join(', ')
+          : undefined;
 
       toast.success(`Completed: ${activity.name}!`, {
         description,
@@ -460,11 +469,14 @@ export class ActivityStore {
   private calculateEscapeValve(character: Character): number {
     if (!character.needs) return 1.0; // v1.0 mode, no escape valve
 
-    const physiologicalNeeds = ['hunger', 'energy', 'hygiene', 'bladder'] as const;
+    const physiologicalNeeds = [
+      'hunger',
+      'energy',
+      'hygiene',
+      'bladder',
+    ] as const;
     const needs = character.needs;
-    const isStrugging = physiologicalNeeds.some(
-      need => needs[need] < 20
-    );
+    const isStrugging = physiologicalNeeds.some((need) => needs[need] < 20);
 
     return isStrugging ? 0.5 : 1.0;
   }
@@ -478,7 +490,9 @@ export class ActivityStore {
       case 'fixed':
         return activity.durationMode.ticks;
       case 'variable':
-        return activity.durationMode.baseTicks * (1 - activity.masterySpeedBonus);
+        return (
+          activity.durationMode.baseTicks * (1 - activity.masterySpeedBonus)
+        );
       case 'threshold':
       case 'needThreshold':
         // Estimate ~30 ticks for threshold activities
@@ -510,7 +524,8 @@ export class ActivityStore {
       const overskuddDrain = costs.overskudd * perTickMultiplier * escapeValve;
       const willpowerDrain = costs.willpower * perTickMultiplier * escapeValve;
       const focusDrain = costs.focus * perTickMultiplier * escapeValve;
-      const socialBatteryDrain = costs.socialBattery * perTickMultiplier * escapeValve;
+      const socialBatteryDrain =
+        costs.socialBattery * perTickMultiplier * escapeValve;
 
       // Apply drains to action resources
       character.actionResources.overskudd = Math.max(
@@ -545,7 +560,9 @@ export class ActivityStore {
 
     // v1.0 ONLY: Apply legacy resource effects (skip in v1.1 mode)
     if (!this.root.needsSystemEnabled) {
-      for (const [key, baseEffect] of Object.entries(activity.resourceEffects)) {
+      for (const [key, baseEffect] of Object.entries(
+        activity.resourceEffects
+      )) {
         const resourceKey = key as ResourceKey;
         let effect = baseEffect * speedMultiplier;
 
@@ -553,12 +570,12 @@ export class ActivityStore {
         if (effect < 0) {
           // DRAIN: apply mastery reduction, alignment cost multiplier, escape valve
           effect *= 1 - activity.masteryDrainReduction;
-          effect *= alignment.costMultiplier;  // aligned = lower costs
-          effect *= escapeValve;               // struggling = lower costs
+          effect *= alignment.costMultiplier; // aligned = lower costs
+          effect *= escapeValve; // struggling = lower costs
         } else {
           // RESTORE: apply mastery bonus, alignment gain multiplier
           effect *= 1 + activity.masteryBonus * 0.5;
-          effect *= alignment.gainMultiplier;  // aligned = higher gains
+          effect *= alignment.gainMultiplier; // aligned = higher gains
         }
 
         // Apply to character resources (clamp handled in updateResources)
@@ -572,7 +589,9 @@ export class ActivityStore {
 
     // v1.1 Need restoration (if needs system enabled)
     if (character.needs && activity.needEffects) {
-      for (const [needKey, baseRestore] of Object.entries(activity.needEffects)) {
+      for (const [needKey, baseRestore] of Object.entries(
+        activity.needEffects
+      )) {
         // Apply personality gain multiplier
         let restore = baseRestore * alignment.gainMultiplier * speedMultiplier;
 
@@ -581,7 +600,10 @@ export class ActivityStore {
 
         // Update need (clamped to 0-100)
         const key = needKey as NeedKey;
-        character.needs[key] = Math.max(0, Math.min(100, character.needs[key] + restore));
+        character.needs[key] = Math.max(
+          0,
+          Math.min(100, character.needs[key] + restore)
+        );
 
         // Emit floating number for significant changes
         if (Math.abs(restore) >= 0.5) {

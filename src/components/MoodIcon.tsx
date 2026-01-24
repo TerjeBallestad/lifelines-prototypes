@@ -2,10 +2,10 @@ import { useId, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 import type { StatBreakdown } from '../entities/types';
 
-interface MoodIconProps {
+type MoodIconProps = {
   value: number;
   breakdown: StatBreakdown;
-}
+};
 
 /**
  * Get emoji representing mood level.
@@ -67,7 +67,7 @@ export const MoodIcon = observer(function MoodIcon({
         ref={popoverRef}
         id={popoverId}
         popover="manual"
-        className="m-0 rounded bg-neutral px-3 py-2 text-sm text-neutral-content shadow-lg"
+        className="bg-neutral text-neutral-content m-0 rounded px-3 py-2 text-sm shadow-lg"
       >
         <div className="font-semibold">Mood: {Math.round(breakdown.total)}</div>
         <div className="mt-1 space-y-0.5 text-xs opacity-90">
@@ -75,7 +75,8 @@ export const MoodIcon = observer(function MoodIcon({
             const sign = contribValue >= 0 ? '+' : '';
             return (
               <div key={source}>
-                {source}: {sign}{Math.round(contribValue)}
+                {source}: {sign}
+                {Math.round(contribValue)}
               </div>
             );
           })}

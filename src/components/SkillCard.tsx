@@ -2,9 +2,9 @@ import { observer } from 'mobx-react-lite';
 import type { SkillState } from '../entities/types';
 import { useSkillStore } from '../stores/RootStore';
 
-interface SkillCardProps {
+type SkillCardProps = {
   skillId: string;
-}
+};
 
 // State-based styling
 const stateStyles: Record<SkillState, string> = {

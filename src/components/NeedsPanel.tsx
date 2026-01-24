@@ -2,10 +2,16 @@ import { observer } from 'mobx-react-lite';
 import { NeedBar } from './NeedBar';
 import { DerivedStatsSection } from './DerivedStatsSection';
 import { ActionResourcesSection } from './ActionResourcesSection';
-import type { Needs, NeedKey, DerivedStats, StatBreakdown, ActionResources } from '../entities/types';
+import type {
+  Needs,
+  NeedKey,
+  DerivedStats,
+  StatBreakdown,
+  ActionResources,
+} from '../entities/types';
 import type { NeedsConfig } from '../config/balance';
 
-interface NeedsPanelProps {
+type NeedsPanelProps = {
   needs: Needs;
   needsConfig: NeedsConfig;
   derivedStats?: DerivedStats;
@@ -17,17 +23,25 @@ interface NeedsPanelProps {
   focusBreakdown?: StatBreakdown;
   willpowerBreakdown?: StatBreakdown;
   extraversion?: number;
-}
+};
 
 // Need groupings
-const PHYSIOLOGICAL_NEEDS: { key: NeedKey; label: string; rateKey: keyof NeedsConfig }[] = [
+const PHYSIOLOGICAL_NEEDS: Array<{
+  key: NeedKey;
+  label: string;
+  rateKey: keyof NeedsConfig;
+}> = [
   { key: 'hunger', label: 'Hunger', rateKey: 'hungerDecayRate' },
   { key: 'energy', label: 'Energy', rateKey: 'energyDecayRate' },
   { key: 'hygiene', label: 'Hygiene', rateKey: 'hygieneDecayRate' },
   { key: 'bladder', label: 'Bladder', rateKey: 'bladderDecayRate' },
 ];
 
-const SOCIAL_NEEDS: { key: NeedKey; label: string; rateKey: keyof NeedsConfig }[] = [
+const SOCIAL_NEEDS: Array<{
+  key: NeedKey;
+  label: string;
+  rateKey: keyof NeedsConfig;
+}> = [
   { key: 'social', label: 'Social', rateKey: 'socialDecayRate' },
   { key: 'fun', label: 'Fun', rateKey: 'funDecayRate' },
   { key: 'security', label: 'Security', rateKey: 'securityDecayRate' },
@@ -57,7 +71,7 @@ export const NeedsPanel = observer(function NeedsPanel({
     <div className="flex flex-col gap-4 p-4">
       {/* Physiological Needs */}
       <div>
-        <h4 className="text-base-content/70 mb-2 text-xs font-semibold uppercase tracking-wide">
+        <h4 className="text-base-content/70 mb-2 text-xs font-semibold tracking-wide uppercase">
           Physiological
         </h4>
         <div className="grid grid-cols-2 gap-3">
@@ -75,7 +89,7 @@ export const NeedsPanel = observer(function NeedsPanel({
 
       {/* Social/Psychological Needs */}
       <div>
-        <h4 className="text-base-content/70 mb-2 text-xs font-semibold uppercase tracking-wide">
+        <h4 className="text-base-content/70 mb-2 text-xs font-semibold tracking-wide uppercase">
           Social
         </h4>
         <div className="grid grid-cols-2 gap-3">
@@ -101,17 +115,21 @@ export const NeedsPanel = observer(function NeedsPanel({
       )}
 
       {/* Action Resources - only show if actionResources available */}
-      {actionResources && overskuddBreakdown && socialBatteryBreakdown &&
-       focusBreakdown && willpowerBreakdown && extraversion !== undefined && (
-        <ActionResourcesSection
-          actionResources={actionResources}
-          overskuddBreakdown={overskuddBreakdown}
-          socialBatteryBreakdown={socialBatteryBreakdown}
-          focusBreakdown={focusBreakdown}
-          willpowerBreakdown={willpowerBreakdown}
-          extraversion={extraversion}
-        />
-      )}
+      {actionResources &&
+        overskuddBreakdown &&
+        socialBatteryBreakdown &&
+        focusBreakdown &&
+        willpowerBreakdown &&
+        extraversion !== undefined && (
+          <ActionResourcesSection
+            actionResources={actionResources}
+            overskuddBreakdown={overskuddBreakdown}
+            socialBatteryBreakdown={socialBatteryBreakdown}
+            focusBreakdown={focusBreakdown}
+            willpowerBreakdown={willpowerBreakdown}
+            extraversion={extraversion}
+          />
+        )}
     </div>
   );
 });

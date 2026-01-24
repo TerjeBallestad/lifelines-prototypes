@@ -33,8 +33,8 @@
  */
 export function needToMoodCurve(
   value: number,
-  weight: number = 1.0,
-  steepness: number = 2.0
+  weight = 1.0,
+  steepness = 2.0
 ): number {
   // Normalize value from 0-100 to 0-1
   const x = Math.max(0, Math.min(100, value)) / 100;
@@ -78,7 +78,7 @@ export function asymptoticClamp(
   value: number,
   min: number,
   max: number,
-  strength: number = 0.9
+  strength = 0.9
 ): number {
   if (value < min) {
     // Value is below minimum - pull it back toward min

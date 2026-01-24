@@ -11,7 +11,7 @@ import type { DifficultyConfig } from '../types/difficulty';
  * Physiological needs decay 3-4x faster than social needs to create
  * urgency hierarchy - biological needs press harder than psychological ones.
  */
-export interface NeedsConfig {
+export type NeedsConfig = {
   // Physiological decay rates (faster: 0.7-1.0 range)
   hungerDecayRate: number;
   energyDecayRate: number;
@@ -28,7 +28,7 @@ export interface NeedsConfig {
 
   // Threshold for "critical" need state (triggers urgent behaviors)
   criticalThreshold: number;
-}
+};
 
 export const DEFAULT_NEEDS_CONFIG: NeedsConfig = {
   // Physiological: decay 0.7-1.0 per tick (fast)
@@ -57,7 +57,7 @@ export const DEFAULT_NEEDS_CONFIG: NeedsConfig = {
  * Configuration for derived wellbeing stats (mood, purpose, nutrition).
  * Controls smoothing alphas, bounds, and weights for the derivation formulas.
  */
-export interface DerivedStatsConfig {
+export type DerivedStatsConfig = {
   // Mood configuration
   /** Smoothing alpha for mood changes (0.1 = moderate lag) */
   moodSmoothingAlpha: number;
@@ -88,7 +88,7 @@ export interface DerivedStatsConfig {
   nutritionEnergyModMax: number;
   /** Max mood penalty at nutrition 0 (-20 = subtract 20 from mood) */
   nutritionMoodPenalty: number;
-}
+};
 
 /**
  * Default derived stats configuration.
@@ -132,7 +132,7 @@ export const DEFAULT_DERIVED_STATS_CONFIG: DerivedStatsConfig = {
  * Configuration for action resources (Overskudd, socialBattery, Focus, Willpower).
  * Controls smoothing, target computation, and drain/charge rates.
  */
-export interface ActionResourcesConfig {
+export type ActionResourcesConfig = {
   // Overskudd configuration
   /** Smoothing alpha for Overskudd changes (0.1 = moderate) */
   overskuddAlpha: number;
@@ -176,7 +176,7 @@ export interface ActionResourcesConfig {
   willpowerFunBoost: number;
   /** Willpower cost for decision-making (per decision) */
   willpowerDecisionCost: number;
-}
+};
 
 /**
  * Default action resources configuration.
@@ -232,7 +232,7 @@ export const DEFAULT_DIFFICULTY_CONFIG: DifficultyConfig = {
  * Balance configuration for game tuning.
  * All balance parameters centralized for experimentation via Dev Tools.
  */
-export interface BalanceConfig {
+export type BalanceConfig = {
   // Activity system
   minOverskuddToStart: number; // Minimum overskudd required to start activities
   masteryBonusPerLevel: number; // Success probability bonus per mastery level (e.g., 0.05 = +5%)
@@ -260,7 +260,7 @@ export interface BalanceConfig {
 
   // Difficulty system (Phase 9.1)
   difficulty: DifficultyConfig;
-}
+};
 
 /**
  * Default balance configuration.

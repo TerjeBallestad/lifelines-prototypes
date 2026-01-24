@@ -8,7 +8,7 @@ import type { ActivityData } from '../entities/types';
  * - Balance drain vs restore activities
  * - Provide meaningful progression with skills
  */
-export const STARTER_ACTIVITIES: ActivityData[] = [
+export const STARTER_ACTIVITIES: Array<ActivityData> = [
   // === SOCIAL DOMAIN ===
   {
     id: 'chat-with-neighbor',

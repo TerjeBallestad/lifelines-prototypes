@@ -18,7 +18,7 @@ export type ArchetypeConfig = {
  * 6 preset archetypes with contrasting Big Five traits.
  * Values: 10 = extremely low, 90 = extremely high
  */
-export const ARCHETYPES: ArchetypeConfig[] = [
+export const ARCHETYPES: Array<ArchetypeConfig> = [
   {
     id: 'hermit',
     name: 'The Hermit',
@@ -86,8 +86,7 @@ export const ARCHETYPES: ArchetypeConfig[] = [
       agreeableness: 10, // Extremely disagreeable
       neuroticism: 50,
     },
-    expectedBehavior:
-      'Social battery drains, focus stable, motivation high',
+    expectedBehavior: 'Social battery drains, focus stable, motivation high',
   },
   {
     id: 'peacemaker',

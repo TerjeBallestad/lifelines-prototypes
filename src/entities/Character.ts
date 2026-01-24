@@ -14,7 +14,11 @@ import type {
   ActionResources,
   SocialContext,
 } from './types';
-import { defaultNeeds, defaultDerivedStats, defaultActionResources } from './types';
+import {
+  defaultNeeds,
+  defaultDerivedStats,
+  defaultActionResources,
+} from './types';
 import { needToMoodCurve, asymptoticClamp } from '../utils/curves';
 import { SmoothedValue } from '../utils/smoothing';
 import {
@@ -73,7 +77,7 @@ export class Character {
   private willpowerSmoother?: SmoothedValue;
 
   /** Running average of food quality (0-3 scale), affects nutrition target */
-  private recentFoodQuality: number = 1.0;
+  private recentFoodQuality = 1.0;
 
   /** Current social context for socialBattery drain/charge calculation */
   currentSocialContext: SocialContext = 0; // Default to Solo
@@ -243,13 +247,13 @@ export class Character {
     modifiers.set('security', securityMod);
 
     // Default modifier of 1.0 for other needs
-    const needKeys: NeedKey[] = [
+    const needKeys = Array<NeedKey>(
       'hunger',
       'energy',
       'hygiene',
       'bladder',
-      'fun',
-    ];
+      'fun'
+    );
     for (const key of needKeys) {
       if (!modifiers.has(key)) {
         modifiers.set(key, 1.0);
@@ -349,15 +353,15 @@ export class Character {
     let totalWeight = 0;
 
     // Calculate weighted mood contribution from each need
-    const needKeys: NeedKey[] = [
+    const needKeys = Array<NeedKey>(
       'hunger',
       'energy',
       'hygiene',
       'bladder',
       'social',
       'fun',
-      'security',
-    ];
+      'security'
+    );
 
     for (const key of needKeys) {
       const needValue = this.needs[key];
@@ -396,15 +400,15 @@ export class Character {
     const contributions: Array<{ source: string; value: number }> = [];
 
     // Calculate each need's contribution
-    const needKeys: NeedKey[] = [
+    const needKeys = Array<NeedKey>(
       'hunger',
       'energy',
       'hygiene',
       'bladder',
       'social',
       'fun',
-      'security',
-    ];
+      'security'
+    );
 
     for (const key of needKeys) {
       const needValue = this.needs[key];
@@ -481,7 +485,9 @@ export class Character {
     // nutritionMoodPenalty is negative (e.g., -20)
     // At nutrition 100: penalty * 0 = 0
     // At nutrition 0: penalty * 1 = -20
-    return config.nutritionMoodPenalty * (1 - this.derivedStats.nutrition / 100);
+    return (
+      config.nutritionMoodPenalty * (1 - this.derivedStats.nutrition / 100)
+    );
   }
 
   /**
@@ -555,7 +561,8 @@ export class Character {
    */
   get overskuddTarget(): number {
     // Guard: needs, derivedStats, and config must be available
-    if (!this.needs || !this.derivedStats || !this.root?.balanceConfig) return 70;
+    if (!this.needs || !this.derivedStats || !this.root?.balanceConfig)
+      return 70;
 
     const config = this.root.balanceConfig.actionResourcesConfig;
     const mood = this.derivedStats.mood;
@@ -666,6 +673,7 @@ export class Character {
    *
    * @returns Target focus value (0-100)
    */
+  // eslint-disable-next-line @typescript-eslint/class-literal-property-style
   get focusTarget(): number {
     // For now, always target full focus when resting
     // Phase 10 activities will deplete focus
@@ -744,7 +752,9 @@ export class Character {
 
     // Update Mood: smooth toward computed target
     if (this.moodSmoother) {
-      this.derivedStats.mood = this.moodSmoother.update(this.computedMoodTarget);
+      this.derivedStats.mood = this.moodSmoother.update(
+        this.computedMoodTarget
+      );
     }
 
     // Update Purpose: decay toward personality-based equilibrium
@@ -764,7 +774,8 @@ export class Character {
       // Convert food quality (0-3) to nutrition scale (0-100)
       // recentFoodQuality 0 -> 0%, recentFoodQuality 3 -> 100%
       const targetNutrition = (this.recentFoodQuality / 3) * 100;
-      this.derivedStats.nutrition = this.nutritionSmoother.update(targetNutrition);
+      this.derivedStats.nutrition =
+        this.nutritionSmoother.update(targetNutrition);
     }
   }
 
@@ -786,13 +797,16 @@ export class Character {
     // Higher willpower -> faster recovery toward target
     if (this.overskuddSmoother) {
       const willpower = this.actionResources.willpower;
-      const effectiveAlpha = config.overskuddAlpha * (0.5 + (willpower / 100) * 0.5);
+      const effectiveAlpha =
+        config.overskuddAlpha * (0.5 + (willpower / 100) * 0.5);
       // Create temporary smoother with effective alpha for this tick
       const tempSmoother = new SmoothedValue(
         this.actionResources.overskudd,
         effectiveAlpha
       );
-      this.actionResources.overskudd = tempSmoother.update(this.overskuddTarget);
+      this.actionResources.overskudd = tempSmoother.update(
+        this.overskuddTarget
+      );
     }
 
     // Update socialBattery: drain/charge based on Extraversion + currentSocialContext
@@ -868,7 +882,10 @@ export class Character {
    */
   spendFocus(amount: number): void {
     if (!this.actionResources) return;
-    this.actionResources.focus = Math.max(0, this.actionResources.focus - amount);
+    this.actionResources.focus = Math.max(
+      0,
+      this.actionResources.focus - amount
+    );
   }
 
   /**
@@ -897,8 +914,8 @@ export class Character {
    * - Openness: High = +recovery overskudd
    * - Agreeableness: High = +recovery socialBattery
    */
-  get activeModifiers(): ResourceModifier[] {
-    const modifiers: ResourceModifier[] = [];
+  get activeModifiers(): Array<ResourceModifier> {
+    const modifiers = Array<ResourceModifier>();
     const {
       extraversion,
       neuroticism,
@@ -908,7 +925,8 @@ export class Character {
     } = this.personality;
 
     // Get personality modifier strength from balance config (default 1.0)
-    const strength = this.root?.balanceConfig?.personalityModifierStrength ?? 1.0;
+    const strength =
+      this.root?.balanceConfig?.personalityModifierStrength ?? 1.0;
 
     // Helper to apply strength multiplier to personality modifiers
     const scaledModifier = (traitValue: number) =>
@@ -1040,11 +1058,11 @@ export class Character {
    */
   get capacityModifierBreakdown(): Map<
     CapacityKey,
-    { source: string; value: number }[]
+    Array<{ source: string; value: number }>
   > {
     const breakdown = new Map<
       CapacityKey,
-      { source: string; value: number }[]
+      Array<{ source: string; value: number }>
     >();
 
     if (this.root?.talentStore) {
@@ -1057,7 +1075,9 @@ export class Character {
             if (existing) {
               existing.push({ source: talent.name, value: effect.value });
             } else {
-              breakdown.set(key, [{ source: talent.name, value: effect.value }]);
+              breakdown.set(key, [
+                { source: talent.name, value: effect.value },
+              ]);
             }
           }
         }
@@ -1073,11 +1093,11 @@ export class Character {
    */
   get resourceModifierBreakdown(): Map<
     ResourceKey,
-    { source: string; value: number; type: 'drain' | 'recovery' }[]
+    Array<{ source: string; value: number; type: 'drain' | 'recovery' }>
   > {
     const breakdown = new Map<
       ResourceKey,
-      { source: string; value: number; type: 'drain' | 'recovery' }[]
+      Array<{ source: string; value: number; type: 'drain' | 'recovery' }>
     >();
 
     if (this.root?.talentStore) {
@@ -1089,7 +1109,9 @@ export class Character {
             const entry = {
               source: talent.name,
               value: effect.value,
-              type: (effect.value > 0 ? 'drain' : 'recovery') as 'drain' | 'recovery',
+              type: (effect.value > 0 ? 'drain' : 'recovery') as
+                | 'drain'
+                | 'recovery',
             };
             const existing = breakdown.get(key);
             if (existing) {
@@ -1151,14 +1173,16 @@ export class Character {
       // v1.0: Apply resource drain/recovery
 
       // Apply drain to draining resources
-      for (const key of Object.keys(BASE_DRAIN_RATES) as ResourceKey[]) {
+      for (const key of Object.keys(BASE_DRAIN_RATES) as Array<ResourceKey>) {
         const effectiveRate = this.effectiveDrainRate(key);
         const drain = effectiveRate * speedMultiplier;
         this.resources[key] = clampResource(this.resources[key] - drain);
       }
 
       // Apply recovery to recovering resources
-      for (const key of Object.keys(BASE_RECOVERY_RATES) as ResourceKey[]) {
+      for (const key of Object.keys(
+        BASE_RECOVERY_RATES
+      ) as Array<ResourceKey>) {
         const effectiveRate = this.effectiveRecoveryRate(key);
         const recovery = effectiveRate * speedMultiplier;
 

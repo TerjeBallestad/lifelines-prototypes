@@ -11,9 +11,9 @@ import {
 } from 'recharts';
 import type { Personality } from '../entities/types';
 
-interface PersonalityRadarProps {
+type PersonalityRadarProps = {
   personality: Personality;
-}
+};
 
 export const PersonalityRadar = observer(function PersonalityRadar({
   personality,

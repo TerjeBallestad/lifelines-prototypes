@@ -2,17 +2,17 @@ import { observer } from 'mobx-react-lite';
 import { ResourceGauge } from './ResourceGauge';
 import type { Resources } from '../entities/types';
 
-interface ResourcePanelProps {
+type ResourcePanelProps = {
   resources: Resources;
-}
+};
 
-interface ResourceConfig {
+type ResourceConfig = {
   key: keyof Resources;
   label: string;
   inverted?: boolean;
-}
+};
 
-const RESOURCE_CONFIG: ResourceConfig[] = [
+const RESOURCE_CONFIG: Array<ResourceConfig> = [
   { key: 'energy', label: 'Energy' },
   { key: 'socialBattery', label: 'Social Battery' },
   { key: 'stress', label: 'Stress', inverted: true },

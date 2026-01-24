@@ -13,22 +13,22 @@
  * @throws Error if sampleSize > weights.length
  */
 export function weightedSampleWithoutReplacement(
-  weights: number[],
+  weights: Array<number>,
   sampleSize: number
-): number[] {
+): Array<number> {
   if (sampleSize > weights.length) {
     throw new Error(
       `Sample size (${sampleSize}) exceeds population (${weights.length})`
     );
   }
 
-  const indices: number[] = [];
+  const indices: Array<number> = [];
   const availableWeights = [...weights];
   const availableIndices = weights.map((_, i) => i);
 
   for (let i = 0; i < sampleSize; i++) {
     // Build cumulative weights
-    const cumulative: number[] = [];
+    const cumulative: Array<number> = [];
     let sum = 0;
     for (const w of availableWeights) {
       sum += w;

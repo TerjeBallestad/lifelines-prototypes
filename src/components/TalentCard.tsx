@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react-lite';
 import type { Talent } from '../entities/Talent';
 
-interface TalentCardProps {
+type TalentCardProps = {
   talent: Talent;
   onSelect?: () => void;
   compact?: boolean;
-}
+};
 
 /**
  * Displays a single talent with rarity indicator and effects.

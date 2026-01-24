@@ -2,11 +2,11 @@ import { observer } from 'mobx-react-lite';
 import { MoodIcon } from './MoodIcon';
 import type { DerivedStats, StatBreakdown } from '../entities/types';
 
-interface DerivedStatsSectionProps {
+type DerivedStatsSectionProps = {
   derivedStats: DerivedStats;
   moodBreakdown: StatBreakdown;
   purposeEquilibrium: number;
-}
+};
 
 /**
  * Get progress bar color class for purpose value.
@@ -37,17 +37,17 @@ export const DerivedStatsSection = observer(function DerivedStatsSection({
   purposeEquilibrium,
 }: DerivedStatsSectionProps) {
   return (
-    <div className="border-t border-base-300 pt-4 mt-4">
-      <h4 className="text-xs font-semibold uppercase tracking-wide text-base-content/70 mb-3">
+    <div className="border-base-300 mt-4 border-t pt-4">
+      <h4 className="text-base-content/70 mb-3 text-xs font-semibold tracking-wide uppercase">
         Derived Wellbeing
       </h4>
 
       <div className="flex flex-col gap-4">
         {/* Mood row - centered icon */}
         <div className="flex items-center gap-3">
-          <span className="text-sm text-base-content/70 w-16">Mood</span>
+          <span className="text-base-content/70 w-16 text-sm">Mood</span>
           <MoodIcon value={derivedStats.mood} breakdown={moodBreakdown} />
-          <span className="text-sm text-base-content/50">
+          <span className="text-base-content/50 text-sm">
             {Math.round(derivedStats.mood)}%
           </span>
         </div>
@@ -61,11 +61,11 @@ export const DerivedStatsSection = observer(function DerivedStatsSection({
             </span>
           </div>
           <progress
-            className={`progress ${getPurposeColor(derivedStats.purpose)} w-full h-2`}
+            className={`progress ${getPurposeColor(derivedStats.purpose)} h-2 w-full`}
             value={derivedStats.purpose}
             max="100"
           />
-          <div className="flex justify-between text-xs text-base-content/50">
+          <div className="text-base-content/50 flex justify-between text-xs">
             <span>Equilibrium: {Math.round(purposeEquilibrium)}%</span>
             <span className="opacity-60">personality baseline</span>
           </div>
@@ -80,11 +80,11 @@ export const DerivedStatsSection = observer(function DerivedStatsSection({
             </span>
           </div>
           <progress
-            className={`progress ${getNutritionColor(derivedStats.nutrition)} w-full h-2`}
+            className={`progress ${getNutritionColor(derivedStats.nutrition)} h-2 w-full`}
             value={derivedStats.nutrition}
             max="100"
           />
-          <span className="text-xs text-base-content/50">
+          <span className="text-base-content/50 text-xs">
             (changes slowly based on diet)
           </span>
         </div>

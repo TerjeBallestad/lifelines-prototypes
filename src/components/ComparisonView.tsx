@@ -43,10 +43,10 @@ export const ComparisonView = observer(function ComparisonView({
   if (!char1Id || !char2Id) {
     return (
       <div className="p-8">
-        <div className="flex items-center justify-between mb-6">
+        <div className="mb-6 flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold">Emergence Comparison</h2>
-            <p className="mt-2 text-base-content/70">
+            <p className="text-base-content/70 mt-2">
               Select two contrasting archetypes to compare their behavior
               side-by-side.
             </p>
@@ -91,7 +91,7 @@ export const ComparisonView = observer(function ComparisonView({
 
   return (
     <div className="min-h-screen p-4">
-      <div className="flex items-center justify-between mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <h2 className="text-2xl font-bold">Comparison Mode</h2>
         <button onClick={onExitComparison} className="btn btn-outline btn-sm">
           Back to Single Mode
@@ -114,15 +114,15 @@ const CharacterComparisonPanel = observer(function CharacterComparisonPanel({
   const archetype = ARCHETYPES.find((a) => a.name === character.name);
 
   return (
-    <div className="bg-base-200 rounded-lg p-4 flex flex-col gap-4">
+    <div className="bg-base-200 flex flex-col gap-4 rounded-lg p-4">
       <div>
         <h3 className="text-lg font-bold">{character.displayName}</h3>
         {archetype && (
-          <p className="text-xs text-base-content/50 mt-1">
+          <p className="text-base-content/50 mt-1 text-xs">
             Expected: {archetype.expectedBehavior}
           </p>
         )}
-        <div className="flex gap-1 mt-2">
+        <div className="mt-2 flex gap-1">
           {character.isExhausted && (
             <span className="badge badge-error badge-sm">Exhausted</span>
           )}
@@ -136,21 +136,21 @@ const CharacterComparisonPanel = observer(function CharacterComparisonPanel({
       </div>
 
       <div>
-        <h4 className="text-sm font-semibold text-base-content/70 mb-2">
+        <h4 className="text-base-content/70 mb-2 text-sm font-semibold">
           Resources
         </h4>
         <ResourcePanel resources={character.resources} />
       </div>
 
       <div>
-        <h4 className="text-sm font-semibold text-base-content/70 mb-2">
+        <h4 className="text-base-content/70 mb-2 text-sm font-semibold">
           Personality
         </h4>
         <PersonalityRadar personality={character.personality} />
       </div>
 
       <div>
-        <h4 className="text-sm font-semibold text-base-content/70 mb-2">
+        <h4 className="text-base-content/70 mb-2 text-sm font-semibold">
           Capacities
         </h4>
         <CapacitiesRadar capacities={character.effectiveCapacities} />

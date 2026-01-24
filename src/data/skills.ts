@@ -9,7 +9,7 @@ import type { SkillData } from '../entities/types';
  * - Cross-domain dependency (go-to-store needs organisational + physical)
  * - Multiple root skills (eye-contact, make-list, go-outside)
  */
-export const STARTER_SKILLS: SkillData[] = [
+export const STARTER_SKILLS: Array<SkillData> = [
   // Social Domain (3 skills, chain)
   {
     id: 'eye-contact',

@@ -10,7 +10,7 @@ import type { ResourceKey } from '../entities/types';
 /**
  * Represents a modifier that affects resource drain/recovery rates.
  */
-export interface ResourceModifier {
+export type ResourceModifier = {
   /** Which resource this modifier affects */
   resourceKey: ResourceKey;
   /** Human-readable source description, e.g., "low extraversion" */
@@ -19,7 +19,7 @@ export interface ResourceModifier {
   drainModifier: number;
   /** Recovery rate modifier: -0.2 to +0.2 (negative = slower recovery, positive = faster) */
   recoveryModifier: number;
-}
+};
 
 /**
  * Converts a personality trait value (0-100) to a modifier strength (-0.20 to +0.20).
@@ -43,7 +43,7 @@ export function personalityToModifier(traitValue: number): number {
  * @param modifiers - Array of modifier values (e.g., [0.10, 0.05])
  * @returns Combined modifier value (e.g., 0.15)
  */
-export function combineModifiers(modifiers: number[]): number {
+export function combineModifiers(modifiers: Array<number>): number {
   return modifiers.reduce((sum, mod) => sum + mod, 0);
 }
 
@@ -63,7 +63,10 @@ export function combineModifiers(modifiers: number[]): number {
  * // Base drain of 1 with -10% and +5% modifiers
  * applyModifiers(1, [-0.10, 0.05]) // Returns 0.95
  */
-export function applyModifiers(baseRate: number, modifiers: number[]): number {
+export function applyModifiers(
+  baseRate: number,
+  modifiers: Array<number>
+): number {
   const combined = combineModifiers(modifiers);
   return baseRate * (1 + combined);
 }

@@ -98,7 +98,7 @@ export class CharacterStore {
   }
 
   // Returns all characters as an array
-  get allCharacters(): Character[] {
+  get allCharacters(): Array<Character> {
     return Array.from(this.characters.values());
   }
 

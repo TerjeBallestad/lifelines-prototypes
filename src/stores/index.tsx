@@ -2,9 +2,9 @@ import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { RootStore, StoreContext } from './RootStore';
 
-interface StoreProviderProps {
+type StoreProviderProps = {
   children: ReactNode;
-}
+};
 
 export function StoreProvider({ children }: StoreProviderProps) {
   // useState ensures single instance across re-renders

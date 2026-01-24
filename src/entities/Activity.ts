@@ -7,16 +7,22 @@ import type {
   DurationMode,
   NeedKey,
 } from './types';
-import type { SkillRequirement, DifficultyBreakdown } from '../types/difficulty';
+import type {
+  SkillRequirement,
+  DifficultyBreakdown,
+} from '../types/difficulty';
 import type { Character } from './Character';
 import { STARTER_SKILLS } from '../data/skills';
-import { calculatePersonalityAlignment, type ActivityAlignment } from '../utils/personalityFit';
+import {
+  calculatePersonalityAlignment,
+  type ActivityAlignment,
+} from '../utils/personalityFit';
 
 /**
  * Resource costs required to perform an activity.
  * Costs scale with difficulty and are modified by personality alignment.
  */
-export interface ResourceCosts {
+export type ResourceCosts = {
   /** Required to start, consumed during activity */
   overskudd: number;
   /** Consumed at activity start */
@@ -27,7 +33,7 @@ export interface ResourceCosts {
   socialBattery: number;
   /** Personality alignment modifier applied to costs */
   alignment: ActivityAlignment;
-}
+};
 
 /**
  * Activity entity - represents an activity that a character can perform.
@@ -51,10 +57,10 @@ export class Activity {
 
   // Difficulty system (Phase 9.1)
   readonly baseDifficulty: number; // 1-5 stars
-  readonly skillRequirements: SkillRequirement[];
+  readonly skillRequirements: Array<SkillRequirement>;
 
   // Personality alignment system (Phase 10)
-  readonly tags?: string[];
+  readonly tags?: Array<string>;
   readonly needEffects?: Partial<Record<NeedKey, number>>;
 
   // Mutable mastery properties
@@ -183,7 +189,8 @@ export class Activity {
     }
 
     // Normalize by total weight to get final reduction
-    const skillReduction = totalWeight > 0 ? totalWeightedReduction / totalWeight : 0;
+    const skillReduction =
+      totalWeight > 0 ? totalWeightedReduction / totalWeight : 0;
 
     // Cap at configured maximum (default 1.5 stars)
     // Note: We don't have access to root/config here, so we'll apply a hard cap
@@ -316,7 +323,10 @@ export class Activity {
     const socialBattery = this.hasTag('social') ? baseCost * 0.4 : 0;
 
     // 4. Get personality alignment
-    const alignment = calculatePersonalityAlignment(this.tags, character.personality);
+    const alignment = calculatePersonalityAlignment(
+      this.tags,
+      character.personality
+    );
 
     // 5. Apply alignment cost multiplier to all non-zero costs
     const adjustedCosts: ResourceCosts = {

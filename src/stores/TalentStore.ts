@@ -15,7 +15,7 @@ export class TalentStore {
   talentPool = observable.map<string, Talent>();
   selectedTalents = observable.map<string, Talent>();
   pendingPicks = 0;
-  currentOffer: Talent[] | null = null;
+  currentOffer: Array<Talent> | null = null;
 
   /** Track XP thresholds crossed per domain to avoid double-triggering */
   private pickThresholdsCrossed = observable.map<SkillDomain, number>();
@@ -30,15 +30,15 @@ export class TalentStore {
     this.seedTalents(TALENTS);
   }
 
-  get talentsArray(): Talent[] {
+  get talentsArray(): Array<Talent> {
     return Array.from(this.talentPool.values());
   }
 
-  get selectedTalentsArray(): Talent[] {
+  get selectedTalentsArray(): Array<Talent> {
     return Array.from(this.selectedTalents.values());
   }
 
-  get availableTalents(): Talent[] {
+  get availableTalents(): Array<Talent> {
     return this.talentsArray.filter((t) => !this.selectedTalents.has(t.id));
   }
 
@@ -110,7 +110,7 @@ export class TalentStore {
     }
   }
 
-  private seedTalents(talentDataList: TalentData[]): void {
+  private seedTalents(talentDataList: Array<TalentData>): void {
     for (const data of talentDataList) {
       const talent = new Talent(data);
       this.talentPool.set(data.id, talent);

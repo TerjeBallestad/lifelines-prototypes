@@ -46,7 +46,7 @@ export const ActivityQueue = observer(function ActivityQueue() {
               progress={getProgressPercent()}
             />
             <button
-              className="btn btn-xs btn-circle btn-ghost absolute right-1 top-1 text-error"
+              className="btn btn-xs btn-circle btn-ghost text-error absolute top-1 right-1"
               onClick={() => activityStore.cancelCurrent()}
               title="Cancel activity"
             >

@@ -5,7 +5,7 @@ import type { SkillDomain } from '../entities/types';
 import { useSkillStore } from '../stores/RootStore';
 
 // All skill domains
-const DOMAINS: SkillDomain[] = [
+const DOMAINS: Array<SkillDomain> = [
   'social',
   'organisational',
   'analytical',
@@ -50,8 +50,12 @@ export const SkillTreePanel = observer(function SkillTreePanel() {
               <div className="tab-content bg-base-100 border-base-300 p-4">
                 {/* Domain XP display */}
                 <div className="mb-4 text-lg">
-                  <span className="font-semibold">{DOMAIN_LABELS[domain]} XP:</span>
-                  <span className="text-primary ml-2 font-bold">{domainXP}</span>
+                  <span className="font-semibold">
+                    {DOMAIN_LABELS[domain]} XP:
+                  </span>
+                  <span className="text-primary ml-2 font-bold">
+                    {domainXP}
+                  </span>
                 </div>
 
                 {/* Skill grid */}

@@ -6,7 +6,7 @@ import type { TalentData } from '../entities/types';
  * Distribution: ~5 common, ~3 rare, ~2 epic
  * ~30% have tradeoffs (upside AND downside)
  */
-export const TALENTS: TalentData[] = [
+export const TALENTS: Array<TalentData> = [
   // === COMMON (70% spawn rate) ===
   {
     id: 'iron_will',

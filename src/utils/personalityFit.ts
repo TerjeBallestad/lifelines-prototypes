@@ -4,14 +4,14 @@ import type { Personality } from '../entities/types';
  * Result of personality alignment calculation for an activity.
  * Aligned activities have lower costs and higher gains.
  */
-export interface ActivityAlignment {
+export type ActivityAlignment = {
   /** Cost multiplier (0.6-1.4 range, aligned = lower cost) */
   costMultiplier: number;
   /** Gain multiplier (0.6-1.4 range, aligned = higher gain) */
   gainMultiplier: number;
   /** Breakdown of trait contributions for debugging/tooltips */
   breakdown: Array<{ trait: string; contribution: number }>;
-}
+};
 
 /**
  * Calculate personality alignment modifiers for an activity.
@@ -42,7 +42,7 @@ export interface ActivityAlignment {
  * @returns ActivityAlignment with cost/gain multipliers and breakdown
  */
 export function calculatePersonalityAlignment(
-  tags: string[] | undefined,
+  tags: Array<string> | undefined,
   personality: Personality
 ): ActivityAlignment {
   // Default: no alignment (neutral multipliers)
@@ -73,7 +73,10 @@ export function calculatePersonalityAlignment(
       case 'social': {
         // Extroverts benefit from social activities
         const contrib = traitContribution(personality.extraversion);
-        breakdown.push({ trait: 'Extraversion (social)', contribution: contrib });
+        breakdown.push({
+          trait: 'Extraversion (social)',
+          contribution: contrib,
+        });
         totalContribution += contrib;
         break;
       }
@@ -119,7 +122,10 @@ export function calculatePersonalityAlignment(
       case 'stressful': {
         // High neuroticism penalized by stressful activities (inverse)
         const contrib = -traitContribution(personality.neuroticism);
-        breakdown.push({ trait: 'Neuroticism (stressful)', contribution: contrib });
+        breakdown.push({
+          trait: 'Neuroticism (stressful)',
+          contribution: contrib,
+        });
         totalContribution += contrib;
         break;
       }
@@ -146,11 +152,17 @@ export function calculatePersonalityAlignment(
 
   // Cost multiplier: lower is better (aligned = cheaper)
   // Contribution +0.09 -> cost 0.91 (9% cheaper)
-  const costMultiplier = Math.max(0.6, Math.min(1.4, 1.0 - clampedContribution));
+  const costMultiplier = Math.max(
+    0.6,
+    Math.min(1.4, 1.0 - clampedContribution)
+  );
 
   // Gain multiplier: higher is better (aligned = more restoration)
   // Contribution +0.09 -> gain 1.09 (9% more restoration)
-  const gainMultiplier = Math.max(0.6, Math.min(1.4, 1.0 + clampedContribution));
+  const gainMultiplier = Math.max(
+    0.6,
+    Math.min(1.4, 1.0 + clampedContribution)
+  );
 
   return {
     costMultiplier,

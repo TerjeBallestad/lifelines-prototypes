@@ -34,7 +34,7 @@ export class SmoothedValue {
    * @param initialValue - Starting value
    * @param alpha - Smoothing factor (0-1). Lower = smoother/slower. Default 0.1.
    */
-  constructor(initialValue: number, alpha: number = 0.1) {
+  constructor(initialValue: number, alpha = 0.1) {
     this.current = initialValue;
     this.alpha = Math.max(0, Math.min(1, alpha));
   }

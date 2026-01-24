@@ -1,5 +1,10 @@
 import { makeAutoObservable } from 'mobx';
-import type { TalentData, TalentRarity, SkillDomain, ModifierEffect } from './types';
+import type {
+  TalentData,
+  TalentRarity,
+  SkillDomain,
+  ModifierEffect,
+} from './types';
 
 /**
  * Talent entity - represents a roguelike talent/modifier.
@@ -12,7 +17,7 @@ export class Talent {
   readonly description: string;
   readonly rarity: TalentRarity;
   readonly domain: SkillDomain | null;
-  readonly effects: ModifierEffect[];
+  readonly effects: Array<ModifierEffect>;
 
   constructor(data: TalentData) {
     this.id = data.id;

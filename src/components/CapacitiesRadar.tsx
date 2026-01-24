@@ -11,9 +11,9 @@ import {
 } from 'recharts';
 import type { Capacities } from '../entities/types';
 
-interface CapacitiesRadarProps {
+type CapacitiesRadarProps = {
   capacities: Capacities;
-}
+};
 
 export const CapacitiesRadar = observer(function CapacitiesRadar({
   capacities,

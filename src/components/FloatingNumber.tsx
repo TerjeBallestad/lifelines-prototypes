@@ -1,11 +1,11 @@
 import clsx from 'clsx';
 
-interface FloatingNumberProps {
+type FloatingNumberProps = {
   id: string;
   value: number;
   label: string;
   onComplete: (id: string) => void;
-}
+};
 
 /**
  * Animated floating number that shows resource/need changes.

@@ -1,24 +1,24 @@
 // Big Five personality dimensions
-export interface Personality {
+export type Personality = {
   openness: number;
   conscientiousness: number;
   extraversion: number;
   agreeableness: number;
   neuroticism: number;
-}
+};
 
 // Mental capacities that affect activity success
-export interface Capacities {
+export type Capacities = {
   divergentThinking: number;
   convergentThinking: number;
   workingMemory: number;
   attentionSpan: number;
   processingSpeed: number;
   emotionalRegulation: number;
-}
+};
 
 // Resources that drain and recover (9 total per CONTEXT.md)
-export interface Resources {
+export type Resources = {
   // Core vitality
   energy: number;
   socialBattery: number;
@@ -33,7 +33,7 @@ export interface Resources {
   security: number;
   focus: number; // Focus/Attention
   nutrition: number; // Nutrition/Health
-}
+};
 
 // Type-safe resource key access
 export type ResourceKey = keyof Resources;
@@ -47,18 +47,18 @@ export type ResourceKey = keyof Resources;
  * 7 needs on 0-100 scale where higher = better satisfied.
  * Split into physiological (fast decay) and social (slow decay) categories.
  */
-export interface Needs {
+export type Needs = {
   // Physiological needs (decay 3-4x faster)
-  hunger: number;    // Food satisfaction
-  energy: number;    // Rest/sleep satisfaction
-  hygiene: number;   // Cleanliness satisfaction
-  bladder: number;   // Bathroom need satisfaction
+  hunger: number; // Food satisfaction
+  energy: number; // Rest/sleep satisfaction
+  hygiene: number; // Cleanliness satisfaction
+  bladder: number; // Bathroom need satisfaction
 
   // Social/psychological needs (slower decay)
-  social: number;    // Connection need satisfaction
-  fun: number;       // Entertainment/pleasure satisfaction
-  security: number;  // Safety/stability satisfaction
-}
+  social: number; // Connection need satisfaction
+  fun: number; // Entertainment/pleasure satisfaction
+  security: number; // Safety/stability satisfaction
+};
 
 // Type-safe need key access
 export type NeedKey = keyof Needs;
@@ -72,23 +72,23 @@ export type NeedKey = keyof Needs;
  * These are second-order values that emerge from need satisfaction,
  * activity-personality fit, and dietary habits.
  */
-export interface DerivedStats {
+export type DerivedStats = {
   /** Mood: 0-100, computed from weighted average of need satisfaction */
   mood: number;
   /** Purpose: 0-100, personality equilibrium system based on activity fit */
   purpose: number;
   /** Nutrition: 0-100, slow-moving stat based on food quality over time */
   nutrition: number;
-}
+};
 
 /**
  * Food quality levels for nutrition tracking.
  * Higher quality food contributes more to the nutrition stat.
  */
 export const FoodQuality = {
-  Bad: 0,   // Junk food, fast food
-  OK: 1,    // Basic meals, convenience food
-  Good: 2,  // Balanced nutrition, home cooking
+  Bad: 0, // Junk food, fast food
+  OK: 1, // Basic meals, convenience food
+  Good: 2, // Balanced nutrition, home cooking
   Great: 3, // Premium healthy food, fresh ingredients
 } as const;
 
@@ -98,12 +98,12 @@ export type FoodQuality = (typeof FoodQuality)[keyof typeof FoodQuality];
  * Breakdown of a stat value for UI tooltip display.
  * Shows the total and individual contributions from various sources.
  */
-export interface StatBreakdown {
+export type StatBreakdown = {
   /** The final displayed value */
   total: number;
   /** Individual contributions that sum to (approximately) the total */
   contributions: Array<{ source: string; value: number }>;
-}
+};
 
 /**
  * Factory function for default starting derived stats.
@@ -128,7 +128,7 @@ export function defaultDerivedStats(): DerivedStats {
  * Action resources that gate activities and autonomous decisions.
  * 4 resources on 0-100 scale computed from needs, personality, and wellbeing.
  */
-export interface ActionResources {
+export type ActionResources = {
   /** Overskudd: Surplus capacity computed from Mood + Energy + Purpose */
   overskudd: number;
   /** socialBattery: Charge/drain inverted by Extraversion personality */
@@ -137,7 +137,7 @@ export interface ActionResources {
   focus: number;
   /** Willpower: Depleted by difficult tasks, boosted by Fun */
   willpower: number;
-}
+};
 
 /**
  * Social context levels for socialBattery drain/charge calculation.
@@ -186,13 +186,13 @@ export function defaultNeeds(): Needs {
 }
 
 // Data required to construct a Character
-export interface CharacterData {
+export type CharacterData = {
   id: string;
   name: string;
   personality: Personality;
   capacities: Capacities;
   resources: Resources;
-}
+};
 
 // Factory functions - always return valid defaults (0-100 scale, 50 = average)
 export function defaultPersonality(): Personality {
@@ -250,22 +250,22 @@ export type SkillDomain =
 export type SkillState = 'locked' | 'unlockable' | 'unlocked' | 'mastered';
 
 // Data required to construct a Skill
-export interface SkillData {
+export type SkillData = {
   id: string;
   name: string;
   description: string;
   domain: SkillDomain;
-  prerequisites: string[]; // skill IDs that must be level >= 1
-}
+  prerequisites: Array<string>; // skill IDs that must be level >= 1
+};
 
 // Prerequisite status for "why locked" display
-export interface PrerequisiteStatus {
+export type PrerequisiteStatus = {
   skillId: string;
   name: string;
   required: number; // always 1 for now
   current: number; // current level
   met: boolean;
-}
+};
 
 // ============================================================================
 // Activity System Types
@@ -282,10 +282,15 @@ export type DurationMode =
   | { type: 'variable'; baseTicks: number }; // affected by mastery
 
 // Activity execution state
-export type ActivityState = 'queued' | 'starting' | 'active' | 'completed' | 'failed';
+export type ActivityState =
+  | 'queued'
+  | 'starting'
+  | 'active'
+  | 'completed'
+  | 'failed';
 
 // Data required to construct an Activity
-export interface ActivityData {
+export type ActivityData = {
   id: string;
   name: string;
   description: string;
@@ -300,16 +305,16 @@ export interface ActivityData {
   };
   // Difficulty system (Phase 9.1) - optional for backward compatibility
   baseDifficulty?: number; // 1-5 stars (default 3)
-  skillRequirements?: SkillRequirement[]; // Skills that reduce difficulty
+  skillRequirements?: Array<SkillRequirement>; // Skills that reduce difficulty
   // Personality alignment system (Phase 10) - optional
-  tags?: string[]; // Personality alignment tags: 'social', 'solo', 'routine', 'creative', 'cooperative', 'stressful', 'concentration'
+  tags?: Array<string>; // Personality alignment tags: 'social', 'solo', 'routine', 'creative', 'cooperative', 'stressful', 'concentration'
   /**
    * Need restoration effects applied gradually during activity execution (not on completion).
    * Positive values restore needs (e.g., hunger: 5 restores 5 hunger per tick).
    * Can affect multiple needs simultaneously.
    */
   needEffects?: Partial<Record<NeedKey, number>>;
-}
+};
 
 // ============================================================================
 // Talent System Types
@@ -322,7 +327,7 @@ export type TalentRarity = 'common' | 'rare' | 'epic';
 export type ModifierType = 'flat' | 'percentage' | 'conditional';
 
 // Modifier effect definition
-export interface ModifierEffect {
+export type ModifierEffect = {
   type: ModifierType;
   target: 'capacity' | 'resource' | 'skill' | 'activity';
   targetKey: string; // capacity name, resource name, etc.
@@ -332,14 +337,14 @@ export interface ModifierEffect {
     check: string; // e.g., "energy < 30", "domain === 'physical'"
   };
   description: string; // For UI display
-}
+};
 
 // Data required to construct a Talent
-export interface TalentData {
+export type TalentData = {
   id: string;
   name: string;
   description: string;
   rarity: TalentRarity;
   domain: SkillDomain | null; // null = universal talent
-  effects: ModifierEffect[];
-}
+  effects: Array<ModifierEffect>;
+};

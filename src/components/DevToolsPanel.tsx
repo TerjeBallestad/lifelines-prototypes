@@ -26,7 +26,9 @@ export const DevToolsPanel = observer(function DevToolsPanel() {
         <div>
           <h3 className="mb-2 text-sm font-semibold">Simulation</h3>
           <label className="input">
-            <span className="label">Speed: {simulationStore.speed.toFixed(1)}x</span>
+            <span className="label">
+              Speed: {simulationStore.speed.toFixed(1)}x
+            </span>
             <input
               type="range"
               min="0"

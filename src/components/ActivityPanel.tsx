@@ -8,7 +8,7 @@ import { ActivityQueue } from './ActivityQueue';
 import type { SkillDomain } from '../entities/types';
 
 // Domains that have activities (filter out analytical which has no activities yet)
-const ACTIVITY_DOMAINS: SkillDomain[] = [
+const ACTIVITY_DOMAINS: Array<SkillDomain> = [
   'social',
   'organisational',
   'physical',

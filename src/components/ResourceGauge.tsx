@@ -1,13 +1,13 @@
 import { observer } from 'mobx-react-lite';
 
-interface ResourceGaugeProps {
+type ResourceGaugeProps = {
   value: number;
   label: string;
   maxValue?: number;
   modifierText?: string;
   inverted?: boolean; // true for stress (high = bad)
   size?: 'sm' | 'md' | 'lg';
-}
+};
 
 export const ResourceGauge = observer(function ResourceGauge({
   value,

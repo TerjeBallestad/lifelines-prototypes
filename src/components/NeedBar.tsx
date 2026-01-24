@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react-lite';
 
-interface NeedBarProps {
+type NeedBarProps = {
   value: number;
   label: string;
   decayRate: number;
   criticalThreshold: number;
-}
+};
 
 /**
  * Determines the color class based on need value thresholds.
