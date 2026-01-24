@@ -10,6 +10,7 @@ import { TalentSelectionModal } from './components/TalentSelectionModal';
 import { TalentsPanel } from './components/TalentsPanel';
 import { DevToolsPanel } from './components/DevToolsPanel';
 import { ComparisonView } from './components/ComparisonView';
+import { FloatingNumbersOverlay } from './components/FloatingNumbersOverlay';
 import { useCharacterStore } from './stores/RootStore';
 
 const App = observer(function App() {
@@ -25,6 +26,7 @@ const App = observer(function App() {
     <div className="flex min-h-screen bg-base-100">
       <Toaster position="bottom-right" richColors />
       <TalentSelectionModal />
+      <FloatingNumbersOverlay />
 
       {comparisonMode ? (
         <ComparisonView onExitComparison={() => setComparisonMode(false)} />

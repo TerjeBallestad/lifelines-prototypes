@@ -2,8 +2,6 @@ import { observer } from 'mobx-react-lite';
 import { NeedBar } from './NeedBar';
 import { DerivedStatsSection } from './DerivedStatsSection';
 import { ActionResourcesSection } from './ActionResourcesSection';
-import { FloatingNumber } from './FloatingNumber';
-import { useActivityStore } from '../stores/RootStore';
 import type { Needs, NeedKey, DerivedStats, StatBreakdown, ActionResources } from '../entities/types';
 import type { NeedsConfig } from '../config/balance';
 
@@ -54,28 +52,9 @@ export const NeedsPanel = observer(function NeedsPanel({
   extraversion,
 }: NeedsPanelProps) {
   const { criticalThreshold } = needsConfig;
-  const activityStore = useActivityStore();
 
   return (
-    <div className="relative flex flex-col gap-4 p-4">
-      {/* Floating numbers for need changes */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {activityStore.floatingNumbers.map((fn, index) => (
-          <div
-            key={fn.id}
-            className="absolute right-4"
-            style={{ top: `${20 + (index % 5) * 24}px` }}
-          >
-            <FloatingNumber
-              id={fn.id}
-              value={fn.value}
-              label={fn.label}
-              onComplete={(id) => activityStore.removeFloatingNumber(id)}
-            />
-          </div>
-        ))}
-      </div>
-
+    <div className="flex flex-col gap-4 p-4">
       {/* Physiological Needs */}
       <div>
         <h4 className="text-base-content/70 mb-2 text-xs font-semibold uppercase tracking-wide">

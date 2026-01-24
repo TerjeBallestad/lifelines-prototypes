@@ -11,14 +11,20 @@ interface FloatingNumberProps {
  * Animated floating number that shows resource/need changes.
  * Floats upward and fades out over 1.5s.
  */
-export function FloatingNumber({ id, value, label, onComplete }: FloatingNumberProps) {
+export function FloatingNumber({
+  id,
+  value,
+  label,
+  onComplete,
+}: FloatingNumberProps) {
   const isPositive = value > 0;
   const prefix = isPositive ? '+' : '';
-  const displayValue = Math.abs(value) >= 1 ? value.toFixed(0) : value.toFixed(1);
+  const displayValue =
+    Math.abs(value) >= 1 ? value.toFixed(0) : value.toFixed(1);
 
   return (
     <div
-      className="pointer-events-none animate-float-up absolute"
+      className="animate-float-up pointer-events-none absolute"
       onAnimationEnd={() => onComplete(id)}
     >
       <span
@@ -27,7 +33,8 @@ export function FloatingNumber({ id, value, label, onComplete }: FloatingNumberP
           isPositive ? 'text-success' : 'text-error'
         )}
       >
-        {prefix}{displayValue} {label}
+        {prefix}
+        {displayValue} {label}
       </span>
     </div>
   );

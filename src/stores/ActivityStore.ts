@@ -104,6 +104,20 @@ export class ActivityStore {
     this.queue.splice(0);
   }
 
+  /**
+   * Cancel the currently executing activity.
+   * Progress and partial effects are kept (no rollback).
+   */
+  cancelCurrent(): void {
+    if (this.currentActivity) {
+      toast.info(`Cancelled: ${this.currentActivity.name}`);
+      this.currentActivity = null;
+      this.currentProgress = 0;
+      this.currentState = 'idle';
+      this.activityEffectTotals.clear();
+    }
+  }
+
   // ============================================================================
   // Activity Start Check
   // ============================================================================

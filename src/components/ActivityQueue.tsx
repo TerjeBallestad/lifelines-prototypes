@@ -22,6 +22,7 @@ export const ActivityQueue = observer(function ActivityQueue() {
         return Math.min(100, (currentProgress / adjusted) * 100);
       }
       case 'threshold':
+      case 'needThreshold':
         // Threshold activities don't have predictable progress
         return 50; // Show indeterminate middle
     }
@@ -38,11 +39,20 @@ export const ActivityQueue = observer(function ActivityQueue() {
           )}
         </h4>
         {currentActivity ? (
-          <ActivityCard
-            activity={currentActivity}
-            variant="active"
-            progress={getProgressPercent()}
-          />
+          <div className="relative">
+            <ActivityCard
+              activity={currentActivity}
+              variant="active"
+              progress={getProgressPercent()}
+            />
+            <button
+              className="btn btn-xs btn-circle btn-ghost absolute right-1 top-1 text-error"
+              onClick={() => activityStore.cancelCurrent()}
+              title="Cancel activity"
+            >
+              ✕
+            </button>
+          </div>
         ) : (
           <div className="text-base-content/50 bg-base-200 rounded-lg p-3 text-sm italic">
             No activity in progress
