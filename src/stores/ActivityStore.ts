@@ -449,22 +449,78 @@ export class ActivityStore {
   }
 
   /**
+   * Estimate expected duration of an activity in ticks.
+   * Used to spread resource costs over the activity duration.
+   */
+  private estimateActivityDuration(activity: Activity): number {
+    switch (activity.durationMode.type) {
+      case 'fixed':
+        return activity.durationMode.ticks;
+      case 'variable':
+        return activity.durationMode.baseTicks * (1 - activity.masterySpeedBonus);
+      case 'threshold':
+      case 'needThreshold':
+        // Estimate ~30 ticks for threshold activities
+        return 30;
+    }
+  }
+
+  /**
    * Apply per-tick resource effects from the current activity.
-   * v1.1: Also handles need restoration with personality alignment.
+   * v1.1: Also handles need restoration and action resource costs.
    */
   private applyResourceEffects(speedMultiplier: number): void {
     const activity = this.currentActivity;
     const character = this.root.characterStore.character;
     if (!activity || !character) return;
 
-    // Calculate alignment once for this tick
+    // Calculate escape valve multiplier (struggling patient gets 50% cost reduction)
+    const escapeValve = this.calculateEscapeValve(character);
+
+    // v1.1: Apply difficulty-based action resource costs
+    if (character.actionResources) {
+      const costs = activity.getResourceCosts(character);
+      const estimatedDuration = this.estimateActivityDuration(activity);
+
+      // Spread costs over activity duration (per-tick drain)
+      const perTickMultiplier = speedMultiplier / estimatedDuration;
+
+      // Apply escape valve to costs
+      const overskuddDrain = costs.overskudd * perTickMultiplier * escapeValve;
+      const willpowerDrain = costs.willpower * perTickMultiplier * escapeValve;
+      const focusDrain = costs.focus * perTickMultiplier * escapeValve;
+      const socialBatteryDrain = costs.socialBattery * perTickMultiplier * escapeValve;
+
+      // Apply drains to action resources
+      character.actionResources.overskudd = Math.max(
+        0,
+        character.actionResources.overskudd - overskuddDrain
+      );
+      character.actionResources.willpower = Math.max(
+        0,
+        character.actionResources.willpower - willpowerDrain
+      );
+      character.actionResources.focus = Math.max(
+        0,
+        character.actionResources.focus - focusDrain
+      );
+      character.actionResources.socialBattery = Math.max(
+        0,
+        character.actionResources.socialBattery - socialBatteryDrain
+      );
+
+      // Track cumulative drains for completion summary
+      if (overskuddDrain > 0) {
+        const current = this.activityEffectTotals.get('Overskudd') ?? 0;
+        this.activityEffectTotals.set('Overskudd', current - overskuddDrain);
+      }
+    }
+
+    // v1.0: Apply legacy resource effects (for backward compatibility)
     const alignment = calculatePersonalityAlignment(
       activity.tags,
       character.personality
     );
-
-    // Calculate escape valve multiplier (struggling patient gets 50% cost reduction)
-    const escapeValve = this.calculateEscapeValve(character);
 
     for (const [key, baseEffect] of Object.entries(activity.resourceEffects)) {
       const resourceKey = key as ResourceKey;
