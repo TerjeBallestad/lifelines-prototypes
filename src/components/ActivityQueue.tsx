@@ -21,7 +21,6 @@ export const ActivityQueue = observer(function ActivityQueue() {
           mode.baseTicks * (1 - currentActivity.masterySpeedBonus);
         return Math.min(100, (currentProgress / adjusted) * 100);
       }
-      case 'threshold':
       case 'needThreshold':
         // Threshold activities don't have predictable progress
         return 50; // Show indeterminate middle

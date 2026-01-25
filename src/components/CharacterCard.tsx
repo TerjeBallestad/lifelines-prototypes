@@ -52,15 +52,15 @@ export const CharacterCard = observer(function CharacterCard() {
           </div>
           <div>
             <span className="text-base-content/70">Energy:</span>{' '}
-            {character.resources.energy}
+            {Math.round(character.needs.energy)}
           </div>
           <div>
             <span className="text-base-content/70">Social:</span>{' '}
-            {character.resources.socialBattery}
+            {Math.round(character.actionResources.socialBattery)}
           </div>
           <div>
-            <span className="text-base-content/70">Stress:</span>{' '}
-            {character.resources.stress}
+            <span className="text-base-content/70">Mood:</span>{' '}
+            {Math.round(character.derivedStats.mood)}
           </div>
         </div>
 

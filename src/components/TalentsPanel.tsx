@@ -15,12 +15,10 @@ export const TalentsPanel = observer(function TalentsPanel() {
 
   // Get modifier breakdowns from character
   const capacityBreakdown = character?.capacityModifierBreakdown;
-  const resourceBreakdown = character?.resourceModifierBreakdown;
 
   // Check if there are any active modifiers to show
   const hasCapacityMods = capacityBreakdown && capacityBreakdown.size > 0;
-  const hasResourceMods = resourceBreakdown && resourceBreakdown.size > 0;
-  const hasAnyMods = hasCapacityMods || hasResourceMods;
+  const hasAnyMods = hasCapacityMods;
 
   return (
     <div className="card bg-base-200 shadow-lg">
@@ -86,40 +84,6 @@ export const TalentsPanel = observer(function TalentsPanel() {
               </div>
             )}
 
-            {/* Resource modifiers */}
-            {hasResourceMods && (
-              <div>
-                <div className="mb-1 text-xs font-medium uppercase opacity-60">
-                  Resource Rates
-                </div>
-                <div className="space-y-1">
-                  {Array.from(resourceBreakdown.entries()).map(
-                    ([key, mods]) => (
-                      <div key={key} className="flex justify-between text-sm">
-                        <span className="capitalize">
-                          {key.replace(/([A-Z])/g, ' $1').trim()}
-                        </span>
-                        <span>
-                          {mods.map((m, i) => (
-                            <span
-                              key={i}
-                              title={m.source}
-                              className={
-                                m.value < 0 ? 'text-success' : 'text-error'
-                              }
-                            >
-                              {i > 0 ? ', ' : ''}
-                              {m.value > 0 ? '+' : ''}
-                              {Math.round(m.value * 100)}%
-                            </span>
-                          ))}
-                        </span>
-                      </div>
-                    )
-                  )}
-                </div>
-              </div>
-            )}
           </div>
         )}
 

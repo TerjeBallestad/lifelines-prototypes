@@ -19,10 +19,6 @@ import {
 } from './types';
 import { needToMoodCurve, asymptoticClamp } from '../utils/curves';
 import { SmoothedValue } from '../utils/smoothing';
-import {
-  personalityToModifier,
-  type ResourceModifier,
-} from '../utils/modifiers';
 import { applyAsymptoticDecay } from '../utils/needsDecay';
 import { type RootStore } from '../stores/RootStore';
 
@@ -461,7 +457,9 @@ export class Character {
     // nutritionMoodPenalty is negative (e.g., -20)
     // At nutrition 100: penalty * 0 = 0
     // At nutrition 0: penalty * 1 = -20
-    return config.nutritionMoodPenalty * (1 - this.derivedStats.nutrition / 100);
+    return (
+      config.nutritionMoodPenalty * (1 - this.derivedStats.nutrition / 100)
+    );
   }
 
   /**
@@ -854,7 +852,10 @@ export class Character {
    * @param amount - Amount of focus to spend
    */
   spendFocus(amount: number): void {
-    this.actionResources.focus = Math.max(0, this.actionResources.focus - amount);
+    this.actionResources.focus = Math.max(
+      0,
+      this.actionResources.focus - amount
+    );
   }
 
   /**
