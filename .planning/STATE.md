@@ -6,16 +6,16 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** The player experiences satisfying growth by helping patients develop missing life skills - the victory isn't heroic, it's watching someone finally answer the phone.
 
-**Current focus:** Phase 10.1 - Remove v1.0 Resource System (urgent cleanup)
+**Current focus:** Phase 11 - Autonomous AI (next up)
 
 ## Current Position
 
-Phase: 10.1 of 12 (Remove v1.0 Resources) - IN PROGRESS
-Plan: 2 of 3 in current phase
-Status: Plan 02 complete
-Last activity: 2026-01-25 - Completed 10.1-02-PLAN.md
+Phase: 10.1 of 12 (Remove v1.0 Resources) - COMPLETE
+Plan: 3 of 3 in current phase
+Status: Verified
+Last activity: 2026-01-25 - Completed Phase 10.1 v1.0 removal, human verified
 
-Progress: [██████████░] ~96% (20/21 plans: 18 phase 1-10 + 2 of 3 phase 10.1)
+Progress: [██████████] 100% (21/21 plans: 18 phases 7-10 + 3 phase 10.1)
 
 ## Performance Metrics
 
@@ -34,7 +34,7 @@ Progress: [██████████░] ~96% (20/21 plans: 18 phase 1-10 +
 | 09-action-resources         | 3     | 19 min   | 6.3 min  |
 | 09.1-activity-difficulty    | 3     | 21 min   | 7.0 min  |
 | 10-activity-need-integration| 5     | ~12 min  | 2.4 min  |
-| 10.1-remove-v1-resources    | 2     | 12.1 min | 6.1 min  |
+| 10.1-remove-v1-resources    | 3     | ~15 min  | 5.0 min  |
 
 **Recent Trend:**
 
@@ -260,10 +260,19 @@ No pending todos.
 - Pre-existing architecture issue, not Phase 9.1 scope
 - Consider addressing in future phase if needed
 
+**10.1-03 Human Verification Complete:**
+
+- All v1.0 removal criteria verified by human testing
+- UI cleanup complete (no toggle, no ResourcePanel)
+- Character displays v1.1 needs/derived stats/action resources correctly
+- Activities queue, execute, restore needs, drain resources
+- Simulation runs without runtime errors
+- Orchestrator fixed 7 additional v1.0 references during verification
+
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Phase 10.1 Plan 02 COMPLETE
+Stopped at: Phase 10.1 COMPLETE
 Resume file: None
 
-**Next step:** Phase 10.1 Plan 03 - Final cleanup (if exists) or Phase 11 - Autonomous AI
+**Next step:** Phase 11 - Autonomous AI (patient self-selects activities based on needs and personality)

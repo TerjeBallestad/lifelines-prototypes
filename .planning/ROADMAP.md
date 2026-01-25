@@ -158,9 +158,9 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 10.1-01-PLAN.md — Remove toggle UI and conditional rendering
-- [ ] 10.1-02-PLAN.md — Remove v1.0 from stores, types, and activity data
-- [ ] 10.1-03-PLAN.md — Human verification checkpoint
+- [x] 10.1-01-PLAN.md — Remove toggle UI and conditional rendering
+- [x] 10.1-02-PLAN.md — Remove v1.0 from stores, types, and activity data
+- [x] 10.1-03-PLAN.md — Human verification checkpoint
 
 ### Phase 11: Autonomous AI
 **Goal:** Patient autonomously selects activities based on utility scoring of need urgency, personality fit, and resource availability.
@@ -214,10 +214,10 @@ Phases execute in numeric order: 7 → 8 → 9 → 9.1 → 10 → 10.1 → 11 �
 | 9. Action Resources | v1.1 | 3/3 | ✓ Complete | 2026-01-23 |
 | 9.1 Activity Difficulty | v1.1 | 3/3 | ✓ Complete | 2026-01-23 |
 | 10. Activity-Need Integration | v1.1 | 5/5 | ✓ Complete | 2026-01-25 |
-| 10.1 Remove v1.0 Resources | v1.1 | 0/3 | Not started | - |
+| 10.1 Remove v1.0 Resources | v1.1 | 3/3 | ✓ Complete | 2026-01-25 |
 | 11. Autonomous AI | v1.1 | 0/TBD | Not started | - |
 | 12. Tuning & Balance | v1.1 | 0/TBD | Not started | - |
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-25 (Phase 10.1 planned)*
+*Last updated: 2026-01-25 (Phase 10.1 complete)*
