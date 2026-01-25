@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { PersonalityRadar } from './PersonalityRadar';
 import { CapacitiesRadar } from './CapacitiesRadar';
-import { ResourcePanel } from './ResourcePanel';
 import { NeedsPanel } from './NeedsPanel';
 import { useCharacterStore, useRootStore } from '../stores/RootStore';
 
@@ -37,25 +36,21 @@ export const CharacterPanel = observer(function CharacterPanel() {
       {/* Resources / Needs - most prominent per CONTEXT.md */}
       <div className="border-base-300 border-b p-4">
         <h3 className="text-base-content/70 mb-2 text-sm font-semibold">
-          {root.needsSystemEnabled ? 'Needs (v1.1)' : 'Resources'}
+          Needs
         </h3>
-        {root.needsSystemEnabled && character.needs ? (
-          <NeedsPanel
-            needs={character.needs}
-            needsConfig={root.balanceConfig.needsConfig}
-            derivedStats={character.derivedStats}
-            moodBreakdown={character.moodBreakdown}
-            purposeEquilibrium={character.purposeEquilibrium}
-            actionResources={character.actionResources}
-            overskuddBreakdown={character.overskuddBreakdown}
-            socialBatteryBreakdown={character.socialBatteryBreakdown}
-            focusBreakdown={character.focusBreakdown}
-            willpowerBreakdown={character.willpowerBreakdown}
-            extraversion={character.personality.extraversion}
-          />
-        ) : (
-          <ResourcePanel resources={character.resources} />
-        )}
+        <NeedsPanel
+          needs={character.needs}
+          needsConfig={root.balanceConfig.needsConfig}
+          derivedStats={character.derivedStats}
+          moodBreakdown={character.moodBreakdown}
+          purposeEquilibrium={character.purposeEquilibrium}
+          actionResources={character.actionResources}
+          overskuddBreakdown={character.overskuddBreakdown}
+          socialBatteryBreakdown={character.socialBatteryBreakdown}
+          focusBreakdown={character.focusBreakdown}
+          willpowerBreakdown={character.willpowerBreakdown}
+          extraversion={character.personality.extraversion}
+        />
       </div>
 
       {/* Personality radar */}
