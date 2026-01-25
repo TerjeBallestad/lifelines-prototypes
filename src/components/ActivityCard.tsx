@@ -61,15 +61,6 @@ export const ActivityCard = observer(function ActivityCard({
     alignmentInfo = resourceCosts.alignment;
   }
 
-  // Format resource effects for preview
-  const effectsPreview = Object.entries(activity.resourceEffects)
-    .map(([key, val]) => {
-      const sign = val >= 0 ? '+' : '';
-      const icon = val >= 0 ? '↑' : '↓';
-      return `${icon} ${key}: ${sign}${val.toFixed(1)}`;
-    })
-    .slice(0, 3); // Show max 3
-
   return (
     <div
       className={clsx('card bg-base-100 shadow-sm', {
@@ -148,17 +139,6 @@ export const ActivityCard = observer(function ActivityCard({
               })}
             </div>
           )}
-
-        {/* Resource effects preview */}
-        {variant === 'preview' && effectsPreview.length > 0 && (
-          <div className="mt-1 flex flex-wrap gap-1">
-            {effectsPreview.map((effect, i) => (
-              <span key={i} className="badge badge-ghost badge-xs">
-                {effect}
-              </span>
-            ))}
-          </div>
-        )}
 
         {/* Estimated costs (if available) */}
         {variant === 'preview' && costs && (
