@@ -25,9 +25,6 @@ export const CharacterPanel = observer(function CharacterPanel() {
         {character.isExhausted && (
           <span className="badge badge-error badge-sm">Exhausted</span>
         )}
-        {character.isOverstressed && (
-          <span className="badge badge-warning badge-sm ml-1">Stressed</span>
-        )}
         {character.isSociallyDrained && (
           <span className="badge badge-info badge-sm ml-1">Drained</span>
         )}
