@@ -8,7 +8,6 @@ import type {
   ResourceKey,
   NeedKey,
 } from '../entities/types';
-import type { Character } from '../entities/Character';
 import { calculatePersonalityAlignment } from '../utils/personalityFit';
 
 // Activity execution state
@@ -113,6 +112,13 @@ export class ActivityStore {
   cancelCurrent(): void {
     if (this.currentActivity) {
       toast.info(`Cancelled: ${this.currentActivity.name}`);
+
+      // Reset social context when activity is cancelled
+      const character = this.root.characterStore.character;
+      if (character) {
+        character.currentSocialContext = 0; // Back to solo
+      }
+
       this.currentActivity = null;
       this.currentProgress = 0;
       this.currentState = 'idle';
@@ -282,6 +288,13 @@ export class ActivityStore {
       this.currentProgress = 0;
       this.currentState = 'active';
       this.activityEffectTotals.clear(); // Reset cumulative tracking
+
+      // Set social context for social activities (affects socialBattery drift)
+      const character = this.root.characterStore.character;
+      if (character && this.currentActivity?.tags?.includes('social')) {
+        character.currentSocialContext = 1; // Social context
+      }
+
       toast.success(`Started: ${this.currentActivity?.name}`);
     } else {
       // Skip this activity, notify, try next
@@ -453,29 +466,14 @@ export class ActivityStore {
       });
     }
 
+    // Reset social context when activity ends
+    if (character) {
+      character.currentSocialContext = 0; // Back to solo
+    }
+
     this.currentActivity = null;
     this.currentProgress = 0;
     this.currentState = 'idle';
-  }
-
-  /**
-   * Calculate escape valve multiplier for struggling patients.
-   * When any physiological need is below 20%, reduce activity costs by 50%.
-   * This prevents total paralysis when patient is in crisis.
-   */
-  private calculateEscapeValve(character: Character): number {
-    if (!character.needs) return 1.0; // v1.0 mode, no escape valve
-
-    const physiologicalNeeds = [
-      'hunger',
-      'energy',
-      'hygiene',
-      'bladder',
-    ] as const;
-    const needs = character.needs;
-    const isStrugging = physiologicalNeeds.some((need) => needs[need] < 20);
-
-    return isStrugging ? 0.5 : 1.0;
   }
 
   /**
@@ -507,7 +505,6 @@ export class ActivityStore {
     if (!activity || !character) return;
 
     // Calculate escape valve multiplier (struggling patient gets 50% cost reduction)
-    const escapeValve = this.calculateEscapeValve(character);
 
     // v1.1: Apply difficulty-based action resource costs
     if (character.actionResources) {
@@ -518,11 +515,10 @@ export class ActivityStore {
       const perTickMultiplier = speedMultiplier / estimatedDuration;
 
       // Apply escape valve to costs
-      const overskuddDrain = costs.overskudd * perTickMultiplier * escapeValve;
-      const willpowerDrain = costs.willpower * perTickMultiplier * escapeValve;
-      const focusDrain = costs.focus * perTickMultiplier * escapeValve;
-      const socialBatteryDrain =
-        costs.socialBattery * perTickMultiplier * escapeValve;
+      const overskuddDrain = costs.overskudd * perTickMultiplier;
+      const willpowerDrain = costs.willpower * perTickMultiplier;
+      const focusDrain = costs.focus * perTickMultiplier;
+      const socialBatteryDrain = costs.socialBattery * perTickMultiplier;
 
       // Apply drains to action resources
       character.actionResources.overskudd = Math.max(
@@ -537,10 +533,49 @@ export class ActivityStore {
         0,
         character.actionResources.focus - focusDrain
       );
-      character.actionResources.socialBattery = Math.max(
-        0,
-        character.actionResources.socialBattery - socialBatteryDrain
-      );
+
+      // socialBattery: direction inverts based on extraversion
+      // Introverts (E < 40): social activities DRAIN socialBattery
+      // Extroverts (E > 60): social activities RESTORE socialBattery
+      // Ambiverts (40-60): no effect on socialBattery
+      if (socialBatteryDrain > 0) {
+        const extraversion = character.personality.extraversion;
+
+        if (extraversion < 40) {
+          // Introvert: social activities drain
+          character.actionResources.socialBattery = Math.max(
+            0,
+            character.actionResources.socialBattery - socialBatteryDrain
+          );
+          // Track for completion summary
+          const current = this.activityEffectTotals.get('socialBattery') ?? 0;
+          this.activityEffectTotals.set(
+            'socialBattery',
+            current - socialBatteryDrain
+          );
+          // Emit floating number for significant drain
+          if (socialBatteryDrain >= 0.5) {
+            this.emitFloatingNumber('socialBattery', -socialBatteryDrain);
+          }
+        } else if (extraversion > 60) {
+          // Extrovert: social activities restore
+          character.actionResources.socialBattery = Math.min(
+            100,
+            character.actionResources.socialBattery + socialBatteryDrain
+          );
+          // Track for completion summary
+          const current = this.activityEffectTotals.get('socialBattery') ?? 0;
+          this.activityEffectTotals.set(
+            'socialBattery',
+            current + socialBatteryDrain
+          );
+          // Emit floating number for significant restore
+          if (socialBatteryDrain >= 0.5) {
+            this.emitFloatingNumber('socialBattery', socialBatteryDrain);
+          }
+        }
+        // Ambivert (40-60): no socialBattery effect
+      }
 
       // Track cumulative drains for completion summary
       if (overskuddDrain > 0) {
@@ -565,10 +600,9 @@ export class ActivityStore {
 
         // Mastery reduces drain, modestly increases restore
         if (effect < 0) {
-          // DRAIN: apply mastery reduction, alignment cost multiplier, escape valve
+          // DRAIN: apply mastery reduction, alignment cost multiplier
           effect *= 1 - activity.masteryDrainReduction;
           effect *= alignment.costMultiplier; // aligned = lower costs
-          effect *= escapeValve; // struggling = lower costs
         } else {
           // RESTORE: apply mastery bonus, alignment gain multiplier
           effect *= 1 + activity.masteryBonus * 0.5;

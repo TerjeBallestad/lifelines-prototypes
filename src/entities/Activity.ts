@@ -320,7 +320,7 @@ export class Activity {
     const overskudd = baseCost; // Full scaling
     const willpower = baseCost * 0.5;
     const focus = this.hasTag('concentration') ? baseCost * 0.3 : 0;
-    const socialBattery = this.hasTag('social') ? baseCost * 0.4 : 0;
+    const socialBattery = this.hasTag('social') ? baseCost * 1.0 : 0; // Full scaling for noticeable impact
 
     // 4. Get personality alignment
     const alignment = calculatePersonalityAlignment(

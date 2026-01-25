@@ -814,6 +814,9 @@ export class Character {
       const extraversion = this.personality.extraversion;
       const current = this.actionResources.socialBattery;
 
+      // Sync smoother to actual value (in case modified externally by ActivityStore)
+      this.socialBatterySmoother.setValue(current);
+
       // Compute drain/charge rate per tick
       let rate = 0;
       if (extraversion < 40) {

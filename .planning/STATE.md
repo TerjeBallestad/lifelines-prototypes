@@ -6,16 +6,16 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** The player experiences satisfying growth by helping patients develop missing life skills - the victory isn't heroic, it's watching someone finally answer the phone.
 
-**Current focus:** Phase 10 in progress - Activity-Need Integration
+**Current focus:** Phase 10 COMPLETE - Ready for Phase 11 (Autonomous AI Decisions)
 
 ## Current Position
 
-Phase: 10 of 12 (Activity-Need Integration)
-Plan: 4 of 5 in current phase
-Status: In progress
-Last activity: 2026-01-23 - Completed 10-04-PLAN.md
+Phase: 10 of 12 (Activity-Need Integration) - COMPLETE
+Plan: 5 of 5 in current phase
+Status: Verified
+Last activity: 2026-01-25 - Completed 10-05 verification checkpoint
 
-Progress: [█████████░] ~98% (milestone v1.1, 17/17 plans across 9 phases)
+Progress: [██████████] ~100% (milestone v1.1, 18/18 plans across 10 phases)
 
 ## Performance Metrics
 
@@ -33,7 +33,7 @@ Progress: [█████████░] ~98% (milestone v1.1, 17/17 plans acr
 | 08-derived-wellbeing        | 4     | 7 min   | 2.3 min  |
 | 09-action-resources         | 3     | 19 min  | 6.3 min  |
 | 09.1-activity-difficulty    | 3     | 21 min  | 7.0 min  |
-| 10-activity-need-integration| 4     | 9.4 min | 2.4 min  |
+| 10-activity-need-integration| 5     | ~12 min | 2.4 min  |
 
 **Recent Trend:**
 
@@ -54,6 +54,7 @@ Progress: [█████████░] ~98% (milestone v1.1, 17/17 plans acr
 - 10-02: 1.8 min (2 tasks, 2 files)
 - 10-03: 2.9 min (2 tasks, 1 file)
 - 10-04: 3.3 min (3 tasks, 4 files)
+- 10-05: Human verification (1 checkpoint + 2 bug fixes)
 - Trend: Consistent rapid delivery, verification checkpoints ~10-15 min
 
 **v1.0 Reference:**
@@ -206,6 +207,14 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - Activity cards display cost breakdown before starting
 - Personality alignment shown as subtle "(Good/Poor fit)" indicator
 
+**10-05 Verification Complete:**
+
+- All Phase 10 success criteria verified by human testing
+- socialBattery cost increased from 40% to 100% of base cost for noticeable impact
+- Fixed smoother sync bug: external changes to socialBattery now persist
+- Introverts doing social activities drain ~11 socialBattery over 20 ticks
+- currentSocialContext properly set during activities for correct drift behavior
+
 ### Pending Todos
 
 No pending todos.
@@ -230,8 +239,8 @@ No pending todos.
 
 ## Session Continuity
 
-Last session: 2026-01-23
-Stopped at: Completed 10-04-PLAN.md
+Last session: 2026-01-25
+Stopped at: Phase 10 COMPLETE
 Resume file: None
 
-**Next step:** Phase 10-05 - Verification checkpoint for full Phase 10 integration testing
+**Next step:** Phase 11 - Autonomous AI Decisions (patient chooses activities based on needs/personality)
