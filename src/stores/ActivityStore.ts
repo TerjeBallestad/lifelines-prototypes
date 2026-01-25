@@ -5,7 +5,6 @@ import type { RootStore } from './RootStore';
 import type {
   ActivityData,
   CapacityKey,
-  ResourceKey,
   NeedKey,
 } from '../entities/types';
 import { calculatePersonalityAlignment } from '../utils/personalityFit';
@@ -141,13 +140,9 @@ export class ActivityStore {
       return { canStart: false, reason: 'No character available' };
     }
 
-    // v1.1 vs v1.0: Check appropriate overskudd source
-    const overskudd =
-      this.root.needsSystemEnabled && character.actionResources
-        ? character.actionResources.overskudd
-        : character.resources.overskudd;
+    // Check overskudd threshold from action resources
+    const overskudd = character.actionResources.overskudd;
 
-    // Check overskudd threshold
     if (overskudd < activity.getResourceCosts(character).overskudd) {
       return {
         canStart: false,
@@ -166,11 +161,8 @@ export class ActivityStore {
         };
       }
 
-      // v1.1 vs v1.0: Check appropriate energy source
-      const energy =
-        this.root.needsSystemEnabled && character.needs
-          ? character.needs.energy
-          : character.resources.energy;
+      // Check energy from needs
+      const energy = character.needs.energy;
 
       if (minEnergy !== undefined && energy < minEnergy) {
         return {
@@ -430,31 +422,17 @@ export class ActivityStore {
       // FAILURE: Reduced mastery XP (50%), reduced domain XP happens via multiplier
       activity.addMasteryXP(5); // Half XP on failure
 
-      // Apply penalty resource effects (additional drain on key resources)
+      // Apply penalty: drain action resources
       if (character) {
         const penaltyDrain = 5; // Flat penalty
-
-        if (this.root.needsSystemEnabled && character.actionResources) {
-          // v1.1: Drain action resources
-          character.actionResources.overskudd = Math.max(
-            0,
-            character.actionResources.overskudd - penaltyDrain
-          );
-          character.actionResources.willpower = Math.max(
-            0,
-            character.actionResources.willpower - penaltyDrain
-          );
-        } else {
-          // v1.0: Drain legacy resources
-          character.resources.overskudd = Math.max(
-            0,
-            character.resources.overskudd - penaltyDrain
-          );
-          character.resources.mood = Math.max(
-            0,
-            character.resources.mood - penaltyDrain
-          );
-        }
+        character.actionResources.overskudd = Math.max(
+          0,
+          character.actionResources.overskudd - penaltyDrain
+        );
+        character.actionResources.willpower = Math.max(
+          0,
+          character.actionResources.willpower - penaltyDrain
+        );
       }
 
       const probabilityPercent = Math.round(probability * 100);
@@ -584,41 +562,13 @@ export class ActivityStore {
       }
     }
 
-    // Calculate alignment for need restoration and v1.0 resource effects
+    // Calculate alignment for need restoration
     const alignment = calculatePersonalityAlignment(
       activity.tags,
       character.personality
     );
 
-    // v1.0 ONLY: Apply legacy resource effects (skip in v1.1 mode)
-    if (!this.root.needsSystemEnabled) {
-      for (const [key, baseEffect] of Object.entries(
-        activity.resourceEffects
-      )) {
-        const resourceKey = key as ResourceKey;
-        let effect = baseEffect * speedMultiplier;
-
-        // Mastery reduces drain, modestly increases restore
-        if (effect < 0) {
-          // DRAIN: apply mastery reduction, alignment cost multiplier
-          effect *= 1 - activity.masteryDrainReduction;
-          effect *= alignment.costMultiplier; // aligned = lower costs
-        } else {
-          // RESTORE: apply mastery bonus, alignment gain multiplier
-          effect *= 1 + activity.masteryBonus * 0.5;
-          effect *= alignment.gainMultiplier; // aligned = higher gains
-        }
-
-        // Apply to character resources (clamp handled in updateResources)
-        const newValue = Math.max(
-          0,
-          Math.min(100, character.resources[resourceKey] + effect)
-        );
-        character.resources[resourceKey] = newValue;
-      }
-    }
-
-    // v1.1 Need restoration (if needs system enabled)
+    // Apply need restoration
     if (character.needs && activity.needEffects) {
       for (const [needKey, baseRestore] of Object.entries(
         activity.needEffects
