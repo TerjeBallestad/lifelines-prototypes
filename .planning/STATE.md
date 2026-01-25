@@ -6,24 +6,24 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** The player experiences satisfying growth by helping patients develop missing life skills - the victory isn't heroic, it's watching someone finally answer the phone.
 
-**Current focus:** Phase 10 COMPLETE - Ready for Phase 11 (Autonomous AI Decisions)
+**Current focus:** Phase 10.1 - Remove v1.0 Resource System (urgent cleanup)
 
 ## Current Position
 
-Phase: 10 of 12 (Activity-Need Integration) - COMPLETE
-Plan: 5 of 5 in current phase
-Status: Verified
-Last activity: 2026-01-25 - Completed 10-05 verification checkpoint
+Phase: 10.1 of 12 (Remove v1.0 Resources) - IN PROGRESS
+Plan: 1 of 3 in current phase
+Status: Plan 01 complete
+Last activity: 2026-01-25 - Completed 10.1-01-PLAN.md
 
-Progress: [██████████] ~100% (milestone v1.1, 18/18 plans across 10 phases)
+Progress: [██████████░] ~95% (19/20 plans: 18 phase 1-10 + 1 of 3 phase 10.1)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 17 (v1.1)
+- Total plans completed: 18 (v1.1)
 - Average duration: ~2.2 min (code plans only)
-- Total execution time: ~50 min (excluding human verification)
+- Total execution time: ~52 min (excluding human verification)
 
 **By Phase:**
 
@@ -34,6 +34,7 @@ Progress: [██████████] ~100% (milestone v1.1, 18/18 plans ac
 | 09-action-resources         | 3     | 19 min  | 6.3 min  |
 | 09.1-activity-difficulty    | 3     | 21 min  | 7.0 min  |
 | 10-activity-need-integration| 5     | ~12 min | 2.4 min  |
+| 10.1-remove-v1-resources    | 1     | 2.2 min | 2.2 min  |
 
 **Recent Trend:**
 
@@ -55,6 +56,7 @@ Progress: [██████████] ~100% (milestone v1.1, 18/18 plans ac
 - 10-03: 2.9 min (2 tasks, 1 file)
 - 10-04: 3.3 min (3 tasks, 4 files)
 - 10-05: Human verification (1 checkpoint + 2 bug fixes)
+- 10.1-01: 2.2 min (3 tasks, 4 files)
 - Trend: Consistent rapid delivery, verification checkpoints ~10-15 min
 
 **v1.0 Reference:**
@@ -215,6 +217,14 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - Introverts doing social activities drain ~11 socialBattery over 20 ticks
 - currentSocialContext properly set during activities for correct drift behavior
 
+**10.1-01 UI Cleanup:**
+
+- v1.1 needs toggle removed from SimulationControls
+- CharacterPanel unconditionally renders NeedsPanel (no ResourcePanel)
+- ComparisonView migrated to NeedsPanel
+- ResourcePanel.tsx deleted (dead code)
+- TypeScript errors on optional character.needs expected (fixed in Plan 02)
+
 ### Pending Todos
 
 No pending todos.
@@ -223,6 +233,7 @@ No pending todos.
 
 - Phase 9.1 inserted after Phase 9: Activity difficulty ratings and calculations (INSERTED)
 - Phase 9.1 scope adjusted: calculation and display only, cost integration moved to Phase 10
+- Phase 10.1 inserted after Phase 10: Remove v1.0 resource system (URGENT - reduce clutter)
 
 ### Blockers/Concerns
 
@@ -240,7 +251,7 @@ No pending todos.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Phase 10 COMPLETE
+Stopped at: Phase 10.1 Plan 01 COMPLETE
 Resume file: None
 
-**Next step:** Phase 11 - Autonomous AI Decisions (patient chooses activities based on needs/personality)
+**Next step:** Phase 10.1 Plan 02 - Remove v1.0 from Character model and RootStore
