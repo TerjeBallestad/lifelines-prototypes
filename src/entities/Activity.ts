@@ -2,7 +2,6 @@ import { makeAutoObservable } from 'mobx';
 import type {
   ActivityData,
   SkillDomain,
-  ResourceKey,
   CapacityKey,
   DurationMode,
   NeedKey,
@@ -47,7 +46,6 @@ export class Activity {
   readonly description: string;
   readonly domain: SkillDomain;
   readonly durationMode: DurationMode;
-  readonly resourceEffects: Partial<Record<ResourceKey, number>>;
   readonly capacityProfile: Partial<Record<CapacityKey, number>>;
   readonly baseXPRate: number;
   readonly startRequirements?: {
@@ -73,7 +71,6 @@ export class Activity {
     this.description = data.description;
     this.domain = data.domain;
     this.durationMode = data.durationMode;
-    this.resourceEffects = data.resourceEffects;
     this.capacityProfile = data.capacityProfile;
     this.baseXPRate = data.baseXPRate;
     this.startRequirements = data.startRequirements;

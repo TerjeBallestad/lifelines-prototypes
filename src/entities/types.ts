@@ -17,27 +17,6 @@ export type Capacities = {
   emotionalRegulation: number;
 };
 
-// Resources that drain and recover (9 total per CONTEXT.md)
-export type Resources = {
-  // Core vitality
-  energy: number;
-  socialBattery: number;
-  stress: number; // 0 = good (low stress), 100 = bad (high stress)
-
-  // Mental state
-  overskudd: number; // Norwegian: surplus/capacity/headroom
-  mood: number;
-  motivation: number;
-
-  // Stability & function
-  security: number;
-  focus: number; // Focus/Attention
-  nutrition: number; // Nutrition/Health
-};
-
-// Type-safe resource key access
-export type ResourceKey = keyof Resources;
-
 // ============================================================================
 // Primary Needs System Types (v1.1)
 // ============================================================================
@@ -191,7 +170,7 @@ export type CharacterData = {
   name: string;
   personality: Personality;
   capacities: Capacities;
-  resources: Resources;
+  needs?: Needs; // Optional for backward compatibility with saved data
 };
 
 // Factory functions - always return valid defaults (0-100 scale, 50 = average)
@@ -214,25 +193,6 @@ export function defaultCapacities(): Capacities {
     processingSpeed: 50,
     emotionalRegulation: 50,
   };
-}
-
-export function defaultResources(): Resources {
-  return {
-    // Full = best
-    energy: 100,
-    socialBattery: 100,
-    focus: 100,
-    nutrition: 100,
-    overskudd: 100,
-
-    // Low = best (inverted)
-    stress: 0,
-
-    // Neutral = average starting point
-    mood: 50,
-    motivation: 50,
-    security: 50,
-  } satisfies Resources;
 }
 
 // Import difficulty types (Phase 9.1)
@@ -277,7 +237,6 @@ export type CapacityKey = keyof Capacities;
 // Duration mode discriminated union
 export type DurationMode =
   | { type: 'fixed'; ticks: number } // fixed duration activities (eating)
-  | { type: 'threshold'; resource: ResourceKey; target: number } // until resource reaches target (sleeping until energy >= 80)
   | { type: 'needThreshold'; need: NeedKey; target: number } // until need reaches target (resting until needs.energy >= 80)
   | { type: 'variable'; baseTicks: number }; // affected by mastery
 
@@ -296,7 +255,6 @@ export type ActivityData = {
   description: string;
   domain: SkillDomain;
   durationMode: DurationMode;
-  resourceEffects: Partial<Record<ResourceKey, number>>; // negative = drain, positive = restore
   capacityProfile: Partial<Record<CapacityKey, number>>; // target capacity values for success calculation
   baseXPRate: number; // domain XP per tick
   startRequirements?: {

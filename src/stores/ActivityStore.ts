@@ -312,14 +312,8 @@ export class ActivityStore {
     switch (activity.durationMode.type) {
       case 'fixed':
         return this.currentProgress >= activity.durationMode.ticks;
-      case 'threshold': {
-        const { resource, target } = activity.durationMode;
-        return character.resources[resource] >= target;
-      }
       case 'needThreshold': {
-        // v1.1: Check needs instead of resources
         const { need, target } = activity.durationMode;
-        if (!character.needs) return true; // v1.0 mode - complete immediately
         return character.needs[need] >= target;
       }
       case 'variable': {
@@ -466,7 +460,6 @@ export class ActivityStore {
         return (
           activity.durationMode.baseTicks * (1 - activity.masterySpeedBonus)
         );
-      case 'threshold':
       case 'needThreshold':
         // Estimate ~30 ticks for threshold activities
         return 30;
