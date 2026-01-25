@@ -3,8 +3,6 @@ import type {
   CharacterData,
   Personality,
   Capacities,
-  Resources,
-  ResourceKey,
   CapacityKey,
   Needs,
   NeedKey,
@@ -23,8 +21,6 @@ import { needToMoodCurve, asymptoticClamp } from '../utils/curves';
 import { SmoothedValue } from '../utils/smoothing';
 import {
   personalityToModifier,
-  applyModifiers,
-  clampResource,
   type ResourceModifier,
 } from '../utils/modifiers';
 import { applyAsymptoticDecay } from '../utils/needsDecay';
@@ -34,23 +30,6 @@ import { type RootStore } from '../stores/RootStore';
 function capitalizeFirst(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
-
-// Base drain rates per tick (resources that naturally decrease)
-const BASE_DRAIN_RATES: Partial<Record<ResourceKey, number>> = {
-  energy: 0.5, // per tick
-  socialBattery: 0.3,
-  focus: 0.4,
-  nutrition: 0.2,
-  overskudd: 0.3,
-};
-
-// Base recovery rates per tick (resources that naturally recover)
-const BASE_RECOVERY_RATES: Partial<Record<ResourceKey, number>> = {
-  stress: 0.2, // stress recovers (goes down) naturally
-  mood: 0.1,
-  motivation: 0.1,
-  security: 0.05,
-};
 
 /**
  * Character entity - the core game object representing a patient.
@@ -62,10 +41,9 @@ export class Character {
   name: string;
   personality: Personality;
   capacities: Capacities;
-  resources: Resources;
-  needs?: Needs; // v1.1 Primary Needs (optional, initialized via initializeNeeds)
-  derivedStats?: DerivedStats; // v1.1 Derived Wellbeing (optional, initialized via initializeDerivedStats)
-  actionResources?: ActionResources; // v1.1 Action Resources (optional, initialized via initializeActionResources)
+  needs: Needs; // v1.1 Primary Needs (required)
+  derivedStats: DerivedStats; // v1.1 Derived Wellbeing (required)
+  actionResources: ActionResources; // v1.1 Action Resources (required)
 
   // Transient smoothers (not serialized, recreated on initialization)
   private moodSmoother?: SmoothedValue;
@@ -89,8 +67,12 @@ export class Character {
     this.name = data.name;
     this.personality = data.personality;
     this.capacities = data.capacities;
-    this.resources = data.resources;
     this.root = root;
+
+    // Always initialize v1.1 properties
+    this.needs = data.needs ?? defaultNeeds();
+    this.derivedStats = defaultDerivedStats();
+    this.actionResources = defaultActionResources();
 
     // Makes all properties observable and all methods actions
     makeAutoObservable(this);
@@ -136,21 +118,15 @@ export class Character {
     Object.assign(this.capacities, updates);
   }
 
-  // Action: update resources
-  updateResources(updates: Partial<Resources>): void {
-    Object.assign(this.resources, updates);
-  }
-
   // ============================================================================
   // v1.1 Primary Needs System
   // ============================================================================
 
   /**
-   * Action: Initialize the v1.1 primary needs system.
-   * Called when enabling v1.1 mode or creating a new character with needs.
+   * Action: Re-initialize derived stats and smoothers.
+   * Called when resetting character state.
    */
   initializeNeeds(): void {
-    this.needs = defaultNeeds();
     this.initializeDerivedStats();
   }
 
@@ -265,7 +241,7 @@ export class Character {
 
   /**
    * Action: Apply asymptotic decay to all primary needs.
-   * Called by SimulationStore.tick() when v1.1 mode is enabled.
+   * Called by SimulationStore.tick().
    *
    * Uses asymptotic decay formula to prevent death spirals:
    * decay slows as needs approach the floor value (5).
@@ -273,8 +249,8 @@ export class Character {
    * @param speedMultiplier - Simulation speed (1 = normal, higher = faster decay)
    */
   applyNeedsDecay(speedMultiplier: number): void {
-    // Guard: needs must be initialized and config must be available
-    if (!this.needs || !this.root?.balanceConfig) return;
+    // Guard: config must be available
+    if (!this.root?.balanceConfig) return;
 
     const config = this.root.balanceConfig.needsConfig;
     const mods = this.needsModifiers;
@@ -342,8 +318,8 @@ export class Character {
    * @returns Target mood value (typically 10-95 range)
    */
   get computedMoodTarget(): number {
-    // Guard: needs and config must be available
-    if (!this.needs || !this.root?.balanceConfig) return 50;
+    // Guard: config must be available
+    if (!this.root?.balanceConfig) return 50;
 
     const config = this.root.balanceConfig.derivedStatsConfig;
     const weights = config.needWeights;
@@ -389,8 +365,8 @@ export class Character {
    * @returns StatBreakdown with total and per-source contributions
    */
   get moodBreakdown(): StatBreakdown {
-    // Guard: if no needs, return neutral breakdown
-    if (!this.needs || !this.root?.balanceConfig) {
+    // Guard: config must be available
+    if (!this.root?.balanceConfig) {
       return { total: 50, contributions: [] };
     }
 
@@ -431,7 +407,7 @@ export class Character {
     }
 
     return {
-      total: Math.round(this.derivedStats?.mood ?? 50),
+      total: Math.round(this.derivedStats.mood),
       contributions,
     };
   }
@@ -478,16 +454,14 @@ export class Character {
    * @returns Mood modifier from nutrition (typically 0 to -20)
    */
   private getNutritionMoodModifier(): number {
-    // Guard: derivedStats and config must be available
-    if (!this.derivedStats || !this.root?.balanceConfig) return 0;
+    // Guard: config must be available
+    if (!this.root?.balanceConfig) return 0;
 
     const config = this.root.balanceConfig.derivedStatsConfig;
     // nutritionMoodPenalty is negative (e.g., -20)
     // At nutrition 100: penalty * 0 = 0
     // At nutrition 0: penalty * 1 = -20
-    return (
-      config.nutritionMoodPenalty * (1 - this.derivedStats.nutrition / 100)
-    );
+    return config.nutritionMoodPenalty * (1 - this.derivedStats.nutrition / 100);
   }
 
   /**
@@ -500,8 +474,8 @@ export class Character {
    * @returns Energy modifier (0.5 to 1.0)
    */
   getNutritionEnergyModifier(): number {
-    // Guard: derivedStats and config must be available
-    if (!this.derivedStats || !this.root?.balanceConfig) return 1.0;
+    // Guard: config must be available
+    if (!this.root?.balanceConfig) return 1.0;
 
     const config = this.root.balanceConfig.derivedStatsConfig;
     // Linear interpolation from min to max based on nutrition
@@ -538,9 +512,6 @@ export class Character {
    * @param amount - Amount to boost purpose by (typically 5-20)
    */
   boostPurpose(amount: number): void {
-    // Guard: derivedStats must be initialized
-    if (!this.derivedStats) return;
-
     // Compute new target, capped at 95
     const newTarget = Math.min(95, this.derivedStats.purpose + amount);
 
@@ -560,9 +531,8 @@ export class Character {
    * @returns Target overskudd value (0-100)
    */
   get overskuddTarget(): number {
-    // Guard: needs, derivedStats, and config must be available
-    if (!this.needs || !this.derivedStats || !this.root?.balanceConfig)
-      return 70;
+    // Guard: config must be available
+    if (!this.root?.balanceConfig) return 70;
 
     const config = this.root.balanceConfig.actionResourcesConfig;
     const mood = this.derivedStats.mood;
@@ -584,8 +554,8 @@ export class Character {
    * @returns StatBreakdown with Mood, Energy, Purpose contributions
    */
   get overskuddBreakdown(): StatBreakdown {
-    // Guard: if no action resources, return neutral breakdown
-    if (!this.needs || !this.derivedStats || !this.root?.balanceConfig) {
+    // Guard: config must be available
+    if (!this.root?.balanceConfig) {
       return { total: 70, contributions: [] };
     }
 
@@ -610,7 +580,7 @@ export class Character {
     ];
 
     return {
-      total: Math.round(this.actionResources?.overskudd ?? 70),
+      total: Math.round(this.actionResources.overskudd),
       contributions,
     };
   }
@@ -659,7 +629,7 @@ export class Character {
     }
 
     return {
-      total: Math.round(this.actionResources?.socialBattery ?? 70),
+      total: Math.round(this.actionResources.socialBattery),
       contributions: [
         { source: 'Context', value: this.currentSocialContext },
         { source: 'Extraversion', value: Math.round(extraversion) },
@@ -687,7 +657,7 @@ export class Character {
    */
   get focusBreakdown(): StatBreakdown {
     return {
-      total: Math.round(this.actionResources?.focus ?? 100),
+      total: Math.round(this.actionResources.focus),
       contributions: [{ source: 'Resting', value: 100 }],
     };
   }
@@ -698,8 +668,8 @@ export class Character {
    * @returns Target willpower value (0-100)
    */
   get willpowerTarget(): number {
-    // Guard: needs and config must be available
-    if (!this.needs || !this.root?.balanceConfig) return 80;
+    // Guard: config must be available
+    if (!this.root?.balanceConfig) return 80;
 
     const config = this.root.balanceConfig.actionResourcesConfig;
     const fun = this.needs.fun;
@@ -717,8 +687,8 @@ export class Character {
    * @returns StatBreakdown showing Fun boost
    */
   get willpowerBreakdown(): StatBreakdown {
-    // Guard: if no needs, return neutral breakdown
-    if (!this.needs || !this.root?.balanceConfig) {
+    // Guard: config must be available
+    if (!this.root?.balanceConfig) {
       return { total: 80, contributions: [] };
     }
 
@@ -727,7 +697,7 @@ export class Character {
     const funBoost = (fun / 100) * config.willpowerFunBoost * 100;
 
     return {
-      total: Math.round(this.actionResources?.willpower ?? 80),
+      total: Math.round(this.actionResources.willpower),
       contributions: [
         { source: 'Base', value: 80 },
         { source: 'Fun boost', value: Math.round(funBoost * 10) / 10 },
@@ -740,13 +710,13 @@ export class Character {
    * Updates mood toward target, decays purpose toward equilibrium,
    * and updates nutrition from food quality.
    *
-   * Called by applyTickUpdate() when v1.1 needs system is enabled.
+   * Called by applyTickUpdate().
    *
    * @param speedMultiplier - Simulation speed (1 = normal, higher = faster changes)
    */
   applyDerivedStatsUpdate(speedMultiplier: number): void {
-    // Guard: derivedStats and config must be available
-    if (!this.derivedStats || !this.root?.balanceConfig) return;
+    // Guard: config must be available
+    if (!this.root?.balanceConfig) return;
 
     const config = this.root.balanceConfig.derivedStatsConfig;
 
@@ -788,8 +758,8 @@ export class Character {
    * @param speedMultiplier - Simulation speed (1 = normal, higher = faster changes)
    */
   applyActionResourcesUpdate(speedMultiplier: number): void {
-    // Guard: actionResources and config must be available
-    if (!this.actionResources || !this.root?.balanceConfig) return;
+    // Guard: config must be available
+    if (!this.root?.balanceConfig) return;
 
     const config = this.root.balanceConfig.actionResourcesConfig;
 
@@ -884,11 +854,7 @@ export class Character {
    * @param amount - Amount of focus to spend
    */
   spendFocus(amount: number): void {
-    if (!this.actionResources) return;
-    this.actionResources.focus = Math.max(
-      0,
-      this.actionResources.focus - amount
-    );
+    this.actionResources.focus = Math.max(0, this.actionResources.focus - amount);
   }
 
   /**
@@ -897,7 +863,6 @@ export class Character {
    * @param amount - Amount of willpower to spend
    */
   spendWillpower(amount: number): void {
-    if (!this.actionResources) return;
     this.actionResources.willpower = Math.max(
       0,
       this.actionResources.willpower - amount
@@ -905,129 +870,8 @@ export class Character {
   }
 
   // ============================================================================
-  // v1.0 Resource Modifiers (existing system)
+  // Talent System Integration
   // ============================================================================
-
-  /**
-   * Computed: Active modifiers based on current personality traits.
-   * Each Big Five trait affects specific resources:
-   * - Extraversion: Low = +drain socialBattery, High = +recovery mood
-   * - Neuroticism: High = +drain stress, -recovery stress
-   * - Conscientiousness: High = +recovery focus, Low = +drain motivation
-   * - Openness: High = +recovery overskudd
-   * - Agreeableness: High = +recovery socialBattery
-   */
-  get activeModifiers(): Array<ResourceModifier> {
-    const modifiers = Array<ResourceModifier>();
-    const {
-      extraversion,
-      neuroticism,
-      conscientiousness,
-      openness,
-      agreeableness,
-    } = this.personality;
-
-    // Get personality modifier strength from balance config (default 1.0)
-    const strength =
-      this.root?.balanceConfig?.personalityModifierStrength ?? 1.0;
-
-    // Helper to apply strength multiplier to personality modifiers
-    const scaledModifier = (traitValue: number) =>
-      personalityToModifier(traitValue) * strength;
-
-    // Extraversion effects
-    if (extraversion < 50) {
-      // Introverts drain socialBattery faster in social situations
-      modifiers.push({
-        resourceKey: 'socialBattery',
-        source: 'low extraversion',
-        drainModifier: scaledModifier(100 - extraversion), // Invert: low E = high drain
-        recoveryModifier: 0,
-      });
-    }
-    if (extraversion > 50) {
-      // Extraverts recover mood faster
-      modifiers.push({
-        resourceKey: 'mood',
-        source: 'high extraversion',
-        drainModifier: 0,
-        recoveryModifier: scaledModifier(extraversion),
-      });
-    }
-
-    // Neuroticism effects
-    if (neuroticism > 50) {
-      // High N = stress builds faster and is harder to reduce
-      modifiers.push({
-        resourceKey: 'stress',
-        source: 'high neuroticism',
-        drainModifier: scaledModifier(neuroticism), // For stress, "drain" means it increases
-        recoveryModifier: -scaledModifier(neuroticism), // Negative = slower recovery
-      });
-    }
-
-    // Conscientiousness effects
-    if (conscientiousness > 50) {
-      // High C = better focus recovery
-      modifiers.push({
-        resourceKey: 'focus',
-        source: 'high conscientiousness',
-        drainModifier: 0,
-        recoveryModifier: scaledModifier(conscientiousness),
-      });
-    }
-    if (conscientiousness < 50) {
-      // Low C = motivation drains faster
-      modifiers.push({
-        resourceKey: 'motivation',
-        source: 'low conscientiousness',
-        drainModifier: scaledModifier(100 - conscientiousness), // Invert: low C = high drain
-        recoveryModifier: 0,
-      });
-    }
-
-    // Openness effects
-    if (openness > 50) {
-      // High O = mental flexibility aids overskudd recovery
-      modifiers.push({
-        resourceKey: 'overskudd',
-        source: 'high openness',
-        drainModifier: 0,
-        recoveryModifier: scaledModifier(openness),
-      });
-    }
-
-    // Agreeableness effects
-    if (agreeableness > 50) {
-      // High A = social situations less draining
-      modifiers.push({
-        resourceKey: 'socialBattery',
-        source: 'high agreeableness',
-        drainModifier: 0,
-        recoveryModifier: scaledModifier(agreeableness),
-      });
-    }
-
-    // Add talent modifiers for resources
-    if (this.root?.talentStore) {
-      const talents = this.root.talentStore.selectedTalentsArray;
-      for (const talent of talents) {
-        for (const effect of talent.effects) {
-          // Only apply resource modifiers here (percentage type for drain/recovery)
-          if (effect.target === 'resource' && effect.type === 'percentage') {
-            modifiers.push({
-              resourceKey: effect.targetKey as ResourceKey,
-              source: talent.name,
-              drainModifier: effect.value, // positive = faster drain, negative = slower
-              recoveryModifier: 0,
-            });
-          }
-        }
-      }
-    }
-
-    return modifiers;
-  }
 
   /**
    * Computed: Effective capacities including talent flat bonuses.
@@ -1091,128 +935,31 @@ export class Character {
   }
 
   /**
-   * Computed: Breakdown of resource modifiers by talent.
-   * Returns map of resourceKey -> array of { source, value, type } for UI display.
-   */
-  get resourceModifierBreakdown(): Map<
-    ResourceKey,
-    Array<{ source: string; value: number; type: 'drain' | 'recovery' }>
-  > {
-    const breakdown = new Map<
-      ResourceKey,
-      Array<{ source: string; value: number; type: 'drain' | 'recovery' }>
-    >();
-
-    if (this.root?.talentStore) {
-      const talents = this.root.talentStore.selectedTalentsArray;
-      for (const talent of talents) {
-        for (const effect of talent.effects) {
-          if (effect.target === 'resource' && effect.type === 'percentage') {
-            const key = effect.targetKey as ResourceKey;
-            const entry = {
-              source: talent.name,
-              value: effect.value,
-              type: (effect.value > 0 ? 'drain' : 'recovery') as
-                | 'drain'
-                | 'recovery',
-            };
-            const existing = breakdown.get(key);
-            if (existing) {
-              existing.push(entry);
-            } else {
-              breakdown.set(key, [entry]);
-            }
-          }
-        }
-      }
-    }
-
-    return breakdown;
-  }
-
-  /**
-   * Computes effective drain rate for a resource after applying modifiers.
-   */
-  effectiveDrainRate(key: ResourceKey): number {
-    const base = BASE_DRAIN_RATES[key] ?? 0;
-    const mods = this.activeModifiers
-      .filter((m) => m.resourceKey === key)
-      .map((m) => m.drainModifier);
-    return applyModifiers(base, mods);
-  }
-
-  /**
-   * Computes effective recovery rate for a resource after applying modifiers.
-   */
-  effectiveRecoveryRate(key: ResourceKey): number {
-    const base = BASE_RECOVERY_RATES[key] ?? 0;
-    const mods = this.activeModifiers
-      .filter((m) => m.resourceKey === key)
-      .map((m) => m.recoveryModifier);
-    return applyModifiers(base, mods);
-  }
-
-  /**
    * Action: Apply time-based resource updates for one simulation tick.
    * Called by SimulationStore.tick() each tick.
    *
-   * Branches based on needsSystemEnabled toggle:
-   * - v1.1 (enabled): Apply needs decay via applyNeedsDecay()
-   * - v1.0 (disabled): Apply resource drain/recovery via existing logic
+   * Runs v1.1 needs system: needs decay -> derived stats -> action resources
    *
    * @param speedMultiplier - Simulation speed (1 = normal, higher = faster drain/recovery)
    */
   applyTickUpdate(speedMultiplier: number): void {
-    const needsEnabled = this.root?.needsSystemEnabled ?? false;
-
-    if (needsEnabled && this.needs) {
-      // v1.1: Apply needs decay (asymptotic to prevent death spirals)
-      this.applyNeedsDecay(speedMultiplier);
-      // v1.1: Apply derived stats update (mood, purpose, nutrition)
-      this.applyDerivedStatsUpdate(speedMultiplier);
-      // v1.1: Apply action resources update (overskudd, socialBattery, focus, willpower)
-      this.applyActionResourcesUpdate(speedMultiplier);
-    } else {
-      // v1.0: Apply resource drain/recovery
-
-      // Apply drain to draining resources
-      for (const key of Object.keys(BASE_DRAIN_RATES) as Array<ResourceKey>) {
-        const effectiveRate = this.effectiveDrainRate(key);
-        const drain = effectiveRate * speedMultiplier;
-        this.resources[key] = clampResource(this.resources[key] - drain);
-      }
-
-      // Apply recovery to recovering resources
-      for (const key of Object.keys(
-        BASE_RECOVERY_RATES
-      ) as Array<ResourceKey>) {
-        const effectiveRate = this.effectiveRecoveryRate(key);
-        const recovery = effectiveRate * speedMultiplier;
-
-        // Stress is inverse: recovery means it goes DOWN (good)
-        if (key === 'stress') {
-          this.resources[key] = clampResource(this.resources[key] - recovery);
-        } else {
-          this.resources[key] = clampResource(this.resources[key] + recovery);
-        }
-      }
-    }
+    // v1.1: Apply needs decay (asymptotic to prevent death spirals)
+    this.applyNeedsDecay(speedMultiplier);
+    // v1.1: Apply derived stats update (mood, purpose, nutrition)
+    this.applyDerivedStatsUpdate(speedMultiplier);
+    // v1.1: Apply action resources update (overskudd, socialBattery, focus, willpower)
+    this.applyActionResourcesUpdate(speedMultiplier);
   }
 
   // Computed boundary state flags for game logic
 
   /** True when energy is critically low (<= 10) */
   get isExhausted(): boolean {
-    return this.resources.energy <= 10;
-  }
-
-  /** True when stress is critically high (>= 90) */
-  get isOverstressed(): boolean {
-    return this.resources.stress >= 90;
+    return this.needs.energy <= 10;
   }
 
   /** True when social battery is critically low (<= 10) */
   get isSociallyDrained(): boolean {
-    return this.resources.socialBattery <= 10;
+    return this.actionResources.socialBattery <= 10;
   }
 }
