@@ -135,11 +135,32 @@ Plans:
 **Plans:** 5 plans
 
 Plans:
-- [ ] 10-01-PLAN.md — Core types (tags, needEffects) and personality alignment utility
-- [ ] 10-02-PLAN.md — Activity.getResourceCosts method and starter activities data
-- [ ] 10-03-PLAN.md — Need restoration and cost integration in ActivityStore
-- [ ] 10-04-PLAN.md — UI feedback (FloatingNumber, tooltips, completion summary)
-- [ ] 10-05-PLAN.md — Human verification checkpoint
+- [x] 10-01-PLAN.md — Core types (tags, needEffects) and personality alignment utility
+- [x] 10-02-PLAN.md — Activity.getResourceCosts method and starter activities data
+- [x] 10-03-PLAN.md — Need restoration and cost integration in ActivityStore
+- [x] 10-04-PLAN.md — UI feedback (FloatingNumber, tooltips, completion summary)
+- [x] 10-05-PLAN.md — Human verification checkpoint
+
+### Phase 10.1: Remove v1.0 Resource System (INSERTED)
+**Goal:** Remove legacy v1.0 flat resource system now that v1.1 needs-based system is verified, reducing code complexity and UI clutter.
+
+**Depends on:** Phase 10
+
+**Requirements:** MIGR-01 (cleanup)
+
+**Success Criteria** (what must be TRUE):
+1. v1.0 resource properties removed from Character (energy, mood, overskudd as flat values)
+2. v1.0 resourceEffects removed from activities (legacy drain/restore values)
+3. needsSystemEnabled toggle removed (v1.1 is now the only system)
+4. UI no longer shows old resource bars or toggle
+5. No runtime errors when starting fresh game
+
+**Plans:** 3 plans
+
+Plans:
+- [ ] 10.1-01-PLAN.md — Remove toggle UI and conditional rendering
+- [ ] 10.1-02-PLAN.md — Remove v1.0 from stores, types, and activity data
+- [ ] 10.1-03-PLAN.md — Human verification checkpoint
 
 ### Phase 11: Autonomous AI
 **Goal:** Patient autonomously selects activities based on utility scoring of need urgency, personality fit, and resource availability.
@@ -184,7 +205,7 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 7 → 8 → 9 → 9.1 → 10 → 11 → 12
+Phases execute in numeric order: 7 → 8 → 9 → 9.1 → 10 → 10.1 → 11 → 12
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -192,10 +213,11 @@ Phases execute in numeric order: 7 → 8 → 9 → 9.1 → 10 → 11 → 12
 | 8. Derived Wellbeing | v1.1 | 4/4 | ✓ Complete | 2026-01-23 |
 | 9. Action Resources | v1.1 | 3/3 | ✓ Complete | 2026-01-23 |
 | 9.1 Activity Difficulty | v1.1 | 3/3 | ✓ Complete | 2026-01-23 |
-| 10. Activity-Need Integration | v1.1 | 0/5 | Not started | - |
+| 10. Activity-Need Integration | v1.1 | 5/5 | ✓ Complete | 2026-01-25 |
+| 10.1 Remove v1.0 Resources | v1.1 | 0/3 | Not started | - |
 | 11. Autonomous AI | v1.1 | 0/TBD | Not started | - |
 | 12. Tuning & Balance | v1.1 | 0/TBD | Not started | - |
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-23 (Phase 10 planned)*
+*Last updated: 2026-01-25 (Phase 10.1 planned)*
