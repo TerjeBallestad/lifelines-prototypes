@@ -11,30 +11,30 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 ## Current Position
 
 Phase: 10.1 of 12 (Remove v1.0 Resources) - IN PROGRESS
-Plan: 1 of 3 in current phase
-Status: Plan 01 complete
-Last activity: 2026-01-25 - Completed 10.1-01-PLAN.md
+Plan: 2 of 3 in current phase
+Status: Plan 02 complete
+Last activity: 2026-01-25 - Completed 10.1-02-PLAN.md
 
-Progress: [██████████░] ~95% (19/20 plans: 18 phase 1-10 + 1 of 3 phase 10.1)
+Progress: [██████████░] ~96% (20/21 plans: 18 phase 1-10 + 2 of 3 phase 10.1)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 18 (v1.1)
-- Average duration: ~2.2 min (code plans only)
-- Total execution time: ~52 min (excluding human verification)
+- Total plans completed: 20 (v1.1)
+- Average duration: ~3.5 min (code plans only)
+- Total execution time: ~62 min (excluding human verification)
 
 **By Phase:**
 
-| Phase                       | Plans | Total   | Avg/Plan |
-| --------------------------- | ----- | ------- | -------- |
-| 07-primary-needs            | 3     | 5 min   | 1.7 min  |
-| 08-derived-wellbeing        | 4     | 7 min   | 2.3 min  |
-| 09-action-resources         | 3     | 19 min  | 6.3 min  |
-| 09.1-activity-difficulty    | 3     | 21 min  | 7.0 min  |
-| 10-activity-need-integration| 5     | ~12 min | 2.4 min  |
-| 10.1-remove-v1-resources    | 1     | 2.2 min | 2.2 min  |
+| Phase                       | Plans | Total    | Avg/Plan |
+| --------------------------- | ----- | -------- | -------- |
+| 07-primary-needs            | 3     | 5 min    | 1.7 min  |
+| 08-derived-wellbeing        | 4     | 7 min    | 2.3 min  |
+| 09-action-resources         | 3     | 19 min   | 6.3 min  |
+| 09.1-activity-difficulty    | 3     | 21 min   | 7.0 min  |
+| 10-activity-need-integration| 5     | ~12 min  | 2.4 min  |
+| 10.1-remove-v1-resources    | 2     | 12.1 min | 6.1 min  |
 
 **Recent Trend:**
 
@@ -57,6 +57,7 @@ Progress: [██████████░] ~95% (19/20 plans: 18 phase 1-10 +
 - 10-04: 3.3 min (3 tasks, 4 files)
 - 10-05: Human verification (1 checkpoint + 2 bug fixes)
 - 10.1-01: 2.2 min (3 tasks, 4 files)
+- 10.1-02: 9.9 min (3 tasks + 1 bug fix, 7 files)
 - Trend: Consistent rapid delivery, verification checkpoints ~10-15 min
 
 **v1.0 Reference:**
@@ -76,8 +77,8 @@ Decisions are logged in PROJECT.md Key Decisions table.
 **v1.1 Architecture decisions:**
 
 - MobX computed values for needs derivation (Mood from needs -> Overskudd from mood/energy/purpose)
-- Parallel v1.0/v1.1 with toggle, preserving validated mechanics
 - Bottom-up dependency chain: Primary needs -> Derived wellbeing -> Action resources -> Autonomous AI
+- v1.0 system fully removed (Phase 10.1)
 
 **v1.1 Resource model:**
 
@@ -86,9 +87,8 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - Action Resources (4): Overskudd, socialBattery, Focus, Willpower
 - Health Stats (1): Nutrition (slow-moving, affects Energy regen and Mood)
 
-**07-02 Toggle Implementation:**
+**07-02 Toggle Implementation (REMOVED in 10.1-02):**
 
-- needsSystemEnabled toggle in RootStore controls which system runs
 - Color thresholds for urgency: green >= 70, yellow >= 40, orange >= 20, red < 20
 - Critical indicator: animate-pulse for needs below 20%
 
@@ -225,6 +225,18 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - ResourcePanel.tsx deleted (dead code)
 - TypeScript errors on optional character.needs expected (fixed in Plan 02)
 
+**10.1-02 Core Data Model Cleanup:**
+
+- Removed needsSystemEnabled toggle and all v1.0 fallback branches from stores
+- Made Character.needs/derivedStats/actionResources required (always initialized in constructor)
+- Removed Resources/ResourceKey types, BASE_DRAIN_RATES/BASE_RECOVERY_RATES constants
+- Removed all v1.0 methods from Character (activeModifiers, effectiveDrainRate, effectiveRecoveryRate, resourceModifierBreakdown)
+- Removed resourceEffects from activities (only needEffects remain)
+- Removed threshold DurationMode variant (used ResourceKey)
+- Fixed broken ActivityCard resourceEffects preview (Rule 1 deviation)
+- Character entity reduced by 253 lines (21% smaller)
+- Net reduction: ~420 lines across 7 files
+
 ### Pending Todos
 
 No pending todos.
@@ -251,7 +263,7 @@ No pending todos.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Phase 10.1 Plan 01 COMPLETE
+Stopped at: Phase 10.1 Plan 02 COMPLETE
 Resume file: None
 
-**Next step:** Phase 10.1 Plan 02 - Remove v1.0 from Character model and RootStore
+**Next step:** Phase 10.1 Plan 03 - Final cleanup (if exists) or Phase 11 - Autonomous AI
