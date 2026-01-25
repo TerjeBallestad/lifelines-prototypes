@@ -3,7 +3,6 @@ import { Character } from '../entities/Character';
 import {
   defaultPersonality,
   defaultCapacities,
-  defaultResources,
   type CharacterData,
 } from '../entities/types';
 import { type RootStore } from './RootStore';
@@ -28,7 +27,6 @@ export class CharacterStore {
       name,
       personality: defaultPersonality(),
       capacities: defaultCapacities(),
-      resources: defaultResources(),
     });
     // Set root store reference for talent modifier access
     char.setRootStore(this.root);

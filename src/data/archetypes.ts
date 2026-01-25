@@ -1,5 +1,5 @@
 import type { CharacterData, Personality } from '../entities/types';
-import { defaultCapacities, defaultResources } from '../entities/types';
+import { defaultCapacities } from '../entities/types';
 
 /**
  * Archetype configuration for preset characters.
@@ -120,7 +120,6 @@ export function createArchetypeCharacter(archetypeId: string): CharacterData {
     name: archetype.name,
     personality: archetype.personality,
     capacities: defaultCapacities(),
-    resources: defaultResources(),
   };
 }
 
@@ -140,6 +139,5 @@ export function createRandomCharacter(): CharacterData {
       neuroticism: Math.random() * 100,
     },
     capacities: defaultCapacities(),
-    resources: defaultResources(),
   };
 }
