@@ -11,11 +11,11 @@ See: .planning/PROJECT.md (updated 2026-01-26 with GDD vision)
 ## Current Position
 
 Phase: 11 of 12 (Autonomous AI) - IN PROGRESS
-Plan: 2 of 4 in current phase
+Plan: 3 of 4 in current phase
 Status: In progress
-Last activity: 2026-01-26 - Completed 11-02-PLAN.md (UtilityAIStore)
+Last activity: 2026-01-26 - Completed 11-03-PLAN.md (AI Components)
 
-Progress: [██████████░░] 92% (23/25 plans: 18 phases 7-10 + 3 phase 10.1 + 2 phase 11)
+Progress: [███████████░] 96% (24/25 plans: 18 phases 7-10 + 3 phase 10.1 + 3 phase 11)
 
 ## Performance Metrics
 
@@ -35,7 +35,7 @@ Progress: [██████████░░] 92% (23/25 plans: 18 phases 7-1
 | 09.1-activity-difficulty    | 3     | 21 min   | 7.0 min  |
 | 10-activity-need-integration| 5     | ~12 min  | 2.4 min  |
 | 10.1-remove-v1-resources    | 3     | ~15 min  | 5.0 min  |
-| 11-autonomous-ai            | 2     | 5.2 min  | 2.6 min  |
+| 11-autonomous-ai            | 3     | 6.7 min  | 2.2 min  |
 
 **Recent Trend:**
 
@@ -62,6 +62,7 @@ Progress: [██████████░░] 92% (23/25 plans: 18 phases 7-1
 - quick-001: 7.9 min (2 tasks, 2 files) - Documentation update
 - 11-01: 2.4 min (2 tasks, 2 files)
 - 11-02: 2.8 min (3 tasks, 3 files)
+- 11-03: 1.5 min (3 tasks, 3 files)
 - Trend: Consistent rapid delivery, verification checkpoints ~10-15 min
 
 **v1.0 Reference:**
@@ -290,6 +291,13 @@ No pending todos.
 - Decision log stores last 5 decisions with full breakdown
 - Personality-based variety multiplier: openness flattens distribution, conscientiousness sharpens
 
+**11-03 AI Components:**
+
+- AI processTick wired to simulation tick (after activityStore.processTick)
+- DecisionLogPanel shows last 5 decisions with expandable breakdown
+- Free Will toggle in CharacterPanel's new Autonomy section
+- Collapsible decision log with critical mode badges and utility factor details
+
 ### Quick Tasks Completed
 
 | # | Description | Date | Commit | Directory |
@@ -299,7 +307,7 @@ No pending todos.
 ## Session Continuity
 
 Last session: 2026-01-26
-Stopped at: Completed 11-02-PLAN.md (UtilityAIStore)
+Stopped at: Completed 11-03-PLAN.md (AI Components)
 Resume file: None
 
-**Next step:** 11-03-PLAN.md - AI Components (UI for Free Will toggle and decision log)
+**Next step:** 11-04-PLAN.md - Human verification of complete autonomous AI system
