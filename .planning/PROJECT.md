@@ -8,6 +8,40 @@ A React-based prototype validating emergent character behavior through simple ps
 
 The player experiences satisfying growth by helping patients develop missing life skills - the victory isn't heroic, it's watching someone finally answer the phone.
 
+## Design Pillars
+
+**Pillar 1: Empathetic Curiosity (Empatisk nysgjerrighet)**
+
+Each character's personality emerges from simple systems that the player can explore, creating thought-provoking curiosity.
+
+**Pillar 2: Satisfying Growth (Tilfredsstillende vekst)**
+
+The game has an artistic style, colors, and systems that are both cozy and satisfying to watch. The player experiences mastery and joy from seeing characters and numbers grow.
+
+**Pillar 3: Humorous Contrast (Humoristisk kontrast)**
+
+Humor is never far away, creating lightness between the emotional moments.
+
+## Norwegian Storytelling
+
+Lifelines explores Norwegian storytelling in an interactive setting - not trying to make an American or Japanese game, but a uniquely Norwegian one.
+
+**Focus on identity, not power:**
+
+| American (Hero's Journey) | Japanese (Purification) | Norwegian (Identity/Competence) |
+|---------------------------|-------------------------|----------------------------------|
+| Weak → Strong             | Corrupt → Pure          | Lost → Found                     |
+| Power fantasy             | Cleanse corruption      | Realistic competence             |
+| Individual destiny        | Restore nature's order  | Integration with society         |
+| Combat mastery            | Environmental puzzles   | Skill mastery                    |
+| Save the world            | Purify the world        | Understand yourself              |
+
+**"Klokskap over kraft" (wisdom over strength):**
+
+Victory in Lifelines is realistic competence, not heroic power. Characters learn ordinary life skills. The welfare system can be a "hero" of the narrative - it enables recovery through smart diagnosis and patient support.
+
+**Core fantasy:** The victory isn't heroic, it's watching someone finally answer the phone.
+
 ## Requirements
 
 ### Validated
