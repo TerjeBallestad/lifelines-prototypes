@@ -149,6 +149,74 @@ export const STARTER_ACTIVITIES: Array<ActivityData> = [
     needEffects: {}, // No immediate need restoration
   },
 
+  // === PHYSIOLOGICAL ACTIVITIES ===
+  {
+    id: 'eat-meal',
+    name: 'Eat a Meal',
+    description: 'Prepare and eat a simple meal',
+    domain: 'physical',
+    durationMode: { type: 'fixed', ticks: 20 },
+    capacityProfile: {}, // Anyone can eat
+    baseXPRate: 0.5,
+    startRequirements: {}, // Can always eat
+    baseDifficulty: 1,
+    skillRequirements: [],
+    tags: ['solo', 'routine'],
+    needEffects: {
+      hunger: 5, // Primary hunger restoration
+      energy: 1, // Small energy boost from food
+    },
+  },
+  {
+    id: 'eat-snack',
+    name: 'Have a Snack',
+    description: 'Grab a quick snack',
+    domain: 'physical',
+    durationMode: { type: 'fixed', ticks: 8 },
+    capacityProfile: {},
+    baseXPRate: 0.2,
+    startRequirements: {},
+    baseDifficulty: 1,
+    skillRequirements: [],
+    tags: ['solo'],
+    needEffects: {
+      hunger: 2, // Small hunger restoration
+    },
+  },
+  {
+    id: 'use-bathroom',
+    name: 'Use Bathroom',
+    description: 'Take a bathroom break',
+    domain: 'physical',
+    durationMode: { type: 'fixed', ticks: 5 },
+    capacityProfile: {},
+    baseXPRate: 0,
+    startRequirements: {},
+    baseDifficulty: 1,
+    skillRequirements: [],
+    tags: ['solo'],
+    needEffects: {
+      bladder: 8, // High bladder restoration
+    },
+  },
+  {
+    id: 'take-shower',
+    name: 'Take a Shower',
+    description: 'Clean up with a refreshing shower',
+    domain: 'physical',
+    durationMode: { type: 'fixed', ticks: 15 },
+    capacityProfile: {},
+    baseXPRate: 0.3,
+    startRequirements: {},
+    baseDifficulty: 1,
+    skillRequirements: [],
+    tags: ['solo', 'routine'],
+    needEffects: {
+      hygiene: 6, // Primary hygiene restoration
+      energy: 0.5, // Slightly refreshing
+    },
+  },
+
   // === RESTORATIVE ACTIVITIES ===
   {
     id: 'rest',
