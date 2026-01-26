@@ -56,6 +56,9 @@ export class Character {
   /** Current social context for socialBattery drain/charge calculation */
   currentSocialContext: SocialContext = 0; // Default to Solo
 
+  /** Free Will toggle - when true, AI fills idle time autonomously */
+  freeWillEnabled = true; // Default ON per CONTEXT.md
+
   private root?: RootStore;
 
   constructor(data: CharacterData, root?: RootStore) {
@@ -102,6 +105,15 @@ export class Character {
   // Action: update name
   setName(name: string): void {
     this.name = name;
+  }
+
+  /**
+   * Action: Toggle Free Will mode for this character.
+   * When enabled, AI will autonomously select activities when idle.
+   * When disabled, character only does player-assigned activities.
+   */
+  setFreeWill(enabled: boolean): void {
+    this.freeWillEnabled = enabled;
   }
 
   // Action: update personality dimensions
