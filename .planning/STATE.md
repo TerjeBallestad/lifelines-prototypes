@@ -6,16 +6,16 @@ See: .planning/PROJECT.md (updated 2026-01-26 with GDD vision)
 
 **Core value:** The player experiences satisfying growth by helping patients develop missing life skills - the victory isn't heroic, it's watching someone finally answer the phone.
 
-**Current focus:** Phase 11 - Autonomous AI (next up)
+**Current focus:** Phase 11 - Autonomous AI (in progress)
 
 ## Current Position
 
-Phase: 10.1 of 12 (Remove v1.0 Resources) - COMPLETE
-Plan: 3 of 3 in current phase
-Status: Verified
-Last activity: 2026-01-26 - Completed quick-001 (Update docs with GDD)
+Phase: 11 of 12 (Autonomous AI) - IN PROGRESS
+Plan: 1 of 4 in current phase
+Status: In progress
+Last activity: 2026-01-26 - Completed 11-01-PLAN.md (Utility Scoring Foundation)
 
-Progress: [██████████] 100% (21/21 plans: 18 phases 7-10 + 3 phase 10.1)
+Progress: [██████████░░] 88% (22/25 plans: 18 phases 7-10 + 3 phase 10.1 + 1 phase 11)
 
 ## Performance Metrics
 
@@ -35,6 +35,7 @@ Progress: [██████████] 100% (21/21 plans: 18 phases 7-10 + 3
 | 09.1-activity-difficulty    | 3     | 21 min   | 7.0 min  |
 | 10-activity-need-integration| 5     | ~12 min  | 2.4 min  |
 | 10.1-remove-v1-resources    | 3     | ~15 min  | 5.0 min  |
+| 11-autonomous-ai            | 1     | 2.4 min  | 2.4 min  |
 
 **Recent Trend:**
 
@@ -59,6 +60,7 @@ Progress: [██████████] 100% (21/21 plans: 18 phases 7-10 + 3
 - 10.1-01: 2.2 min (3 tasks, 4 files)
 - 10.1-02: 9.9 min (3 tasks + 1 bug fix, 7 files)
 - quick-001: 7.9 min (2 tasks, 2 files) - Documentation update
+- 11-01: 2.4 min (2 tasks, 2 files)
 - Trend: Consistent rapid delivery, verification checkpoints ~10-15 min
 
 **v1.0 Reference:**
@@ -270,6 +272,14 @@ No pending todos.
 - Simulation runs without runtime errors
 - Orchestrator fixed 7 additional v1.0 references during verification
 
+**11-01 Utility Scoring Foundation:**
+
+- 5 utility factors: needUrgency (30%), personalityFit (20%), resourceAvailability (15%), willpowerMatch (15%), moodDelta (20%)
+- Critical mode threshold: 15% for hunger/bladder/energy triggers survival override
+- Hysteresis bonus: 25% for current activity to prevent constant switching
+- All scoring functions return 0-100 normalized values (except scoreInCriticalMode)
+- Types: UtilityFactors, UtilityWeights, AIDecision, DecisionLog + DEFAULT_UTILITY_WEIGHTS constant
+
 ### Quick Tasks Completed
 
 | # | Description | Date | Commit | Directory |
@@ -279,7 +289,7 @@ No pending todos.
 ## Session Continuity
 
 Last session: 2026-01-26
-Stopped at: Completed quick-001 (Update docs with GDD)
+Stopped at: Completed 11-01-PLAN.md (Utility Scoring Foundation)
 Resume file: None
 
-**Next step:** Phase 11 - Autonomous AI (patient self-selects activities based on needs and personality)
+**Next step:** 11-02-PLAN.md - UtilityAIStore (connects scoring to activity selection)
