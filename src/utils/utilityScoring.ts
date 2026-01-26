@@ -153,38 +153,46 @@ export function calculatePersonalityFitScore(
 }
 
 /**
- * Calculate willpower-difficulty match score.
- * High score when character's willpower comfortably exceeds the activity's willpower cost.
+ * Calculate difficulty comfort score.
+ * Heavily penalizes difficult activities - AI should default to easy activities.
  *
- * Formula:
- * - ratio = willpower / cost
- * - At ratio 1.0 (just enough) = 50 points
- * - At ratio 2.0+ (comfortable margin) = 100 points
- * - At ratio 0.5 (struggling) = 25 points
+ * Uses EFFECTIVE difficulty (after skill/mastery reductions):
+ * - Difficulty 0-1: 100 (routine, no mental effort)
+ * - Difficulty 2: 60 (moderate, requires some effort)
+ * - Difficulty 3: 30 (challenging, significant effort)
+ * - Difficulty 4+: 10 (very hard, avoid unless necessary)
+ *
+ * Skills reduce effective difficulty, making hard activities more accessible
+ * for trained characters.
  *
  * @param activity - The activity being scored
  * @param character - The character considering the activity
- * @returns Willpower match score (0-100, higher = easier match)
+ * @returns Difficulty comfort score (0-100, higher = easier/more comfortable)
  */
 export function calculateWillpowerDifficultyMatch(
   activity: Activity,
   character: Character
 ): number {
-  const costs = activity.getResourceCosts(character);
-  const willpower = character.actionResources.willpower;
-  const cost = costs.willpower;
+  // Use effective difficulty (reduced by skills and mastery)
+  const effectiveDifficulty = activity.getEffectiveDifficulty(character);
 
-  // No willpower cost = easy match
-  if (cost <= 0) {
+  // Steep penalty curve for difficulty
+  // difficulty 1 = 100, difficulty 2 = 60, difficulty 3 = 30, difficulty 4 = 10, difficulty 5 = 0
+  if (effectiveDifficulty <= 1) {
     return 100;
+  } else if (effectiveDifficulty <= 2) {
+    // Linear interpolation: 1->100, 2->60
+    return 100 - (effectiveDifficulty - 1) * 40;
+  } else if (effectiveDifficulty <= 3) {
+    // Linear interpolation: 2->60, 3->30
+    return 60 - (effectiveDifficulty - 2) * 30;
+  } else if (effectiveDifficulty <= 4) {
+    // Linear interpolation: 3->30, 4->10
+    return 30 - (effectiveDifficulty - 3) * 20;
+  } else {
+    // Linear interpolation: 4->10, 5->0
+    return Math.max(0, 10 - (effectiveDifficulty - 4) * 10);
   }
-
-  // Ratio of willpower to cost, scaled to 0-100
-  // At ratio 1.0 (just enough) = 50 points
-  // At ratio 2.0+ (comfortable margin) = 100 points
-  // At ratio 0.5 (struggling) = 25 points
-  const ratio = willpower / cost;
-  return Math.max(0, Math.min(100, ratio * 50));
 }
 
 /**

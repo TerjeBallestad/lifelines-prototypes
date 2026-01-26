@@ -253,4 +253,57 @@ export const STARTER_ACTIVITIES: Array<ActivityData> = [
       fun: 2, // Entertainment satisfaction
     },
   },
+
+  // === EASY ENTERTAINMENT (no mental effort) ===
+  {
+    id: 'watch-tv',
+    name: 'Watch TV',
+    description: 'Relax and watch something entertaining',
+    domain: 'creative',
+    durationMode: { type: 'fixed', ticks: 30 },
+    capacityProfile: {},
+    baseXPRate: 0.1,
+    startRequirements: {},
+    baseDifficulty: 1,
+    skillRequirements: [],
+    tags: ['solo'],
+    needEffects: {
+      fun: 2.5,
+      energy: 0.5, // Slightly restful
+    },
+  },
+  {
+    id: 'listen-to-music',
+    name: 'Listen to Music',
+    description: 'Put on some music and zone out',
+    domain: 'creative',
+    durationMode: { type: 'fixed', ticks: 20 },
+    capacityProfile: {},
+    baseXPRate: 0.1,
+    startRequirements: {},
+    baseDifficulty: 1,
+    skillRequirements: [],
+    tags: ['solo'],
+    needEffects: {
+      fun: 1.5,
+      energy: 0.3,
+    },
+  },
+  {
+    id: 'browse-phone',
+    name: 'Browse Phone',
+    description: 'Scroll through social media or apps',
+    domain: 'creative',
+    durationMode: { type: 'fixed', ticks: 15 },
+    capacityProfile: {},
+    baseXPRate: 0,
+    startRequirements: {},
+    baseDifficulty: 1,
+    skillRequirements: [],
+    tags: ['solo'],
+    needEffects: {
+      fun: 1,
+      social: 0.5, // Parasocial connection
+    },
+  },
 ];

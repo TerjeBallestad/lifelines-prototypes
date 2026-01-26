@@ -45,20 +45,25 @@ export type UtilityWeights = {
 
 /**
  * Default utility weights balancing all 5 factors.
- * Sum = 0.30 + 0.20 + 0.15 + 0.15 + 0.20 = 1.0
+ * Sum = 0.25 + 0.15 + 0.10 + 0.35 + 0.15 = 1.0
  *
- * - Need urgency (30%): Highest priority - critical needs must be addressed
- * - Personality fit (20%): Aligned activities are more sustainable
- * - Mood delta (20%): Activities that improve mood are valuable
- * - Resource availability (15%): Must be able to afford the activity
- * - Willpower match (15%): Comfortable margin prevents burnout
+ * - Difficulty comfort (35%): DOMINANT - AI defaults to easy activities
+ * - Need urgency (25%): High priority - critical needs override comfort
+ * - Personality fit (15%): Aligned activities more appealing
+ * - Mood delta (15%): Activities that improve mood are valuable
+ * - Resource availability (10%): Basic affordability check
+ *
+ * This weighting ensures AI naturally picks easy activities (watch TV, eat snack)
+ * and only attempts difficult ones (phone call, store visit) when:
+ * - Skills have reduced the effective difficulty, OR
+ * - Need urgency is high enough to override comfort preference
  */
 export const DEFAULT_UTILITY_WEIGHTS: UtilityWeights = {
-  need: 0.3,
-  personality: 0.2,
-  resource: 0.15,
-  willpower: 0.15,
-  mood: 0.2,
+  need: 0.25,
+  personality: 0.15,
+  resource: 0.1,
+  willpower: 0.35,
+  mood: 0.15,
 };
 
 /**
