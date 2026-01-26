@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { PersonalityRadar } from './PersonalityRadar';
 import { CapacitiesRadar } from './CapacitiesRadar';
 import { NeedsPanel } from './NeedsPanel';
+import { DecisionLogPanel } from './DecisionLogPanel';
 import { useCharacterStore, useRootStore } from '../stores/RootStore';
 
 export const CharacterPanel = observer(function CharacterPanel() {
@@ -48,6 +49,32 @@ export const CharacterPanel = observer(function CharacterPanel() {
           willpowerBreakdown={character.willpowerBreakdown}
           extraversion={character.personality.extraversion}
         />
+      </div>
+
+      {/* Autonomous AI Controls */}
+      <div className="border-base-300 border-b p-4">
+        <h3 className="text-base-content/70 mb-2 text-sm font-semibold">
+          Autonomy
+        </h3>
+        {/* Free Will Toggle */}
+        <div className="form-control">
+          <label className="label cursor-pointer justify-start gap-2">
+            <input
+              type="checkbox"
+              className="toggle toggle-primary toggle-sm"
+              checked={character.freeWillEnabled}
+              onChange={(e) => character.setFreeWill(e.target.checked)}
+            />
+            <span className="label-text">Free Will</span>
+            <span className="text-xs text-base-content/50">
+              {character.freeWillEnabled ? '(AI fills idle time)' : '(Manual only)'}
+            </span>
+          </label>
+        </div>
+        {/* Decision Log */}
+        <div className="mt-2">
+          <DecisionLogPanel />
+        </div>
       </div>
 
       {/* Personality radar */}
