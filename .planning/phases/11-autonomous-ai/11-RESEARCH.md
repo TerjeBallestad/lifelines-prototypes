@@ -463,14 +463,67 @@ function calculateResourceAvailability(
 }
 ```
 
-### Complete Utility Calculation
+### Willpower-Difficulty Match Calculation
 
 ```typescript
-// Combines all factors into final 0-100 utility score
+// Scores how comfortably willpower exceeds the activity's difficulty cost
+function calculateWillpowerDifficultyMatch(
+  activity: Activity,
+  character: Character
+): number {
+  const costs = activity.getResourceCosts(character);
+  const willpower = character.actionResources.willpower;
+  const cost = costs.willpower;
+
+  if (cost <= 0) return 100; // No willpower cost = easy match
+
+  // Ratio of willpower to cost, scaled to 0-100
+  // At ratio 1.0 (just enough) = 50 points
+  // At ratio 2.0+ (comfortable margin) = 100 points
+  // At ratio 0.5 (struggling) = 25 points
+  const ratio = willpower / cost;
+  return Math.max(0, Math.min(100, ratio * 50));
+}
+```
+
+### Mood Delta Projection
+
+```typescript
+// Estimates how much an activity would improve mood based on need restoration
+function calculateMoodDelta(
+  activity: Activity,
+  character: Character
+): number {
+  if (!activity.needEffects) return 0;
+
+  let totalMoodDelta = 0;
+
+  for (const [needKey, restoration] of Object.entries(activity.needEffects)) {
+    const currentNeed = character.needs[needKey as NeedKey];
+    const projectedNeed = Math.min(100, currentNeed + restoration);
+
+    // Calculate mood contribution before and after
+    const moodBefore = needToMoodCurve(currentNeed, 1.0, 2.5);
+    const moodAfter = needToMoodCurve(projectedNeed, 1.0, 2.5);
+
+    totalMoodDelta += moodAfter - moodBefore;
+  }
+
+  // Normalize to 0-100 scale (max improvement is ~100 points)
+  return Math.max(0, Math.min(100, totalMoodDelta * 2));
+}
+```
+
+### Complete Utility Calculation (5 Factors)
+
+```typescript
+// Combines all 5 factors into final 0-100 utility score
 interface UtilityWeights {
-  need: number;        // Default: 0.5 (50%)
-  personality: number; // Default: 0.3 (30%)
-  resource: number;    // Default: 0.2 (20%)
+  need: number;        // Default: 0.30 (30%)
+  personality: number; // Default: 0.20 (20%)
+  resource: number;    // Default: 0.15 (15%)
+  willpower: number;   // Default: 0.15 (15%)
+  mood: number;        // Default: 0.20 (20%)
 }
 
 function calculateUtilityScore(
@@ -478,17 +531,21 @@ function calculateUtilityScore(
   character: Character,
   weights: UtilityWeights,
   isCurrentActivity: boolean
-): number {
+): { score: number; factors: UtilityFactors } {
   // All factors return 0-100
   const needUrgency = calculateNeedUrgency(activity, character);
   const personalityFit = calculatePersonalityFitScore(activity, character);
-  const resourceAvail = calculateResourceAvailability(activity, character);
+  const resourceAvailability = calculateResourceAvailability(activity, character);
+  const willpowerMatch = calculateWillpowerDifficultyMatch(activity, character);
+  const moodDelta = calculateMoodDelta(activity, character);
 
   // Weighted sum (weights should sum to 1.0)
   let score =
     needUrgency * weights.need +
     personalityFit * weights.personality +
-    resourceAvail * weights.resource;
+    resourceAvailability * weights.resource +
+    willpowerMatch * weights.willpower +
+    moodDelta * weights.mood;
 
   // Apply hysteresis: 25% bonus for current activity
   if (isCurrentActivity) {
@@ -496,26 +553,35 @@ function calculateUtilityScore(
   }
 
   // Clamp to 0-100
-  return Math.max(0, Math.min(100, score));
+  return {
+    score: Math.max(0, Math.min(100, score)),
+    factors: { needUrgency, personalityFit, resourceAvailability, willpowerMatch, moodDelta }
+  };
 }
 ```
 
 ### Decision Structure for Logging
 
 ```typescript
-// Log format for AI decision visibility
+// Log format for AI decision visibility (5 factors)
+interface UtilityFactors {
+  needUrgency: number;
+  personalityFit: number;
+  resourceAvailability: number;
+  willpowerMatch: number;
+  moodDelta: number;
+}
+
 interface AIDecision {
   timestamp: number;
-  selectedActivity: Activity;
+  activityId: string;
+  activityName: string;
   topReason: string; // e.g., "Eating because Hunger critical (12%)"
   score: number;
-  breakdown: {
-    needUrgency: number;
-    personalityFit: number;
-    resourceAvailability: number;
-  };
+  breakdown: UtilityFactors;
   topAlternatives: Array<{
-    activity: Activity;
+    activityId: string;
+    activityName: string;
     score: number;
   }>;
   criticalMode: boolean;
@@ -524,17 +590,20 @@ interface AIDecision {
 // Example decision log entry
 const decision: AIDecision = {
   timestamp: Date.now(),
-  selectedActivity: eatSnackActivity,
+  activityId: 'eat-snack',
+  activityName: 'Eat Snack',
   topReason: "Eating because Hunger urgent (22%)",
   score: 87.5,
   breakdown: {
     needUrgency: 92,
     personalityFit: 75,
     resourceAvailability: 95,
+    willpowerMatch: 88,
+    moodDelta: 70,
   },
   topAlternatives: [
-    { activity: sleepActivity, score: 78.2 },
-    { activity: watchTVActivity, score: 65.0 },
+    { activityId: 'sleep', activityName: 'Sleep', score: 78.2 },
+    { activityId: 'watch-tv', activityName: 'Watch TV', score: 65.0 },
   ],
   criticalMode: false,
 };
