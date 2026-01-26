@@ -6,6 +6,7 @@ import { SkillStore } from './SkillStore';
 import { ActivityStore } from './ActivityStore';
 import { TalentStore } from './TalentStore';
 import { BalanceConfigStore } from '../config/balance';
+import { UtilityAIStore } from './UtilityAIStore';
 
 export class RootStore {
   characterStore: CharacterStore;
@@ -14,6 +15,7 @@ export class RootStore {
   activityStore: ActivityStore;
   talentStore: TalentStore;
   balanceConfig: BalanceConfigStore;
+  utilityAIStore: UtilityAIStore;
 
   constructor() {
     this.characterStore = new CharacterStore(this);
@@ -22,6 +24,7 @@ export class RootStore {
     this.activityStore = new ActivityStore(this);
     this.talentStore = new TalentStore(this);
     this.balanceConfig = new BalanceConfigStore();
+    this.utilityAIStore = new UtilityAIStore(this);
 
     makeAutoObservable(this, {
       characterStore: false,
@@ -30,6 +33,7 @@ export class RootStore {
       activityStore: false,
       talentStore: false,
       balanceConfig: false,
+      utilityAIStore: false,
     });
   }
 }
