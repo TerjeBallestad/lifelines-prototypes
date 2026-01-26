@@ -49,6 +49,9 @@ export class SimulationStore {
     }
     // Process activity queue (runs AFTER passive character update per RESEARCH.md)
     this.root.activityStore.processTick(this.speed);
+    // Process autonomous AI decisions (runs AFTER activity processing so AI
+    // can pick next activity when one completes, but won't override player queue)
+    this.root.utilityAIStore.processTick();
   }
 
   setSpeed(newSpeed: number): void {
