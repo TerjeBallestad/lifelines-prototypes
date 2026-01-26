@@ -306,6 +306,17 @@ export class Activity {
    * @returns ResourceCosts with difficulty-scaled, alignment-adjusted costs
    */
   getResourceCosts(character: Character): ResourceCosts {
+    // Zero-cost survival activities (baseDifficulty 0) bypass all cost calculation
+    if (this.baseDifficulty === 0) {
+      return {
+        overskudd: 0,
+        willpower: 0,
+        focus: 0,
+        socialBattery: 0,
+        alignment: calculatePersonalityAlignment(this.tags, character.personality),
+      };
+    }
+
     // 1. Get effective difficulty (1-5 stars, adjusted by skills/mastery)
     const effectiveDifficulty = this.getEffectiveDifficulty(character);
 
