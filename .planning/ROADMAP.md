@@ -176,11 +176,13 @@ Plans:
 4. Player can toggle patient between autonomous (AI-controlled) and manual (player-controlled) modes at any time
 5. Player can observe patient's autonomous behavior over 10 minutes and identify emergent patterns based on personality
 
-**Plans:** TBD
+**Plans:** 4 plans
 
 Plans:
-- [ ] 11-01: TBD
-- [ ] 11-02: TBD
+- [ ] 11-01-PLAN.md — Types and utility scoring functions
+- [ ] 11-02-PLAN.md — UtilityAIStore and Character freeWill integration
+- [ ] 11-03-PLAN.md — Simulation tick wiring and UI (DecisionLogPanel, Free Will toggle)
+- [ ] 11-04-PLAN.md — Human verification checkpoint
 
 ### Phase 12: Tuning & Balance
 **Goal:** Decay rates, formulas, and thresholds are tuned for sustainable gameplay loops without death spirals or boring maintenance.
