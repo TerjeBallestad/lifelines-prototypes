@@ -11,19 +11,19 @@ See: .planning/PROJECT.md (updated 2026-01-26 with GDD vision)
 ## Current Position
 
 Phase: 11 of 12 (Autonomous AI) - IN PROGRESS
-Plan: 1 of 4 in current phase
+Plan: 2 of 4 in current phase
 Status: In progress
-Last activity: 2026-01-26 - Completed 11-01-PLAN.md (Utility Scoring Foundation)
+Last activity: 2026-01-26 - Completed 11-02-PLAN.md (UtilityAIStore)
 
-Progress: [██████████░░] 88% (22/25 plans: 18 phases 7-10 + 3 phase 10.1 + 1 phase 11)
+Progress: [██████████░░] 92% (23/25 plans: 18 phases 7-10 + 3 phase 10.1 + 2 phase 11)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 20 (v1.1)
-- Average duration: ~3.5 min (code plans only)
-- Total execution time: ~62 min (excluding human verification)
+- Total plans completed: 21 (v1.1)
+- Average duration: ~3.4 min (code plans only)
+- Total execution time: ~65 min (excluding human verification)
 
 **By Phase:**
 
@@ -35,7 +35,7 @@ Progress: [██████████░░] 88% (22/25 plans: 18 phases 7-1
 | 09.1-activity-difficulty    | 3     | 21 min   | 7.0 min  |
 | 10-activity-need-integration| 5     | ~12 min  | 2.4 min  |
 | 10.1-remove-v1-resources    | 3     | ~15 min  | 5.0 min  |
-| 11-autonomous-ai            | 1     | 2.4 min  | 2.4 min  |
+| 11-autonomous-ai            | 2     | 5.2 min  | 2.6 min  |
 
 **Recent Trend:**
 
@@ -61,6 +61,7 @@ Progress: [██████████░░] 88% (22/25 plans: 18 phases 7-1
 - 10.1-02: 9.9 min (3 tasks + 1 bug fix, 7 files)
 - quick-001: 7.9 min (2 tasks, 2 files) - Documentation update
 - 11-01: 2.4 min (2 tasks, 2 files)
+- 11-02: 2.8 min (3 tasks, 3 files)
 - Trend: Consistent rapid delivery, verification checkpoints ~10-15 min
 
 **v1.0 Reference:**
@@ -280,6 +281,15 @@ No pending todos.
 - All scoring functions return 0-100 normalized values (except scoreInCriticalMode)
 - Types: UtilityFactors, UtilityWeights, AIDecision, DecisionLog + DEFAULT_UTILITY_WEIGHTS constant
 
+**11-02 UtilityAIStore:**
+
+- UtilityAIStore scores all available activities when patient is idle
+- AI picks from top 3-5 scoring activities with weighted random selection
+- Critical needs (below 15%) trigger pure urgency scoring without personality
+- Free Will toggle per character controls whether AI picks activities (default ON)
+- Decision log stores last 5 decisions with full breakdown
+- Personality-based variety multiplier: openness flattens distribution, conscientiousness sharpens
+
 ### Quick Tasks Completed
 
 | # | Description | Date | Commit | Directory |
@@ -289,7 +299,7 @@ No pending todos.
 ## Session Continuity
 
 Last session: 2026-01-26
-Stopped at: Completed 11-01-PLAN.md (Utility Scoring Foundation)
+Stopped at: Completed 11-02-PLAN.md (UtilityAIStore)
 Resume file: None
 
-**Next step:** 11-02-PLAN.md - UtilityAIStore (connects scoring to activity selection)
+**Next step:** 11-03-PLAN.md - AI Components (UI for Free Will toggle and decision log)
