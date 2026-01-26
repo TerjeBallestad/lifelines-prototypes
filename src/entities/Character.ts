@@ -79,9 +79,12 @@ export class Character {
 
   /**
    * Set root store reference (called by CharacterStore after construction)
+   * Also initializes derived stats and action resources smoothers.
    */
   setRootStore(root: RootStore): void {
     this.root = root;
+    // Now that root is set, initialize smoothers for derived stats and action resources
+    this.initializeDerivedStats();
   }
 
   /**
