@@ -159,7 +159,7 @@ export const STARTER_ACTIVITIES: Array<ActivityData> = [
     capacityProfile: {}, // Anyone can eat
     baseXPRate: 0.5,
     startRequirements: {}, // Can always eat
-    baseDifficulty: 1,
+    baseDifficulty: 0, // Zero cost - survival activity
     skillRequirements: [],
     tags: ['solo', 'routine'],
     needEffects: {
@@ -176,7 +176,7 @@ export const STARTER_ACTIVITIES: Array<ActivityData> = [
     capacityProfile: {},
     baseXPRate: 0.2,
     startRequirements: {},
-    baseDifficulty: 1,
+    baseDifficulty: 0, // Zero cost - survival activity
     skillRequirements: [],
     tags: ['solo'],
     needEffects: {
@@ -192,7 +192,7 @@ export const STARTER_ACTIVITIES: Array<ActivityData> = [
     capacityProfile: {},
     baseXPRate: 0,
     startRequirements: {},
-    baseDifficulty: 1,
+    baseDifficulty: 0, // Zero cost - survival activity
     skillRequirements: [],
     tags: ['solo'],
     needEffects: {
@@ -227,7 +227,7 @@ export const STARTER_ACTIVITIES: Array<ActivityData> = [
     capacityProfile: {}, // No capacity requirements - anyone can rest
     baseXPRate: 0.5, // Low XP for resting
     startRequirements: {}, // Can always rest
-    baseDifficulty: 1,
+    baseDifficulty: 0, // Zero cost - survival activity
     skillRequirements: [], // Anyone can rest
     tags: ['solo'],
     needEffects: {
