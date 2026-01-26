@@ -306,17 +306,6 @@ export class Activity {
    * @returns ResourceCosts with difficulty-scaled, alignment-adjusted costs
    */
   getResourceCosts(character: Character): ResourceCosts {
-    // Zero-cost survival activities (baseDifficulty 0) bypass all cost calculation
-    if (this.baseDifficulty === 0) {
-      return {
-        overskudd: 0,
-        willpower: 0,
-        focus: 0,
-        socialBattery: 0,
-        alignment: calculatePersonalityAlignment(this.tags, character.personality),
-      };
-    }
-
     // 1. Get effective difficulty (1-5 stars, adjusted by skills/mastery)
     const effectiveDifficulty = this.getEffectiveDifficulty(character);
 
@@ -325,8 +314,11 @@ export class Activity {
     const baseCost = effectiveDifficulty * 5;
 
     // 3. Distribute costs across resources
-    const overskudd = baseCost; // Full scaling
-    const willpower = baseCost * 0.5;
+    // Overskudd/willpower only cost for demanding activities (difficulty >= 2)
+    // Routine activities (difficulty 0-1) don't require mental effort
+    const isDemanding = this.baseDifficulty >= 2;
+    const overskudd = isDemanding ? baseCost : 0;
+    const willpower = isDemanding ? baseCost * 0.5 : 0;
     const focus = this.hasTag('concentration') ? baseCost * 0.3 : 0;
     const socialBattery = this.hasTag('social') ? baseCost * 1.0 : 0; // Full scaling for noticeable impact
 
