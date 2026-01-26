@@ -270,6 +270,12 @@ No pending todos.
 - Simulation runs without runtime errors
 - Orchestrator fixed 7 additional v1.0 references during verification
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 001 | Update PROJECT.md with GDD decisions and create GDD summary | 2026-01-26 | 6503217 | [001-update-docs-with-gdd](./quick/001-update-docs-with-gdd/) |
+
 ## Session Continuity
 
 Last session: 2026-01-26
