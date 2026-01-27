@@ -198,11 +198,14 @@ Plans:
 4. Introvert and Extrovert patients show observably different activity patterns over 24 hours (different social frequency, different regeneration activities)
 5. Player testing reveals no dominant "spam maintenance" strategy that trivializes skill-building gameplay
 
-**Plans:** TBD
+**Plans:** 5 plans
 
 Plans:
-- [ ] 12-01: TBD
-- [ ] 12-02: TBD
+- [ ] 12-01-PLAN.md — Calculation trace panel for formula breakdowns
+- [ ] 12-02-PLAN.md — Balance config localStorage persistence and presets
+- [ ] 12-03-PLAN.md — Headless simulation runner with telemetry capture
+- [ ] 12-04-PLAN.md — Simulation UI and Recharts telemetry visualization
+- [ ] 12-05-PLAN.md — Human verification checkpoint
 
 ## Progress
 
@@ -218,8 +221,8 @@ Phases execute in numeric order: 7 → 8 → 9 → 9.1 → 10 → 10.1 → 11 �
 | 10. Activity-Need Integration | v1.1 | 5/5 | ✓ Complete | 2026-01-25 |
 | 10.1 Remove v1.0 Resources | v1.1 | 3/3 | ✓ Complete | 2026-01-25 |
 | 11. Autonomous AI | v1.1 | 4/4 | ✓ Complete | 2026-01-27 |
-| 12. Tuning & Balance | v1.1 | 0/TBD | Not started | - |
+| 12. Tuning & Balance | v1.1 | 0/5 | Not started | - |
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-27 (Phase 11 complete)*
+*Last updated: 2026-01-27 (Phase 12 planned)*
