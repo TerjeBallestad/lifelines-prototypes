@@ -967,6 +967,20 @@ export class Character {
     this.applyActionResourcesUpdate(speedMultiplier);
   }
 
+  /**
+   * Action: Reset all needs and resources to defaults.
+   * Used by headless simulation to reset between comparison runs.
+   */
+  resetNeedsAndResources(): void {
+    this.needs = defaultNeeds();
+    this.derivedStats = defaultDerivedStats();
+    this.actionResources = defaultActionResources();
+    this.recentFoodQuality = 1.0;
+    this.currentSocialContext = 0;
+    // Reinitialize smoothers
+    this.initializeDerivedStats();
+  }
+
   // Computed boundary state flags for game logic
 
   /** True when energy is critically low (<= 10) */
