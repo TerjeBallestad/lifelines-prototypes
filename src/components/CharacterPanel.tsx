@@ -3,6 +3,7 @@ import { PersonalityRadar } from './PersonalityRadar';
 import { CapacitiesRadar } from './CapacitiesRadar';
 import { NeedsPanel } from './NeedsPanel';
 import { DecisionLogPanel } from './DecisionLogPanel';
+import { CalculationTracePanel } from './CalculationTracePanel';
 import { useCharacterStore, useRootStore } from '../stores/RootStore';
 
 export const CharacterPanel = observer(function CharacterPanel() {
@@ -74,6 +75,10 @@ export const CharacterPanel = observer(function CharacterPanel() {
         {/* Decision Log */}
         <div className="mt-2">
           <DecisionLogPanel />
+        </div>
+        {/* Calculation Traces */}
+        <div className="mt-2">
+          <CalculationTracePanel />
         </div>
       </div>
 
