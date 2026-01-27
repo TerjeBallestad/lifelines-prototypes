@@ -36,14 +36,19 @@ export function shouldOverrideToCriticalMode(character: Character): boolean {
 /**
  * Calculate need urgency score for an activity.
  * High urgency when the activity restores needs that are currently low.
+ * Negative urgency (penalty) when needs are already satisfied.
  *
  * Uses inverted sigmoid curve from needToMoodCurve:
  * - Low need value -> high urgency (need is desperate)
- * - High need value -> low urgency (need is satisfied)
+ * - Medium need value -> moderate urgency
+ * - High need value (>80%) -> negative urgency (satiation penalty)
+ *
+ * The satiation penalty prevents the AI from selecting activities
+ * for needs that are already satisfied (e.g., eating when full).
  *
  * @param activity - The activity being scored
  * @param character - The character considering the activity
- * @returns Urgency score (0-100, higher = more urgent)
+ * @returns Urgency score (-50 to 100, higher = more urgent, negative = satiated)
  */
 export function calculateNeedUrgency(
   activity: Activity,
@@ -68,15 +73,25 @@ export function calculateNeedUrgency(
 
     const currentValue = character.needs[needKey];
 
+    // Weight by restoration amount (assume max restore ~10)
+    const weight = Math.min(1, restoration / 10);
+
+    // Satiation penalty: when need > 80%, apply negative urgency
+    // This discourages activities for already-satisfied needs
+    if (currentValue > 80) {
+      // Linear penalty: 80% -> 0, 90% -> -25, 100% -> -50
+      const satiationPenalty = -((currentValue - 80) / 20) * 50;
+      totalUrgency += satiationPenalty * weight;
+      totalWeight += weight;
+      continue;
+    }
+
+    // Normal urgency calculation for needs <= 80%
     // Inverted sigmoid: high urgency when need is low
     // needToMoodCurve returns negative for low needs, positive for high needs
     // We want the opposite: high score for low needs
-    // Formula: urgency = 50 - needToMoodCurve(currentValue, 1.0, 2.5)
     const moodContribution = needToMoodCurve(currentValue, 1.0, 2.5);
     const urgency = 50 - moodContribution;
-
-    // Weight by restoration amount (assume max restore ~10)
-    const weight = Math.min(1, restoration / 10);
 
     totalUrgency += urgency * weight;
     totalWeight += weight;
@@ -86,20 +101,27 @@ export function calculateNeedUrgency(
     return 0;
   }
 
-  // Average urgency across all affected needs, clamped to 0-100
-  return Math.max(0, Math.min(100, totalUrgency / totalWeight));
+  // Average urgency across all affected needs
+  // Can be negative for satiated needs (no clamping to preserve penalty)
+  return totalUrgency / totalWeight;
 }
 
 /**
  * Calculate resource availability score for an activity.
- * High score when character has plenty of resources to cover costs.
+ * Penalizes activities the character can barely afford,
+ * but caps at neutral (50) when comfortable.
  *
- * Computes ratio of current resource to required cost for each resource type,
- * then averages the ratios.
+ * This prevents cheap activities from getting a bonus just for being cheap.
+ * Resource availability answers "can I afford this?" not "should I do this?"
+ *
+ * Scoring:
+ * - Ratio < 1.0 (can't afford): 0-30 (penalty)
+ * - Ratio 1.0-2.0 (tight budget): 30-50 (slight penalty to neutral)
+ * - Ratio > 2.0 (comfortable): 50 (neutral, no bonus)
  *
  * @param activity - The activity being scored
  * @param character - The character considering the activity
- * @returns Availability score (0-100, higher = more affordable)
+ * @returns Availability score (0-50, higher = more affordable, capped at neutral)
  */
 export function calculateResourceAvailability(
   activity: Activity,
@@ -119,10 +141,28 @@ export function calculateResourceAvailability(
       ? character.actionResources.socialBattery / costs.socialBattery
       : 1.0;
 
-  // Average of all ratios, scaled to 0-100 and clamped
-  const avgRatio =
-    (overskuddRatio + willpowerRatio + focusRatio + socialRatio) / 4;
-  return Math.max(0, Math.min(100, avgRatio * 100));
+  // Use minimum ratio (bottleneck resource determines affordability)
+  const minRatio = Math.min(
+    overskuddRatio,
+    willpowerRatio,
+    focusRatio,
+    socialRatio
+  );
+
+  // Convert ratio to score with cap at 50 (neutral)
+  // ratio < 1.0: can't comfortably afford, score 0-30
+  // ratio 1.0-2.0: tight budget, score 30-50
+  // ratio >= 2.0: comfortable, score 50 (neutral, no bonus)
+  if (minRatio < 1.0) {
+    // Can't afford: linear scale 0-30
+    return minRatio * 30;
+  } else if (minRatio < 2.0) {
+    // Tight budget: linear scale 30-50
+    return 30 + (minRatio - 1.0) * 20;
+  } else {
+    // Comfortable: cap at neutral
+    return 50;
+  }
 }
 
 /**
