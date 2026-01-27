@@ -17,6 +17,9 @@ export class TalentStore {
   pendingPicks = 0;
   currentOffer: Array<Talent> | null = null;
 
+  /** When true, skip talent offer generation (for headless simulation) */
+  headlessMode = false;
+
   /** Track XP thresholds crossed per domain to avoid double-triggering */
   private pickThresholdsCrossed = observable.map<SkillDomain, number>();
 
@@ -66,6 +69,9 @@ export class TalentStore {
 
   /** Generate weighted random 1-of-3 offer (no duplicates) */
   generateOffer(): void {
+    // Skip offer generation in headless mode (simulation testing)
+    if (this.headlessMode) return;
+
     const available = this.availableTalents;
 
     if (available.length < 3) {

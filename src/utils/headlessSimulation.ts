@@ -62,6 +62,9 @@ export async function runHeadlessSimulation(
   // Enable autonomous mode
   character.freeWillEnabled = true;
 
+  // Enable headless mode to skip talent modal popups
+  rootStore.talentStore.headlessMode = true;
+
   // Start telemetry run
   rootStore.telemetryStore.startRun(character);
 
@@ -81,6 +84,9 @@ export async function runHeadlessSimulation(
       await new Promise(resolve => setTimeout(resolve, 0));
     }
   }
+
+  // Disable headless mode after simulation
+  rootStore.talentStore.headlessMode = false;
 
   // End run and get stats
   const run = rootStore.telemetryStore.endRun();

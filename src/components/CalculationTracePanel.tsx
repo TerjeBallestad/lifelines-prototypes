@@ -29,8 +29,8 @@ export const CalculationTracePanel = observer(function CalculationTracePanel() {
 
   if (!character) return null;
 
-  // Read values (refreshCount in dependency ensures re-read on refresh)
-  const _ = refreshCount; // Intentionally reference to suppress unused warning
+  // refreshCount used in render to trigger re-read of character state
+  void refreshCount;
 
   const { derivedStats, actionResources, needs, personality } = character;
   const actionConfig = config.actionResourcesConfig;
@@ -80,19 +80,19 @@ export const CalculationTracePanel = observer(function CalculationTracePanel() {
   return (
     <div className="collapse collapse-arrow bg-base-200 rounded-box">
       <input type="checkbox" />
-      <div className="collapse-title text-sm font-medium flex items-center gap-2">
+      <div className="collapse-title text-sm font-medium">
         Calculation Traces
-        <button
-          className="btn btn-xs btn-ghost"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleRefresh();
-          }}
-        >
-          Refresh
-        </button>
       </div>
       <div className="collapse-content">
+        {/* Refresh button inside content to avoid collapse toggle interference */}
+        <div className="flex justify-end mb-2">
+          <button
+            className="btn btn-xs btn-ghost"
+            onClick={handleRefresh}
+          >
+            Refresh
+          </button>
+        </div>
         {/* Action Resources Section */}
         <div className="mb-4">
           <h4 className="text-xs font-semibold text-base-content/70 mb-2 uppercase tracking-wide">
