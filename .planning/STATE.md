@@ -11,11 +11,11 @@ See: .planning/PROJECT.md (updated 2026-01-26 with GDD vision)
 ## Current Position
 
 Phase: 12 of 12 (Tuning & Balance)
-Plan: 3 of 5 in current phase
+Plan: 4 of 5 in current phase
 Status: In progress
-Last activity: 2026-01-27 - Completed 12-03-PLAN.md (Headless simulation with telemetry)
+Last activity: 2026-01-27 - Completed 12-04-PLAN.md (Simulation UI and telemetry charts)
 
-Progress: [████████████████████████████] 100% (28/28 plans: 18 phases 7-10 + 3 phase 10.1 + 4 phase 11 + 3 phase 12)
+Progress: [████████████████████████████] 100% (29/29 plans: 18 phases 7-10 + 3 phase 10.1 + 4 phase 11 + 4 phase 12)
 
 ## Performance Metrics
 
@@ -67,6 +67,7 @@ Progress: [███████████████████████
 - 12-01: 3 min (2 tasks, 2 files)
 - 12-02: 2.7 min (3 tasks, 3 files)
 - 12-03: 2.5 min (3 tasks, 3 files)
+- 12-04: 4 min (3 tasks, 5 files + 3 bug fixes)
 - Trend: Consistent rapid delivery, verification checkpoints ~10-15 min
 
 **v1.0 Reference:**
@@ -336,6 +337,17 @@ No pending todos.
 - SEVEN_DAYS_TICKS constant (10080) with configurable sample rate (default 10)
 - Run statistics: min needs, avg mood, critical events count, survival rate
 
+**12-04 Simulation UI and Telemetry Charts:**
+
+- SimulationRunnerPanel: duration dropdown, personality presets, sample rate config
+- Run Simulation / Run Comparison buttons with progress indicator
+- Results summary: survival rate, min needs, avg mood, critical events
+- TelemetryChartsPanel: Recharts LineChart visualization
+- Three chart types: Primary Needs, Derived Wellbeing, Action Resources
+- Comparison overlay: solid vs dashed lines for introvert vs extrovert
+- Downsampling to 500 points for chart performance
+- Character.resetNeedsAndResources() added for comparison runs
+
 ### Quick Tasks Completed
 
 | # | Description | Date | Commit | Directory |
@@ -345,7 +357,7 @@ No pending todos.
 ## Session Continuity
 
 Last session: 2026-01-27
-Stopped at: Completed 12-03-PLAN.md
+Stopped at: Completed 12-04-PLAN.md
 Resume file: None
 
-**Next step:** 12-04-PLAN.md (Balance validation tests)
+**Next step:** 12-05-PLAN.md (Validation testing and final verification)
