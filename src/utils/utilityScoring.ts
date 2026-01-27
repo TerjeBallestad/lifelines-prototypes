@@ -194,20 +194,23 @@ export function calculatePersonalityFitScore(
 
 /**
  * Calculate difficulty comfort score.
- * Heavily penalizes difficult activities - AI should default to easy activities.
+ * Penalizes activities that are too hard, but caps at neutral for easy activities.
+ *
+ * This prevents easy activities from getting a bonus just for being easy.
+ * Difficulty match answers "can I handle this?" not "should I do easy things?"
  *
  * Uses EFFECTIVE difficulty (after skill/mastery reductions):
- * - Difficulty 0-1: 100 (routine, no mental effort)
- * - Difficulty 2: 60 (moderate, requires some effort)
- * - Difficulty 3: 30 (challenging, significant effort)
- * - Difficulty 4+: 10 (very hard, avoid unless necessary)
+ * - Difficulty 0-2: 50 (easy/moderate, neutral - no bonus)
+ * - Difficulty 2-3: 30-50 (challenging, slight penalty)
+ * - Difficulty 3-4: 15-30 (hard, significant penalty)
+ * - Difficulty 4-5: 0-15 (very hard, strong penalty)
  *
  * Skills reduce effective difficulty, making hard activities more accessible
  * for trained characters.
  *
  * @param activity - The activity being scored
  * @param character - The character considering the activity
- * @returns Difficulty comfort score (0-100, higher = easier/more comfortable)
+ * @returns Difficulty comfort score (0-50, higher = more comfortable, capped at neutral)
  */
 export function calculateWillpowerDifficultyMatch(
   activity: Activity,
@@ -216,22 +219,20 @@ export function calculateWillpowerDifficultyMatch(
   // Use effective difficulty (reduced by skills and mastery)
   const effectiveDifficulty = activity.getEffectiveDifficulty(character);
 
-  // Steep penalty curve for difficulty
-  // difficulty 1 = 100, difficulty 2 = 60, difficulty 3 = 30, difficulty 4 = 10, difficulty 5 = 0
-  if (effectiveDifficulty <= 1) {
-    return 100;
-  } else if (effectiveDifficulty <= 2) {
-    // Linear interpolation: 1->100, 2->60
-    return 100 - (effectiveDifficulty - 1) * 40;
+  // Penalty curve for difficulty, capped at 50 (neutral) for easy activities
+  // Easy activities don't get a bonus, hard activities get penalized
+  if (effectiveDifficulty <= 2) {
+    // Easy to moderate: cap at neutral
+    return 50;
   } else if (effectiveDifficulty <= 3) {
-    // Linear interpolation: 2->60, 3->30
-    return 60 - (effectiveDifficulty - 2) * 30;
+    // Challenging: linear scale 50->30
+    return 50 - (effectiveDifficulty - 2) * 20;
   } else if (effectiveDifficulty <= 4) {
-    // Linear interpolation: 3->30, 4->10
-    return 30 - (effectiveDifficulty - 3) * 20;
+    // Hard: linear scale 30->15
+    return 30 - (effectiveDifficulty - 3) * 15;
   } else {
-    // Linear interpolation: 4->10, 5->0
-    return Math.max(0, 10 - (effectiveDifficulty - 4) * 10);
+    // Very hard: linear scale 15->0
+    return Math.max(0, 15 - (effectiveDifficulty - 4) * 15);
   }
 }
 
