@@ -6,16 +6,16 @@ See: .planning/PROJECT.md (updated 2026-01-26 with GDD vision)
 
 **Core value:** The player experiences satisfying growth by helping patients develop missing life skills - the victory isn't heroic, it's watching someone finally answer the phone.
 
-**Current focus:** Phase 11 - Autonomous AI (in progress)
+**Current focus:** Phase 12 - Tuning & Balance (next)
 
 ## Current Position
 
-Phase: 11 of 12 (Autonomous AI) - IN PROGRESS
-Plan: 3 of 4 in current phase
-Status: In progress
-Last activity: 2026-01-26 - Completed 11-03-PLAN.md (AI Components)
+Phase: 11 of 12 (Autonomous AI) - COMPLETE
+Plan: 4 of 4 in current phase
+Status: Complete
+Last activity: 2026-01-27 - Completed 11-04-PLAN.md (Human Verification + 4 bug fixes)
 
-Progress: [███████████░] 96% (24/25 plans: 18 phases 7-10 + 3 phase 10.1 + 3 phase 11)
+Progress: [████████████] 100% (25/25 plans: 18 phases 7-10 + 3 phase 10.1 + 4 phase 11)
 
 ## Performance Metrics
 
@@ -35,7 +35,7 @@ Progress: [███████████░] 96% (24/25 plans: 18 phases 7-1
 | 09.1-activity-difficulty    | 3     | 21 min   | 7.0 min  |
 | 10-activity-need-integration| 5     | ~12 min  | 2.4 min  |
 | 10.1-remove-v1-resources    | 3     | ~15 min  | 5.0 min  |
-| 11-autonomous-ai            | 3     | 6.7 min  | 2.2 min  |
+| 11-autonomous-ai            | 4     | ~22 min  | 5.5 min  |
 
 **Recent Trend:**
 
@@ -63,6 +63,7 @@ Progress: [███████████░] 96% (24/25 plans: 18 phases 7-1
 - 11-01: 2.4 min (2 tasks, 2 files)
 - 11-02: 2.8 min (3 tasks, 3 files)
 - 11-03: 1.5 min (3 tasks, 3 files)
+- 11-04: ~15 min (1 checkpoint + 4 bug fixes, 2 files)
 - Trend: Consistent rapid delivery, verification checkpoints ~10-15 min
 
 **v1.0 Reference:**
@@ -298,6 +299,15 @@ No pending todos.
 - Free Will toggle in CharacterPanel's new Autonomy section
 - Collapsible decision log with critical mode badges and utility factor details
 
+**11-04 Verification Complete (with 4 bug fixes):**
+
+- All Phase 11 success criteria verified by human testing
+- Satiation penalty: needs > 80% apply negative urgency (-50 at 100%) to prevent wasteful activities
+- Resource availability capped at 50 (neutral): affordability answers "can I?" not "should I?"
+- Difficulty match capped at 50 (neutral): easy activities don't get bonus for being easy
+- Survival activities (eat, bathroom, shower, rest) have no personality tags - universal human needs
+- Key insight: utility factors that answer "can I?" should cap at neutral, "should I?" factors can vary
+
 ### Quick Tasks Completed
 
 | # | Description | Date | Commit | Directory |
@@ -306,8 +316,8 @@ No pending todos.
 
 ## Session Continuity
 
-Last session: 2026-01-26
-Stopped at: Completed 11-03-PLAN.md (AI Components)
+Last session: 2026-01-27
+Stopped at: Completed Phase 11 (Autonomous AI)
 Resume file: None
 
-**Next step:** 11-04-PLAN.md - Human verification of complete autonomous AI system
+**Next step:** Phase 12 - Tuning & Balance

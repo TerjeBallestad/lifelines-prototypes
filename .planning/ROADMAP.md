@@ -179,10 +179,10 @@ Plans:
 **Plans:** 4 plans
 
 Plans:
-- [ ] 11-01-PLAN.md — Types and utility scoring functions
-- [ ] 11-02-PLAN.md — UtilityAIStore and Character freeWill integration
-- [ ] 11-03-PLAN.md — Simulation tick wiring and UI (DecisionLogPanel, Free Will toggle)
-- [ ] 11-04-PLAN.md — Human verification checkpoint
+- [x] 11-01-PLAN.md — Types and utility scoring functions
+- [x] 11-02-PLAN.md — UtilityAIStore and Character freeWill integration
+- [x] 11-03-PLAN.md — Simulation tick wiring and UI (DecisionLogPanel, Free Will toggle)
+- [x] 11-04-PLAN.md — Human verification checkpoint
 
 ### Phase 12: Tuning & Balance
 **Goal:** Decay rates, formulas, and thresholds are tuned for sustainable gameplay loops without death spirals or boring maintenance.
@@ -217,9 +217,9 @@ Phases execute in numeric order: 7 → 8 → 9 → 9.1 → 10 → 10.1 → 11 �
 | 9.1 Activity Difficulty | v1.1 | 3/3 | ✓ Complete | 2026-01-23 |
 | 10. Activity-Need Integration | v1.1 | 5/5 | ✓ Complete | 2026-01-25 |
 | 10.1 Remove v1.0 Resources | v1.1 | 3/3 | ✓ Complete | 2026-01-25 |
-| 11. Autonomous AI | v1.1 | 0/TBD | Not started | - |
+| 11. Autonomous AI | v1.1 | 4/4 | ✓ Complete | 2026-01-27 |
 | 12. Tuning & Balance | v1.1 | 0/TBD | Not started | - |
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-25 (Phase 10.1 complete)*
+*Last updated: 2026-01-27 (Phase 11 complete)*
