@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import {
   LineChart,
   Line,
@@ -58,6 +58,14 @@ export const TelemetryChartsPanel = observer(function TelemetryChartsPanel() {
   // Selected run(s) for display
   const [selectedRunIds, setSelectedRunIds] = useState<Set<string>>(new Set());
   const [chartType, setChartType] = useState<ChartType>('needs');
+
+  // Auto-select most recent run when new runs are added
+  const lastRunId = runs[runs.length - 1]?.id;
+  useEffect(() => {
+    if (lastRunId) {
+      setSelectedRunIds(new Set([lastRunId]));
+    }
+  }, [lastRunId]);
 
   // Get selected runs
   const selectedRuns = useMemo(
@@ -167,12 +175,22 @@ export const TelemetryChartsPanel = observer(function TelemetryChartsPanel() {
             </div>
 
             {/* Charts */}
-            <div className="bg-base-300 rounded-lg p-2">
+            <div className="bg-base-300 rounded-lg p-2" style={{ minHeight: 250 }}>
               {selectedRuns.length === 1 && selectedRuns[0] ? (
-                <SingleRunChart run={selectedRuns[0]} chartType={chartType} />
+                selectedRuns[0].data.length > 0 ? (
+                  <SingleRunChart run={selectedRuns[0]} chartType={chartType} />
+                ) : (
+                  <div className="text-xs text-base-content/60 p-4">
+                    No data points in this run
+                  </div>
+                )
               ) : selectedRuns.length >= 2 && selectedRuns[0] && selectedRuns[1] ? (
                 <ComparisonChart runs={[selectedRuns[0], selectedRuns[1]]} chartType={chartType} />
-              ) : null}
+              ) : (
+                <div className="text-xs text-base-content/60 p-4">
+                  Click on a run above to display charts
+                </div>
+              )}
             </div>
           </>
         )}
