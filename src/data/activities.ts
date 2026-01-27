@@ -161,7 +161,7 @@ export const STARTER_ACTIVITIES: Array<ActivityData> = [
     startRequirements: {}, // Can always eat
     baseDifficulty: 0, // Zero cost - survival activity
     skillRequirements: [],
-    tags: ['solo', 'routine'],
+    tags: [], // No personality tags - everyone eats
     needEffects: {
       hunger: 5, // Primary hunger restoration
       energy: 1, // Small energy boost from food
@@ -178,7 +178,7 @@ export const STARTER_ACTIVITIES: Array<ActivityData> = [
     startRequirements: {},
     baseDifficulty: 0, // Zero cost - survival activity
     skillRequirements: [],
-    tags: ['solo'],
+    tags: [], // No personality tags - everyone snacks
     needEffects: {
       hunger: 2, // Small hunger restoration
     },
@@ -188,13 +188,13 @@ export const STARTER_ACTIVITIES: Array<ActivityData> = [
     name: 'Use Bathroom',
     description: 'Take a bathroom break',
     domain: 'physical',
-    durationMode: { type: 'fixed', ticks: 5 },
+    durationMode: { type: 'threshold', need: 'bladder', target: 100 },
     capacityProfile: {},
     baseXPRate: 0,
     startRequirements: {},
     baseDifficulty: 0, // Zero cost - survival activity
     skillRequirements: [],
-    tags: ['solo'],
+    tags: [], // No personality tags - everyone uses bathroom
     needEffects: {
       bladder: 8, // High bladder restoration
     },
@@ -204,13 +204,13 @@ export const STARTER_ACTIVITIES: Array<ActivityData> = [
     name: 'Take a Shower',
     description: 'Clean up with a refreshing shower',
     domain: 'physical',
-    durationMode: { type: 'fixed', ticks: 15 },
+    durationMode: { type: 'threshold', need: 'hygiene', target: 100 },
     capacityProfile: {},
     baseXPRate: 0.3,
     startRequirements: {},
     baseDifficulty: 1,
     skillRequirements: [],
-    tags: ['solo', 'routine'],
+    tags: [], // No personality tags - everyone showers
     needEffects: {
       hygiene: 6, // Primary hygiene restoration
       energy: 0.5, // Slightly refreshing
@@ -223,13 +223,13 @@ export const STARTER_ACTIVITIES: Array<ActivityData> = [
     name: 'Rest',
     description: 'Lie down and relax for a while',
     domain: 'physical',
-    durationMode: { type: 'needThreshold', need: 'energy', target: 80 },
+    durationMode: { type: 'threshold', need: 'energy', target: 100 },
     capacityProfile: {}, // No capacity requirements - anyone can rest
     baseXPRate: 0.5, // Low XP for resting
     startRequirements: {}, // Can always rest
     baseDifficulty: 0, // Zero cost - survival activity
     skillRequirements: [], // Anyone can rest
-    tags: ['solo'],
+    tags: [], // No personality tags - everyone rests
     needEffects: {
       energy: 3, // Restores energy need
     },
