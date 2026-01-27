@@ -1,5 +1,33 @@
 # Project Milestones: Lifelines Prototypes
 
+## v1.1 Game Balance (Shipped: 2026-01-27)
+
+**Delivered:** Interconnected needs-based simulation where primary needs feed derived wellbeing, which determines action resources, enabling autonomous patient behavior based on utility scoring.
+
+**Phases completed:** 7-12 including 9.1, 10.1 (30 plans total)
+
+**Key accomplishments:**
+
+- Seven primary needs with differential decay rates and Maslow-style urgency curves
+- Derived wellbeing (Mood, Purpose, Nutrition) computed from needs and personality
+- Action resources (Overskudd, socialBattery, Focus, Willpower) gating activity affordability
+- Activity-need integration with personality alignment and difficulty-based costs
+- Autonomous AI with utility scoring selecting activities based on needs and personality
+- Balance tuning tools: calculation traces, runtime config, headless simulation with telemetry
+
+**Stats:**
+
+- 150 files created/modified
+- 10,327 lines of TypeScript (21,249 net additions)
+- 8 phases, 30 plans
+- 5 days from start to ship (2026-01-23 to 2026-01-27)
+
+**Git range:** `feat(07-01)` → `feat(12-04)`
+
+**What's next:** Port to Unreal Engine, explore progressive autonomy (patient learning), or add multiple patients
+
+---
+
 ## v1.0 MVP (Shipped: 2026-01-22)
 
 **Delivered:** First prototype validating that simple psychological variables produce emergent character behavior without diagnostic labels.
