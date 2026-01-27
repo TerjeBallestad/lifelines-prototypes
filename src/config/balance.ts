@@ -1,6 +1,13 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, reaction } from 'mobx';
 import type { NeedKey } from '../entities/types';
 import type { DifficultyConfig } from '../types/difficulty';
+
+// ============================================================================
+// Storage Keys for Persistence
+// ============================================================================
+
+const BALANCE_CONFIG_KEY = 'balance-config';
+const BALANCE_PRESETS_KEY = 'balance-presets';
 
 // ============================================================================
 // Primary Needs Configuration (v1.1)
@@ -289,9 +296,42 @@ export class BalanceConfigStore {
   config: BalanceConfig;
 
   constructor() {
-    // Initialize from defaults
-    this.config = { ...DEFAULT_BALANCE };
-    makeAutoObservable(this);
+    // Initialize from localStorage or defaults
+    this.config = this.loadFromStorage();
+    makeAutoObservable(this, {}, { deep: true });
+
+    // Auto-save to localStorage on changes (debounced 500ms)
+    reaction(
+      () => JSON.stringify(this.config),
+      (configJson) => {
+        localStorage.setItem(BALANCE_CONFIG_KEY, configJson);
+      },
+      { delay: 500 }
+    );
+  }
+
+  /**
+   * Load balance config from localStorage, falling back to defaults.
+   */
+  private loadFromStorage(): BalanceConfig {
+    try {
+      const stored = localStorage.getItem(BALANCE_CONFIG_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored) as Partial<BalanceConfig>;
+        // Merge with defaults to ensure all fields exist
+        return {
+          ...DEFAULT_BALANCE,
+          ...parsed,
+          needs: { ...DEFAULT_BALANCE.needs, ...parsed.needs },
+          derivedStats: { ...DEFAULT_BALANCE.derivedStats, ...parsed.derivedStats },
+          actionResources: { ...DEFAULT_BALANCE.actionResources, ...parsed.actionResources },
+          difficulty: { ...DEFAULT_BALANCE.difficulty, ...parsed.difficulty },
+        };
+      }
+    } catch (e) {
+      console.warn('BalanceConfigStore: Failed to load from localStorage, using defaults', e);
+    }
+    return { ...DEFAULT_BALANCE };
   }
 
   // Computed getters for each config field (convenient access)
@@ -364,8 +404,13 @@ export class BalanceConfigStore {
 
   /**
    * Action: Reset all balance parameters to defaults.
+   * Also clears localStorage to ensure clean state.
    */
   reset(): void {
+    localStorage.removeItem(BALANCE_CONFIG_KEY);
     this.config = { ...DEFAULT_BALANCE };
   }
 }
+
+// Export storage key for preset utilities
+export { BALANCE_PRESETS_KEY };
