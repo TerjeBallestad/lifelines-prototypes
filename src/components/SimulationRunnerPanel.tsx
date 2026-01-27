@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useRootStore } from '../stores/RootStore';
-import { runHeadlessSimulation, SEVEN_DAYS_TICKS, DEFAULT_SAMPLE_RATE } from '../utils/headlessSimulation';
+import { runHeadlessSimulation } from '../utils/headlessSimulation';
 import type { HeadlessSimulationResult } from '../utils/headlessSimulation';
 
 const DURATIONS = {
@@ -139,12 +139,6 @@ export const SimulationRunnerPanel = observer(function SimulationRunnerPanel() {
       // Restore original personality
       Object.assign(character.personality, originalPersonality);
     }
-  };
-
-  const formatPercent = (value: number) => `${(value * 100).toFixed(1)}%`;
-  const formatMinNeed = (minNeeds: Record<string, number>) => {
-    const min = Math.min(...Object.values(minNeeds));
-    return min.toFixed(1);
   };
 
   return (

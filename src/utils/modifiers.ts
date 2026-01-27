@@ -5,14 +5,13 @@
  * Per CONTEXT.md: subtle effects (10-20%), additive stacking.
  */
 
-import type { ResourceKey } from '../entities/types';
-
 /**
  * Represents a modifier that affects resource drain/recovery rates.
+ * Note: ResourceKey type removed in Phase 10.1 - this is legacy v1.0 code.
  */
 export type ResourceModifier = {
   /** Which resource this modifier affects */
-  resourceKey: ResourceKey;
+  resourceKey: string;
   /** Human-readable source description, e.g., "low extraversion" */
   source: string;
   /** Drain rate modifier: -0.2 to +0.2 (negative = slower drain, positive = faster) */

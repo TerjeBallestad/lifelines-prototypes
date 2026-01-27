@@ -168,11 +168,11 @@ export const TelemetryChartsPanel = observer(function TelemetryChartsPanel() {
 
             {/* Charts */}
             <div className="bg-base-300 rounded-lg p-2">
-              {selectedRuns.length === 1 ? (
+              {selectedRuns.length === 1 && selectedRuns[0] ? (
                 <SingleRunChart run={selectedRuns[0]} chartType={chartType} />
-              ) : (
-                <ComparisonChart runs={selectedRuns} chartType={chartType} />
-              )}
+              ) : selectedRuns.length >= 2 && selectedRuns[0] && selectedRuns[1] ? (
+                <ComparisonChart runs={[selectedRuns[0], selectedRuns[1]]} chartType={chartType} />
+              ) : null}
             </div>
           </>
         )}
@@ -237,16 +237,16 @@ function SingleRunChart({ run, chartType }: SingleRunChartProps) {
 // ============================================================================
 
 interface ComparisonChartProps {
-  runs: TelemetryRun[];
+  runs: [TelemetryRun, TelemetryRun];
   chartType: ChartType;
 }
 
 function ComparisonChart({ runs, chartType }: ComparisonChartProps) {
   const { keys, colors, title } = getChartConfig(chartType);
+  const [run1, run2] = runs;
 
   // Merge data from both runs for overlay
   const mergedData = useMemo(() => {
-    const [run1, run2] = runs;
     const data1 = downsampleData(run1.data);
     const data2 = downsampleData(run2.data);
 
@@ -255,24 +255,24 @@ function ComparisonChart({ runs, chartType }: ComparisonChartProps) {
     const merged: Array<Record<string, number>> = [];
 
     for (let i = 0; i < maxLen; i++) {
-      const point1 = data1[i] ?? {};
-      const point2 = data2[i] ?? {};
+      const point1 = data1[i];
+      const point2 = data2[i];
 
       const mergedPoint: Record<string, number> = {
-        tick: point1.tick ?? point2.tick ?? i,
+        tick: point1?.tick ?? point2?.tick ?? i,
       };
 
       // Add values from run 1 with _1 suffix
       for (const key of keys) {
-        mergedPoint[`${key}_1`] = point1[key] ?? 0;
-        mergedPoint[`${key}_2`] = point2[key] ?? 0;
+        mergedPoint[`${key}_1`] = point1 ? (point1 as unknown as Record<string, number>)[key] ?? 0 : 0;
+        mergedPoint[`${key}_2`] = point2 ? (point2 as unknown as Record<string, number>)[key] ?? 0 : 0;
       }
 
       merged.push(mergedPoint);
     }
 
     return merged;
-  }, [runs, keys]);
+  }, [run1, run2, keys]);
 
   // Generate line configs for both runs
   const lineConfigs = useMemo(() => {
@@ -285,24 +285,25 @@ function ComparisonChart({ runs, chartType }: ComparisonChartProps) {
 
     // Pick one representative key per chart type for cleaner comparison
     const primaryKey = keys[0]; // e.g., 'hunger' for needs, 'mood' for derived
+    if (!primaryKey) return configs;
 
     // Run 1: solid lines
     configs.push({
       dataKey: `${primaryKey}_1`,
-      stroke: colors[primaryKey],
-      name: `${runs[0].characterName}`,
+      stroke: colors[primaryKey] ?? '#888',
+      name: run1.characterName,
     });
 
     // Run 2: dashed lines
     configs.push({
       dataKey: `${primaryKey}_2`,
-      stroke: colors[primaryKey],
+      stroke: colors[primaryKey] ?? '#888',
       strokeDasharray: '5 5',
-      name: `${runs[1].characterName}`,
+      name: run2.characterName,
     });
 
     return configs;
-  }, [runs, keys, colors]);
+  }, [run1, run2, keys, colors]);
 
   return (
     <div>
@@ -392,12 +393,15 @@ function downsampleData(data: TelemetryDataPoint[]): TelemetryDataPoint[] {
   const sampled: TelemetryDataPoint[] = [];
 
   for (let i = 0; i < data.length; i += step) {
-    sampled.push(data[i]);
+    const point = data[i];
+    if (point) sampled.push(point);
   }
 
   // Always include the last point
-  if (sampled[sampled.length - 1] !== data[data.length - 1]) {
-    sampled.push(data[data.length - 1]);
+  const lastPoint = data[data.length - 1];
+  const lastSampled = sampled[sampled.length - 1];
+  if (lastPoint && lastSampled !== lastPoint) {
+    sampled.push(lastPoint);
   }
 
   return sampled;
