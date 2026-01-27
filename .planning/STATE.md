@@ -6,16 +6,16 @@ See: .planning/PROJECT.md (updated 2026-01-26 with GDD vision)
 
 **Core value:** The player experiences satisfying growth by helping patients develop missing life skills - the victory isn't heroic, it's watching someone finally answer the phone.
 
-**Current focus:** Phase 12 - Tuning & Balance (next)
+**Current focus:** Phase 12 - Tuning & Balance (in progress)
 
 ## Current Position
 
-Phase: 11 of 12 (Autonomous AI) - COMPLETE
-Plan: 4 of 4 in current phase
-Status: Complete
-Last activity: 2026-01-27 - Completed 11-04-PLAN.md (Human Verification + 4 bug fixes)
+Phase: 12 of 12 (Tuning & Balance)
+Plan: 2 of 5 in current phase
+Status: In progress
+Last activity: 2026-01-27 - Completed 12-02-PLAN.md (Balance persistence and presets)
 
-Progress: [████████████] 100% (25/25 plans: 18 phases 7-10 + 3 phase 10.1 + 4 phase 11)
+Progress: [████████████████████████████] 100% (27/27 plans: 18 phases 7-10 + 3 phase 10.1 + 4 phase 11 + 2 phase 12)
 
 ## Performance Metrics
 
@@ -64,6 +64,7 @@ Progress: [████████████] 100% (25/25 plans: 18 phases 7-
 - 11-02: 2.8 min (3 tasks, 3 files)
 - 11-03: 1.5 min (3 tasks, 3 files)
 - 11-04: ~15 min (1 checkpoint + 4 bug fixes, 2 files)
+- 12-02: 2.7 min (3 tasks, 3 files)
 - Trend: Consistent rapid delivery, verification checkpoints ~10-15 min
 
 **v1.0 Reference:**
@@ -308,6 +309,13 @@ No pending todos.
 - Survival activities (eat, bathroom, shower, rest) have no personality tags - universal human needs
 - Key insight: utility factors that answer "can I?" should cap at neutral, "should I?" factors can vary
 
+**12-02 Balance Persistence and Presets:**
+
+- localStorage auto-persistence for BalanceConfig via MobX reaction (500ms debounce)
+- Preset save/load system: listPresets, savePreset, loadPreset, deletePreset utilities
+- DevToolsPanel expanded to 660 lines with collapsible nested config sections
+- All decay rates, formula weights, and thresholds now tunable via UI without code changes
+
 ### Quick Tasks Completed
 
 | # | Description | Date | Commit | Directory |
@@ -317,7 +325,7 @@ No pending todos.
 ## Session Continuity
 
 Last session: 2026-01-27
-Stopped at: Completed Phase 11 (Autonomous AI)
+Stopped at: Completed 12-02-PLAN.md
 Resume file: None
 
-**Next step:** Phase 12 - Tuning & Balance
+**Next step:** 12-03-PLAN.md (Calculation Trace Integration)
