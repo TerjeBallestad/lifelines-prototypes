@@ -6,16 +6,17 @@ See: .planning/PROJECT.md (updated 2026-01-26 with GDD vision)
 
 **Core value:** The player experiences satisfying growth by helping patients develop missing life skills - the victory isn't heroic, it's watching someone finally answer the phone.
 
-**Current focus:** Phase 12 - Tuning & Balance (in progress)
+**Current focus:** v1.1 Milestone Complete
 
 ## Current Position
 
-Phase: 12 of 12 (Tuning & Balance)
-Plan: 4 of 5 in current phase
-Status: In progress
-Last activity: 2026-01-27 - Completed 12-04-PLAN.md (Simulation UI and telemetry charts)
+Milestone: v1.1 Game Balance - COMPLETE
+Phase: 12 of 12 (Tuning & Balance) - COMPLETE
+Plan: 5 of 5 in current phase - COMPLETE
+Status: Milestone complete
+Last activity: 2026-01-27 - Completed 12-05-PLAN.md (Human Verification + 5 bug fixes)
 
-Progress: [████████████████████████████] 100% (29/29 plans: 18 phases 7-10 + 3 phase 10.1 + 4 phase 11 + 4 phase 12)
+Progress: [████████████████████████████] 100% (30/30 plans: 18 phases 7-10 + 3 phase 10.1 + 4 phase 11 + 5 phase 12)
 
 ## Performance Metrics
 
@@ -36,6 +37,7 @@ Progress: [███████████████████████
 | 10-activity-need-integration| 5     | ~12 min  | 2.4 min  |
 | 10.1-remove-v1-resources    | 3     | ~15 min  | 5.0 min  |
 | 11-autonomous-ai            | 4     | ~22 min  | 5.5 min  |
+| 12-tuning-balance           | 5     | ~30 min  | 6.0 min  |
 
 **Recent Trend:**
 
@@ -68,6 +70,7 @@ Progress: [███████████████████████
 - 12-02: 2.7 min (3 tasks, 3 files)
 - 12-03: 2.5 min (3 tasks, 3 files)
 - 12-04: 4 min (3 tasks, 5 files + 3 bug fixes)
+- 12-05: ~15 min (1 checkpoint + 5 bug fixes, 4 files)
 - Trend: Consistent rapid delivery, verification checkpoints ~10-15 min
 
 **v1.0 Reference:**
@@ -348,6 +351,18 @@ No pending todos.
 - Downsampling to 500 points for chart performance
 - Character.resetNeedsAndResources() added for comparison runs
 
+**12-05 Human Verification (with 5 bug fixes):**
+
+- Refresh button moved inside collapse-content (DaisyUI label behavior was intercepting clicks)
+- TalentStore.headlessMode flag to skip talent modal during headless simulation
+- toJS() for MobX observable arrays passed to Recharts (Object.freeze compatibility)
+- Auto-select latest run in TelemetryChartsPanel after simulation
+- Balance Testing panels moved to main content area for more space
+
+**v1.1 Milestone Complete:**
+
+All 8 phases delivered (7-12 including decimal phases 9.1, 10.1). The needs-based simulation with autonomous AI, personality-driven behavior, and tuning tools is complete.
+
 ### Quick Tasks Completed
 
 | # | Description | Date | Commit | Directory |
@@ -357,7 +372,7 @@ No pending todos.
 ## Session Continuity
 
 Last session: 2026-01-27
-Stopped at: Completed 12-04-PLAN.md
+Stopped at: v1.1 Milestone Complete
 Resume file: None
 
-**Next step:** 12-05-PLAN.md (Validation testing and final verification)
+**Next step:** `/gsd:audit-milestone` or `/gsd:complete-milestone` to archive v1.1

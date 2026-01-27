@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 MVP** - Phases 1-6 (shipped 2026-01-22)
-- 🚧 **v1.1 Game Balance** - Phases 7-12 (in progress)
+- ✅ **v1.1 Game Balance** - Phases 7-12 (shipped 2026-01-27)
 
 ## Overview
 
@@ -27,9 +27,11 @@ Phases 1-6 delivered: Big Five personality traits, mental capacities, roguelike 
 
 </details>
 
-## 🚧 v1.1 Game Balance (In Progress)
+## ✅ v1.1 Game Balance (Complete)
 
 **Milestone Goal:** Replace flat resource drain with interconnected needs system where Mood, Purpose, and Overskudd emerge from primary needs and personality, enabling autonomous patient behavior.
+
+**Shipped:** 2026-01-27
 
 ### Phase 7: Primary Needs Foundation
 **Goal:** Seven primary needs exist with differential decay rates and visual feedback, forming the foundation for all derived stats.
@@ -201,11 +203,11 @@ Plans:
 **Plans:** 5 plans
 
 Plans:
-- [ ] 12-01-PLAN.md — Calculation trace panel for formula breakdowns
-- [ ] 12-02-PLAN.md — Balance config localStorage persistence and presets
-- [ ] 12-03-PLAN.md — Headless simulation runner with telemetry capture
-- [ ] 12-04-PLAN.md — Simulation UI and Recharts telemetry visualization
-- [ ] 12-05-PLAN.md — Human verification checkpoint
+- [x] 12-01-PLAN.md — Calculation trace panel for formula breakdowns
+- [x] 12-02-PLAN.md — Balance config localStorage persistence and presets
+- [x] 12-03-PLAN.md — Headless simulation runner with telemetry capture
+- [x] 12-04-PLAN.md — Simulation UI and Recharts telemetry visualization
+- [x] 12-05-PLAN.md — Human verification checkpoint
 
 ## Progress
 
@@ -221,7 +223,7 @@ Phases execute in numeric order: 7 → 8 → 9 → 9.1 → 10 → 10.1 → 11 �
 | 10. Activity-Need Integration | v1.1 | 5/5 | ✓ Complete | 2026-01-25 |
 | 10.1 Remove v1.0 Resources | v1.1 | 3/3 | ✓ Complete | 2026-01-25 |
 | 11. Autonomous AI | v1.1 | 4/4 | ✓ Complete | 2026-01-27 |
-| 12. Tuning & Balance | v1.1 | 0/5 | Not started | - |
+| 12. Tuning & Balance | v1.1 | 5/5 | ✓ Complete | 2026-01-27 |
 
 ---
 *Roadmap created: 2026-01-23*
