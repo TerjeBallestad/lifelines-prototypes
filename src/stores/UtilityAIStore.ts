@@ -15,6 +15,7 @@ import {
 } from '../utils/utilityScoring';
 import { weightedSampleWithoutReplacement } from '../utils/weightedRandom';
 import { STARTER_ACTIVITIES } from '../data/activities';
+import type { NeedKey } from '../entities/types';
 
 /**
  * UtilityAIStore - manages autonomous activity selection for characters.
@@ -220,7 +221,13 @@ export class UtilityAIStore {
     );
 
     // Weighted random selection
-    const [selectedIndex] = weightedSampleWithoutReplacement(adjustedWeights, 1);
+    const [selectedIndex] = weightedSampleWithoutReplacement(
+      adjustedWeights,
+      1
+    );
+
+    if (selectedIndex === undefined) return null;
+
     const selected = viable[selectedIndex];
 
     if (!selected) return null;
@@ -332,10 +339,8 @@ export class UtilityAIStore {
     if (!activity.needEffects) return 'needs attention';
 
     // Find the need with lowest value that this activity restores
-    const needKeys = Object.keys(activity.needEffects) as Array<
-      keyof typeof character.needs
-    >;
-    let lowestNeed = '';
+    const needKeys = Object.keys(activity.needEffects) as Array<NeedKey>;
+    let lowestNeed: NeedKey = 'hunger';
     let lowestValue = 100;
 
     for (const needKey of needKeys) {
@@ -350,7 +355,7 @@ export class UtilityAIStore {
     }
 
     // Map need key to human-readable reason
-    const needReasonMap: Record<string, string> = {
+    const needReasonMap: Record<NeedKey, string> = {
       hunger: 'hungry',
       energy: 'tired',
       hygiene: 'needs cleaning',
@@ -360,7 +365,7 @@ export class UtilityAIStore {
       security: 'anxious',
     };
 
-    return needReasonMap[lowestNeed] ?? 'needs attention';
+    return needReasonMap[lowestNeed];
   }
 
   /**

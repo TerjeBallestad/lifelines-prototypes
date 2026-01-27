@@ -237,7 +237,7 @@ export type CapacityKey = keyof Capacities;
 // Duration mode discriminated union
 export type DurationMode =
   | { type: 'fixed'; ticks: number } // fixed duration activities (eating)
-  | { type: 'needThreshold'; need: NeedKey; target: number } // until need reaches target (resting until needs.energy >= 80)
+  | { type: 'threshold'; need: NeedKey; target: number } // until need reaches target (resting until needs.energy >= 80)
   | { type: 'variable'; baseTicks: number }; // affected by mastery
 
 // Activity execution state

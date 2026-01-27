@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
-import { useEffect, useRef } from 'react';
-import { useTalentStore } from '../stores/RootStore';
+import { useEffect, useRef, useState } from 'react';
+import { useSimulationStore, useTalentStore } from '../stores/RootStore';
 import { TalentCard } from './TalentCard';
 
 /**
@@ -10,7 +10,10 @@ import { TalentCard } from './TalentCard';
  */
 export const TalentSelectionModal = observer(function TalentSelectionModal() {
   const talentStore = useTalentStore();
+  const simulationStore = useSimulationStore();
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const [previousSimulationPlayState, setPreviousSimulationPlayState] =
+    useState(false);
 
   // Auto-open when offer becomes available
   useEffect(() => {
@@ -20,11 +23,18 @@ export const TalentSelectionModal = observer(function TalentSelectionModal() {
       !dialogRef.current.open
     ) {
       dialogRef.current.showModal();
+      setPreviousSimulationPlayState(simulationStore.isRunning);
+      simulationStore.stop();
     }
-  }, [talentStore.currentOffer]);
+  }, [simulationStore, talentStore.currentOffer]);
 
   const handleSelect = (talentId: string) => {
     talentStore.selectTalent(talentId);
+    if (previousSimulationPlayState) {
+      simulationStore.start();
+    } else {
+      simulationStore.stop();
+    }
     dialogRef.current?.close();
   };
 

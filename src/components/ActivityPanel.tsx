@@ -71,7 +71,7 @@ export const ActivityPanel = observer(function ActivityPanel() {
                 >
                   {DOMAIN_LABELS[domain]}
                 </button>
-                <div className="tab-content bg-base-100 border-base-300 p-4">
+                <div className="tab-content bg-base-100 border-base-300 h-170 overflow-y-auto p-4">
                   {/* Activity List */}
                   <div className="space-y-2">
                     {domainActivities.length > 0 ? (

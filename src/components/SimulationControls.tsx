@@ -29,7 +29,7 @@ export const SimulationControls = observer(function SimulationControls() {
 
       {/* Speed slider */}
       <label className="input w-auto gap-2">
-        <span className="label text-xs">Speed: {speed}x</span>
+        <span className="label w-24 text-xs">Speed: {speed}x</span>
         <input
           type="range"
           min="0"

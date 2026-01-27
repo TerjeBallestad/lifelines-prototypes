@@ -2,11 +2,7 @@ import { makeAutoObservable, observable } from 'mobx';
 import { toast } from 'sonner';
 import { Activity } from '../entities/Activity';
 import type { RootStore } from './RootStore';
-import type {
-  ActivityData,
-  CapacityKey,
-  NeedKey,
-} from '../entities/types';
+import type { ActivityData, CapacityKey, NeedKey } from '../entities/types';
 import { calculatePersonalityAlignment } from '../utils/personalityFit';
 
 // Activity execution state
@@ -312,7 +308,7 @@ export class ActivityStore {
     switch (activity.durationMode.type) {
       case 'fixed':
         return this.currentProgress >= activity.durationMode.ticks;
-      case 'needThreshold': {
+      case 'threshold': {
         const { need, target } = activity.durationMode;
         return character.needs[need] >= target;
       }
@@ -460,7 +456,7 @@ export class ActivityStore {
         return (
           activity.durationMode.baseTicks * (1 - activity.masterySpeedBonus)
         );
-      case 'needThreshold':
+      case 'threshold':
         // Estimate ~30 ticks for threshold activities
         return 30;
     }

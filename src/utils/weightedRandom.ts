@@ -22,13 +22,13 @@ export function weightedSampleWithoutReplacement(
     );
   }
 
-  const indices: Array<number> = [];
+  const indices = Array<number>();
   const availableWeights = [...weights];
   const availableIndices = weights.map((_, i) => i);
 
   for (let i = 0; i < sampleSize; i++) {
     // Build cumulative weights
-    const cumulative: Array<number> = [];
+    const cumulative = Array<number>();
     let sum = 0;
     for (const w of availableWeights) {
       sum += w;

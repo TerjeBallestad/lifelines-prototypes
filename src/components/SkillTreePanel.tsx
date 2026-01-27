@@ -47,7 +47,7 @@ export const SkillTreePanel = observer(function SkillTreePanel() {
                 {DOMAIN_LABELS[domain]}
                 <span className="badge badge-sm ml-2">{domainXP} XP</span>
               </button>
-              <div className="tab-content bg-base-100 border-base-300 p-4">
+              <div className="tab-content bg-base-100 border-base-300 h-100 overflow-y-auto p-4">
                 {/* Domain XP display */}
                 <div className="mb-4 text-lg">
                   <span className="font-semibold">
