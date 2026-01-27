@@ -4,8 +4,6 @@ import { CapacitiesRadar } from './CapacitiesRadar';
 import { NeedsPanel } from './NeedsPanel';
 import { DecisionLogPanel } from './DecisionLogPanel';
 import { CalculationTracePanel } from './CalculationTracePanel';
-import { SimulationRunnerPanel } from './SimulationRunnerPanel';
-import { TelemetryChartsPanel } from './TelemetryChartsPanel';
 import { useCharacterStore, useRootStore } from '../stores/RootStore';
 
 export const CharacterPanel = observer(function CharacterPanel() {
@@ -122,24 +120,11 @@ export const CharacterPanel = observer(function CharacterPanel() {
       </div>
 
       {/* Capacities radar */}
-      <div className="border-base-300 border-b p-4">
+      <div className="border-base-300 p-4">
         <h3 className="text-base-content/70 mb-2 text-sm font-semibold">
           Capacities
         </h3>
         <CapacitiesRadar capacities={character.effectiveCapacities} />
-      </div>
-
-      {/* Balance Testing Tools */}
-      <div className="p-4">
-        <details className="collapse collapse-arrow bg-base-300 rounded-box">
-          <summary className="collapse-title text-sm font-medium">
-            Balance Testing Tools
-          </summary>
-          <div className="collapse-content space-y-2">
-            <SimulationRunnerPanel />
-            <TelemetryChartsPanel />
-          </div>
-        </details>
       </div>
     </div>
   );

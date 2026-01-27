@@ -11,6 +11,8 @@ import { TalentsPanel } from './components/TalentsPanel';
 import { DevToolsPanel } from './components/DevToolsPanel';
 import { ComparisonView } from './components/ComparisonView';
 import { FloatingNumbersOverlay } from './components/FloatingNumbersOverlay';
+import { SimulationRunnerPanel } from './components/SimulationRunnerPanel';
+import { TelemetryChartsPanel } from './components/TelemetryChartsPanel';
 import { useCharacterStore } from './stores/RootStore';
 
 const App = observer(function App() {
@@ -59,6 +61,15 @@ const App = observer(function App() {
             </div>
             <div className="mt-6">
               <DevToolsPanel />
+            </div>
+
+            {/* Balance Testing Tools - needs more space than sidebar */}
+            <div className="mt-6">
+              <h2 className="text-lg font-semibold mb-2">Balance Testing</h2>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <SimulationRunnerPanel />
+                <TelemetryChartsPanel />
+              </div>
             </div>
           </main>
         </>
