@@ -1,4 +1,5 @@
 import { observer } from 'mobx-react-lite';
+import { toJS } from 'mobx';
 import { useState, useMemo, useEffect } from 'react';
 import {
   LineChart,
@@ -53,7 +54,8 @@ type ChartType = 'needs' | 'derived' | 'resources';
  */
 export const TelemetryChartsPanel = observer(function TelemetryChartsPanel() {
   const { telemetryStore } = useRootStore();
-  const runs = telemetryStore.runs;
+  // Convert MobX observable array to plain JS array to avoid freeze errors with Recharts
+  const runs = toJS(telemetryStore.runs);
 
   // Selected run(s) for display
   const [selectedRunIds, setSelectedRunIds] = useState<Set<string>>(new Set());
@@ -67,7 +69,7 @@ export const TelemetryChartsPanel = observer(function TelemetryChartsPanel() {
     }
   }, [lastRunId]);
 
-  // Get selected runs
+  // Get selected runs (already plain JS from toJS above)
   const selectedRuns = useMemo(
     () => runs.filter((r) => selectedRunIds.has(r.id)),
     [runs, selectedRunIds]
