@@ -13,7 +13,7 @@ See: .planning/PROJECT.md (updated 2026-01-26 with GDD vision)
 Phase: 12 of 12 (Tuning & Balance)
 Plan: 2 of 5 in current phase
 Status: In progress
-Last activity: 2026-01-27 - Completed 12-02-PLAN.md (Balance persistence and presets)
+Last activity: 2026-01-27 - Completed 12-01-PLAN.md (Calculation trace panel) and 12-02-PLAN.md (Balance persistence)
 
 Progress: [████████████████████████████] 100% (27/27 plans: 18 phases 7-10 + 3 phase 10.1 + 4 phase 11 + 2 phase 12)
 
@@ -64,6 +64,7 @@ Progress: [███████████████████████
 - 11-02: 2.8 min (3 tasks, 3 files)
 - 11-03: 1.5 min (3 tasks, 3 files)
 - 11-04: ~15 min (1 checkpoint + 4 bug fixes, 2 files)
+- 12-01: 3 min (2 tasks, 2 files)
 - 12-02: 2.7 min (3 tasks, 3 files)
 - Trend: Consistent rapid delivery, verification checkpoints ~10-15 min
 
@@ -309,6 +310,15 @@ No pending todos.
 - Survival activities (eat, bathroom, shower, rest) have no personality tags - universal human needs
 - Key insight: utility factors that answer "can I?" should cap at neutral, "should I?" factors can vary
 
+**12-01 Calculation Trace Panel:**
+
+- CalculationTracePanel component with 330 lines following DecisionLogPanel expandable pattern
+- Action Resources section: Overskudd, socialBattery, Focus, Willpower with formula breakdowns
+- Derived Wellbeing section: Mood, Purpose, Nutrition with configuration display
+- 2-layer nested expansion for input dependencies ("Where does Mood come from?")
+- Manual refresh button for on-demand updates (not real-time per CONTEXT.md)
+- Border-left colors match DaisyUI semantic classes for each stat category
+
 **12-02 Balance Persistence and Presets:**
 
 - localStorage auto-persistence for BalanceConfig via MobX reaction (500ms debounce)
@@ -325,7 +335,7 @@ No pending todos.
 ## Session Continuity
 
 Last session: 2026-01-27
-Stopped at: Completed 12-02-PLAN.md
+Stopped at: Completed 12-01-PLAN.md and 12-02-PLAN.md
 Resume file: None
 
-**Next step:** 12-03-PLAN.md (Calculation Trace Integration)
+**Next step:** 12-03-PLAN.md (Headless Simulation)
