@@ -7,6 +7,7 @@ import { ActivityStore } from './ActivityStore';
 import { TalentStore } from './TalentStore';
 import { BalanceConfigStore } from '../config/balance';
 import { UtilityAIStore } from './UtilityAIStore';
+import { TelemetryStore } from './TelemetryStore';
 
 export class RootStore {
   characterStore: CharacterStore;
@@ -16,6 +17,7 @@ export class RootStore {
   talentStore: TalentStore;
   balanceConfig: BalanceConfigStore;
   utilityAIStore: UtilityAIStore;
+  telemetryStore: TelemetryStore;
 
   constructor() {
     this.characterStore = new CharacterStore(this);
@@ -25,6 +27,7 @@ export class RootStore {
     this.talentStore = new TalentStore(this);
     this.balanceConfig = new BalanceConfigStore();
     this.utilityAIStore = new UtilityAIStore(this);
+    this.telemetryStore = new TelemetryStore();
 
     makeAutoObservable(this, {
       characterStore: false,
@@ -34,6 +37,7 @@ export class RootStore {
       talentStore: false,
       balanceConfig: false,
       utilityAIStore: false,
+      telemetryStore: false,
     });
   }
 }
@@ -74,4 +78,9 @@ export function useTalentStore() {
 // Convenience hook for balance config access
 export function useBalanceConfig() {
   return useRootStore().balanceConfig;
+}
+
+// Convenience hook for telemetry store access
+export function useTelemetryStore() {
+  return useRootStore().telemetryStore;
 }
